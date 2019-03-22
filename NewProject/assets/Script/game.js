@@ -71,9 +71,9 @@ cc.Class({
 
     //获取精灵图片
     getGameFrame_sf: function (name) {
-        let sf = this.atlas_game.getSpriteFrame(name);
+        let sf = this.atlasGame.getSpriteFrame(name);
         if (!sf)
-            sf = this.atlas_game.getSpriteFrame("zz01");
+            sf = this.atlasGame.getSpriteFrame("zz01");
         return sf;
     },
 
@@ -94,6 +94,7 @@ cc.Class({
         this.boxesMgrJS.initBoxes(function () {
             self.currentGameState = gameStates.starting;
             self.roleJS.beginJump();
+            console.log(self.boxesMgr);
             self.boxesMgrJS.beginDrop();
         });
     },

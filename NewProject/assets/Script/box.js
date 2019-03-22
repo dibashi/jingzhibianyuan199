@@ -1,12 +1,3 @@
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
 cc.Class({
     extends: cc.Component,
@@ -28,7 +19,10 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad() {
+
+        this.gameJS = cc.find('Canvas/game').getComponent('game');
+    },
 
     start() {
         this.boxType = null;//box的类型
@@ -54,15 +48,34 @@ cc.Class({
             this.spr_block.active = true;
             this.spr_prop.active = true;
 
-        } else if(this.boxType === BoxType.normalBox) {
+            let randomImageId = parseInt(Math.random() * BlockImageCount) + 1;
+            let blackName = 'zhangai0' + randomImageId;
+            this.spr_prop.getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf(blackName);
+
+            this.spr_block.setPosition(cc.v2(dir === BoxDir.left ? -1 : 1) * BoxX, BoxY);
+            //修改spriteFrame？
+
+
+        } else if (this.boxType === BoxType.normalBox) {
             this.spr_block.active = false;
             this.spr_prop.active = false;
         } else {
             debugger;
         }
 
+    },
 
-    }
+    drop: function (callback) {
+        this.node.stopAllActions();
+        //要判断角色是否在这里
+
+        let moveBy = cc.moveBy(1.2, cc.v2(0, -400));
+        moveBy.easing(cc.easeIn(1.2));
+        let fadeOut = cc.fadeOut(1.2);
+        let spawn = cc.spawn(moveBy, fadeOut);
+        let seq = cc.sequence(spawn, cc.callFunc(callback));
+        this.node.runAction(seq);
+    },
 
 
 });

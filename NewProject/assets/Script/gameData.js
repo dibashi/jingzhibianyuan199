@@ -20,7 +20,9 @@ const InitBoxCount = 6;
 //跳跃动作时间
 const JumpTime = 0.12;
 
-// const BaseCameraSpeedX = 50;
+//障碍物图片个数
+const BlockImageCount = 5;
 
-// const BaseCameraSpeedY = 160;
+//对象池中 box的数量，用来优化程序性能
+const BoxPoolSize = 30;
 

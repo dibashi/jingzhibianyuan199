@@ -2,7 +2,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-       
+
 
         obstacleProbability: {
             default: 0.2,
@@ -26,6 +26,13 @@ cc.Class({
         this.generatedBox = 0;
 
         this.dropSpeed = 1;
+
+        this.boxPool = new cc.NodePool();
+
+        for (var i = 0; i < BoxPoolSize; i++) {
+            let box = cc.instantiate(this.boxPrefab);
+            this.boxPool.put(box);
+        }
     },
 
     start: function () {
@@ -33,14 +40,21 @@ cc.Class({
 
     },
 
-    beginDrop:function() {
-        this.schedule(this.drop,this.dropSpeed);
+    beginDrop: function () {
+        this.schedule(this.drop, this.dropSpeed);
     },
 
-    drop:function() {
+    drop: function () {
         console.log("开始掉落了");
-        
+
+        let toDropBox = this.node.children[0];
+        toDropBox.getComponent("box").drop(function (dropedBox) {
+            console.log("执行了！", this.boxPool.size());
+            this.boxPool.put(dropedBox);
+        }.bind(this));
     },
+
+
 
     initBoxes: function (callback) {
 
@@ -54,7 +68,8 @@ cc.Class({
     createBox: function () {
         //这里没算障碍物的，用于改变box的zIndex
         this.generatedBox++;
-        var box = cc.instantiate(this.boxPrefab);
+
+        var box = this.getBox();
         this.node.addChild(box);
 
 
@@ -65,19 +80,29 @@ cc.Class({
             dir = (Math.random() > 0.5 ? BoxDir.left : BoxDir.right);
         }
         var pos = this.getNextBoxPos(dir);
-        box.getComponent('box').initBox(this.generatedBox,pos, dir, BoxType.normalBox);
+        box.getComponent('box').initBox(this.generatedBox, pos, dir, BoxType.normalBox);
 
         if (Math.random() < this.obstacleProbability && this.generatedBox > InitBoxCount) {
             var blockDir = (dir === BoxDir.left ? BoxDir.right : BoxDir.left);
             var blockPos = this.getNextBoxPos(blockDir);
-            var blockBox = cc.instantiate(this.boxPrefab);
+            var blockBox = this.getBox();
             this.node.addChild(blockBox);
-            blockBox.getComponent('box').initBox(this.generatedBox,blockPos, blockDir, BoxType.blockBox);
+            blockBox.getComponent('box').initBox(this.generatedBox, blockPos, blockDir, BoxType.blockBox);
         }
 
         this.lastBoxX = pos.x;
         this.lastBoxY = pos.y;
 
+    },
+
+    getBox: function () {
+        let box = null;
+        if (this.boxPool.size() > 0) {
+            box = this.boxPool.get();
+        } else {
+            box = cc.instantiate(this.boxPrefab);
+        }
+        return box;
     },
 
     getNextBoxPos: function (dir) {
@@ -87,16 +112,16 @@ cc.Class({
         return cc.v2(poxX, poxY);
     },
 
-    getJumpedInfo:function(aimX,aimY) {
+    getJumpedInfo: function (aimX, aimY) {
         var jumpedInfo = {
-            aimX:aimX,
-            aimY:aimY,
-            boxType:BoxType.normalBox,
+            aimX: aimX,
+            aimY: aimY,
+            boxType: BoxType.normalBox,
         }
         return jumpedInfo;
     },
 
-    
+
     // called every frame
     update: function (dt) {
 

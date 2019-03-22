@@ -25,7 +25,7 @@ cc.Class({
         //生成了多少个box了
         this.generatedBox = 0;
 
-        this.dropSpeed = 1.5;
+        this.dropSpeed = 1;
     },
 
     start: function () {
@@ -39,6 +39,7 @@ cc.Class({
 
     drop:function() {
         console.log("开始掉落了");
+        
     },
 
     initBoxes: function (callback) {
@@ -67,8 +68,8 @@ cc.Class({
         box.getComponent('box').initBox(this.generatedBox,pos, dir, BoxType.normalBox);
 
         if (Math.random() < this.obstacleProbability && this.generatedBox > InitBoxCount) {
-            var blockDir = dir === BoxDir.left ? BoxDir.right : BoxDir.left;
-            var blockPos = getNextBoxPos(blockDir);
+            var blockDir = (dir === BoxDir.left ? BoxDir.right : BoxDir.left);
+            var blockPos = this.getNextBoxPos(blockDir);
             var blockBox = cc.instantiate(this.boxPrefab);
             this.node.addChild(blockBox);
             blockBox.getComponent('box').initBox(this.generatedBox,blockPos, blockDir, BoxType.blockBox);

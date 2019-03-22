@@ -38,7 +38,7 @@ cc.Class({
 
         this.node.zIndex = MaxZIndexOfBox - countBox;
         if (countBox > InitBoxCount) {
-            this.node.setPosition(cc.v2(aimPos.x, aimPos.y + cc.dataMgr.boxY * 2));
+            this.node.setPosition(cc.v2(aimPos.x, aimPos.y + BoxY * 2));
             this.node.runAction(cc.fadeIn(0.15));
             this.node.runAction(cc.moveTo(0.2, aimPos));
         } else {

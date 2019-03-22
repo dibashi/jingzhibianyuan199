@@ -15,8 +15,9 @@ cc.Class({
         this.aimY = 0;
 
         this.boxesMgrJS = cc.find('Canvas/game/boxes_mgr').getComponent('boxesMgr');
+        this.gameJS = cc.find('Canvas/game').getComponent('game');
 
-        this.jumpSpeed = 0.15;
+        this.jumpSpeed = 1;
     },
 
     start: function () {
@@ -37,7 +38,7 @@ cc.Class({
     beginJump: function () {
         console.log("开始跳跃");
         this.jump();
-        this.schedule(this.jump,this.jumpSpeed);
+        this.schedule(this.jump, this.jumpSpeed);
 
     },
 
@@ -46,7 +47,9 @@ cc.Class({
         //通知ui显示?
 
         let aimY = this.aimY + BoxY;
-        let aimX = this.aimX + (this.curDir === BoxDir.right ? 1 : -1)*BoxX;
+        let aimX = this.aimX + (this.curDir === BoxDir.right ? 1 : -1) * BoxX;
+
+        this.node.scaleX = (this.curDir === BoxDir.right ? 1 : -1);
 
         this.node.stopAllActions();
 
@@ -58,6 +61,8 @@ cc.Class({
         if (jumpedInfo.boxType === BoxType.normalBox) {
             //播放跳跃声
             this.jumpAinmation();
+            this.boxesMgrJS.createBox();
+
         } else if (jumpedInfo.boxType === BoxType.blockBox) {
             //阵亡？眩晕？
         } else if (jumpedInfo.boxType === BoxType.noneBox) {
@@ -72,7 +77,7 @@ cc.Class({
         if (callback) {
             resultAction = cc.sequence(jumpAction, cc.callFunc(callback, this));
         }
-       this.node.runAction(resultAction);
+        this.node.runAction(resultAction);
     }
 
 });

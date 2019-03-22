@@ -41,8 +41,6 @@ cc.Class({
     start: function () {
         var self = this;
 
-
-
         this.node.on(cc.Node.EventType.TOUCH_START, function (touch) {
             var touchPosition = touch.getLocation();
 

@@ -19,7 +19,7 @@ cc.Class({
     // use this for initialization
     onLoad: function () {
 
-        this.lastBoxX = 72;
+        this.lastBoxX = -72;
         this.lastBoxY = -72;
 
         //生成了多少个box了
@@ -53,9 +53,9 @@ cc.Class({
         this.node.addChild(box);
 
 
-        var dir = BoxDir.left;
+        var dir = BoxDir.right;
         if (this.generatedBox <= InitBoxCount) {
-            dir = BoxDir.left;
+            dir = BoxDir.right;
         } else {
             dir = (Math.random() > 0.5 ? BoxDir.left : BoxDir.right);
         }
@@ -80,6 +80,14 @@ cc.Class({
         let poxY = BoxY + this.lastBoxY;
 
         return cc.v2(poxX, poxY);
+    },
+
+    getJumpedInfo:function(aimX,aimY) {
+        var jumpedInfo = {
+            aimX:aimX,
+            aimY:aimY,
+        }
+        return jumpedInfo;
     }
 
 

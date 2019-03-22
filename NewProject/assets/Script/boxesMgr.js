@@ -45,9 +45,22 @@ cc.Class({
     },
 
     drop: function () {
-        console.log("开始掉落了");
+        var j = 0;
+        for (j = 0, len = this.node.children.length; j < len; j++) {
+            if(this.node.children[j].getComponent('box').alive) {
+                break;
+            }
+        }
 
-        let toDropBox = this.node.children[0];
+        var toDropBox = this.node.children[j];
+
+        for (var i = 0, len = this.node.children.length; i < len; i++) {
+
+            if (this.node.children[i].y < toDropBox.y && this.node.children[i].getComponent('box').alive) {
+                toDropBox = this.node.children[i];
+            }
+        }
+
         toDropBox.getComponent("box").drop(function (dropedBox) {
             console.log("执行了！", this.boxPool.size());
             this.boxPool.put(dropedBox);

@@ -22,6 +22,7 @@ cc.Class({
     onLoad() {
 
         this.gameJS = cc.find('Canvas/game').getComponent('game');
+        this.alive = false;
     },
 
     start() {
@@ -29,7 +30,7 @@ cc.Class({
     },
 
     initBox: function (countBox, aimPos, dir, boxType) {
-
+        this.alive = true;
         this.node.zIndex = MaxZIndexOfBox - countBox;
         if (countBox > InitBoxCount) {
             this.node.setPosition(cc.v2(aimPos.x, aimPos.y + BoxY * 2));
@@ -66,9 +67,10 @@ cc.Class({
     },
 
     drop: function (callback) {
+        this.alive = false;
         this.node.stopAllActions();
         //要判断角色是否在这里
-
+        
         let moveBy = cc.moveBy(1.2, cc.v2(0, -400));
         moveBy.easing(cc.easeIn(1.2));
         let fadeOut = cc.fadeOut(1.2);

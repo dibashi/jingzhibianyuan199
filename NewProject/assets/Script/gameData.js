@@ -19,3 +19,8 @@ const InitBoxCount = 6;
 
 //跳跃动作时间
 const JumpTime = 0.12;
+
+// const BaseCameraSpeedX = 50;
+
+// const BaseCameraSpeedY = 160;
+

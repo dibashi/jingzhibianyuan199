@@ -24,6 +24,10 @@ cc.Class({
             default: null,
             type: cc.SpriteAtlas
         },
+        gameCamera: {
+            default: null,
+            type: cc.Node
+        }
     },
 
     // use this for initialization
@@ -90,13 +94,38 @@ cc.Class({
         this.boxesMgrJS.initBoxes(function () {
             self.currentGameState = gameStates.starting;
             self.roleJS.beginJump();
+            self.boxesMgrJS.beginDrop();
         });
     },
 
 
+    lateUpdate(dt) {
+        if (this.currentGameState === gameStates.starting) {
+            var dx = this.roleJS.aimX - this.gameCamera.x;
 
-    startGame: function () {
-        console.log("游戏开始了");
+            let moveX = BoxX * dt / (this.roleJS.jumpSpeed);
+            let moveY = BoxY * dt / (this.roleJS.jumpSpeed);
+
+            if (moveY + this.gameCamera.y > this.roleJS.aimY) {
+                moveY = this.roleJS.aimY - this.gameCamera.y;
+            }
+
+            if (dx > 0) {
+                if (moveX + this.gameCamera.x > this.roleJS.aimX) {
+                    moveX = this.roleJS.aimX - this.gameCamera.x;
+                }
+            } else {
+                moveX *= -1;
+                if (moveX + this.gameCamera.x < this.roleJS.aimX) {
+                    moveX = this.roleJS.aimX - this.gameCamera.x;
+                }
+            }
+
+            this.gameCamera.x += moveX;
+            this.gameCamera.y += moveY;
+
+
+        }
     }
 
 });

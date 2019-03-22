@@ -25,6 +25,7 @@ cc.Class({
         //生成了多少个box了
         this.generatedBox = 0;
 
+        this.dropSpeed = 1.5;
     },
 
     start: function () {
@@ -32,9 +33,12 @@ cc.Class({
 
     },
 
-    // called every frame
-    update: function (dt) {
+    beginDrop:function() {
+        this.schedule(this.drop,this.dropSpeed);
+    },
 
+    drop:function() {
+        console.log("开始掉落了");
     },
 
     initBoxes: function (callback) {
@@ -89,7 +93,11 @@ cc.Class({
             boxType:BoxType.normalBox,
         }
         return jumpedInfo;
-    }
+    },
 
+    
+    // called every frame
+    update: function (dt) {
 
+    },
 });

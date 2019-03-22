@@ -2,11 +2,6 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        jumpSpeed: {
-            default: 1.0,
-            displayName: "跳跃速度",
-            tooltip: "多长时间跳跃一次？越小越快",
-        },
     },
 
     // use this for initialization
@@ -16,11 +11,12 @@ cc.Class({
         this.jumpCount = 0;
         this.curDir = BoxDir.right;
 
-        this.aimY = 0;
         this.aimX = 0;
+        this.aimY = 0;
 
         this.boxesMgrJS = cc.find('Canvas/game/boxes_mgr').getComponent('boxesMgr');
 
+        this.jumpSpeed = 0.15;
     },
 
     start: function () {
@@ -40,7 +36,7 @@ cc.Class({
 
     beginJump: function () {
         console.log("开始跳跃");
-
+        this.jump();
         this.schedule(this.jump,this.jumpSpeed);
 
     },
@@ -78,8 +74,5 @@ cc.Class({
         }
        this.node.runAction(resultAction);
     }
-
-
-
 
 });

@@ -86,6 +86,7 @@ cc.Class({
         var jumpedInfo = {
             aimX:aimX,
             aimY:aimY,
+            boxType:BoxType.normalBox,
         }
         return jumpedInfo;
     }

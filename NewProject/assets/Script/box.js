@@ -48,6 +48,7 @@ cc.Class({
         if (this.boxType === BoxType.blockBox) {
             this.spr_block.active = true;
             this.spr_prop.active = true;
+            this.spr_box.active =true;
 
             let randomImageId = parseInt(Math.random() * BlockImageCount) + 1;
             let blackName = 'zhangai0' + randomImageId;
@@ -60,6 +61,7 @@ cc.Class({
         } else if (this.boxType === BoxType.normalBox) {
             this.spr_block.active = false;
             this.spr_prop.active = false;
+            this.spr_box.active = true;
         } else {
             debugger;
         }

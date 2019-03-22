@@ -467,7 +467,7 @@
       "__id__": 9
     },
     "_enabled": true,
-    "initCount": 6,
+    "obstacleProbability": 0.2,
     "boxPrefab": {
       "__uuid__": "934acb9a-c098-4d05-925b-8b12cba9ff72"
     },
@@ -573,7 +573,7 @@
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
-      "y": 0.5
+      "y": 0.1
     },
     "_position": {
       "__type__": "cc.Vec3",
@@ -583,8 +583,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
+      "x": 0.64,
+      "y": 0.64,
       "z": 1
     },
     "_rotationX": 0,
@@ -824,6 +824,7 @@
     "boxesMgr": {
       "__id__": 9
     },
+    "atlasGame": null,
     "_id": "97ATQr+bVFN4Q0S+Nq5mew"
   },
   {

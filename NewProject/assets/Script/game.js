@@ -19,12 +19,16 @@ cc.Class({
         boxesMgr: {
             default: null,
             type: cc.Node
-        }
+        },
+        atlasGame: {
+            default: null,
+            type: cc.SpriteAtlas
+        },
     },
 
     // use this for initialization
     onLoad: function () {
-       
+
         //游戏当前的状态
         this.currentGameState = gameStates.unStart;
 
@@ -61,6 +65,14 @@ cc.Class({
 
         }, this);
 
+    },
+
+    //获取精灵图片
+    getGameFrame_sf: function (name) {
+        let sf = this.atlas_game.getSpriteFrame(name);
+        if (!sf)
+            sf = this.atlas_game.getSpriteFrame("zz01");
+        return sf;
     },
 
     // called every frame

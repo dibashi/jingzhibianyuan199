@@ -12,30 +12,57 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
+        spr_box: {
+            default: null,
+            type: cc.Node
+        },
+        spr_block: {
+            default: null,
+            type: cc.Node
+        },
+        spr_prop: {
+            default: null,
+            type: cc.Node
+        }
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
 
-    start () {
-
+    start() {
+        this.boxType = null;//box的类型
     },
 
-    // update (dt) {},
+    initBox: function (countBox, aimPos, dir, boxType) {
+
+        this.node.zIndex = MaxZIndexOfBox - countBox;
+        if (countBox > InitBoxCount) {
+            this.node.setPosition(cc.v2(aimPos.x, aimPos.y + cc.dataMgr.boxY * 2));
+            this.node.runAction(cc.fadeIn(0.15));
+            this.node.runAction(cc.moveTo(0.2, aimPos));
+        } else {
+            this.node.setPosition(aimPos);
+            this.node.runAction(cc.fadeIn(0.15));
+            //为了无缝衔接 第一个为 node_start 中的台阶 游戏中第一个不显示
+            //  if (countBox != 1)
+            //  this.node.runAction(cc.fadeIn(0.15));
+        }
+
+        this.boxType = boxType;
+        if (this.boxType === BoxType.blockBox) {
+            this.spr_block.active = true;
+            this.spr_prop.active = true;
+
+        } else if(this.boxType === BoxType.normalBox) {
+            this.spr_block.active = false;
+            this.spr_prop.active = false;
+        } else {
+            debugger;
+        }
+
+
+    }
+
+
 });

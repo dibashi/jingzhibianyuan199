@@ -2,10 +2,12 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        initCount: {
-            default: 6,
-            displayName: "初始数量",
-            tooltip: "游戏开始时，生成box的数量",
+       
+
+        obstacleProbability: {
+            default: 0.2,
+            displayName: "障碍物生成概率",
+            tooltip: "0.2表示20%",
         },
 
         boxPrefab: {
@@ -17,12 +19,11 @@ cc.Class({
     // use this for initialization
     onLoad: function () {
 
-        this.boxX = 72;
-        this.boxY = 72;
-
         this.lastBoxX = 72;
-        this.lastBoxY = 72;
+        this.lastBoxY = -72;
 
+        //生成了多少个box了
+        this.generatedBox = 0;
 
     },
 
@@ -38,7 +39,7 @@ cc.Class({
 
     initBoxes: function (callback) {
 
-        for (var i = 0; i < this.initCount; i++) {
+        for (var i = 0; i < InitBoxCount; i++) {
             this.createBox();
         }
 
@@ -46,10 +47,39 @@ cc.Class({
     },
 
     createBox: function () {
-
+        //这里没算障碍物的，用于改变box的zIndex
+        this.generatedBox++;
         var box = cc.instantiate(this.boxPrefab);
         this.node.addChild(box);
-        box.getComponent('box').initBox(cc.v2(posX, posY), BoxDir.left, BoxType.normalBox);
+
+
+        var dir = BoxDir.left;
+        if (this.generatedBox <= InitBoxCount) {
+            dir = BoxDir.left;
+        } else {
+            dir = (Math.random() > 0.5 ? BoxDir.left : BoxDir.right);
+        }
+        var pos = this.getNextBoxPos(dir);
+        box.getComponent('box').initBox(this.generatedBox,pos, dir, BoxType.normalBox);
+
+        if (Math.random() < this.obstacleProbability && this.generatedBox > InitBoxCount) {
+            var blockDir = dir === BoxDir.left ? BoxDir.right : BoxDir.left;
+            var blockPos = getNextBoxPos(blockDir);
+            var blockBox = cc.instantiate(this.boxPrefab);
+            this.node.addChild(blockBox);
+            blockBox.getComponent('box').initBox(this.generatedBox,blockPos, blockDir, BoxType.blockBox);
+        }
+
+        this.lastBoxX = pos.x;
+        this.lastBoxY = pos.y;
+
+    },
+
+    getNextBoxPos: function (dir) {
+        let poxX = BoxX * (dir === BoxDir.left ? -1 : 1) + this.lastBoxX;
+        let poxY = BoxY + this.lastBoxY;
+
+        return cc.v2(poxX, poxY);
     }
 
 

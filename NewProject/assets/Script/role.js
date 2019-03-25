@@ -53,20 +53,26 @@ cc.Class({
 
         this.node.stopAllActions();
 
-        var jumpedInfo = this.boxesMgrJS.getJumpedInfo(aimX, aimY);
+        var resultBoxType = this.boxesMgrJS.getJumpedInfo(aimX, aimY,this.aimX,this.aimY,this.curDir);
 
-        this.aimX = jumpedInfo.aimX;
-        this.aimY = jumpedInfo.aimY;
+        // this.aimX = jumpedInfo.aimX;
+        // this.aimY = jumpedInfo.aimY;
 
-        if (jumpedInfo.boxType === BoxType.normalBox) {
-            //播放跳跃声
+        if (resultBoxType === BoxType.normalBox) {
+            this.aimX = aimX;
+            this.aimY = aimY;
+            
             this.jumpAinmation();
             this.boxesMgrJS.createBox();
 
-        } else if (jumpedInfo.boxType === BoxType.blockBox) {
+        } else if (resultBoxType === BoxType.blockBox) {
+           
             //阵亡？眩晕？
-        } else if (jumpedInfo.boxType === BoxType.noneBox) {
+            console.log("眩晕了");
+
+        } else if (resultBoxType === BoxType.noneBox) {
             //悬崖，阵亡了
+            console.log("阵亡了");
         }
 
     },

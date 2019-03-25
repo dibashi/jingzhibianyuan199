@@ -4,7 +4,7 @@ cc.Class({
     properties: {
 
 
-      
+
 
         boxPrefab: {
             default: null,
@@ -18,19 +18,22 @@ cc.Class({
         this.lastBoxX = -72;
         this.lastBoxY = -72;
 
-        this.obstacleProbability =1.0;
+        this.obstacleProbability = 1.0;
 
         //生成了多少个box了
         this.generatedBox = 0;
 
         this.dropSpeed = 1;
 
-        this.boxPool = new cc.NodePool('box');
+        // this.boxPool = new cc.NodePool('box');
+        this.boxPool = new cc.NodePool();
 
         for (var i = 0; i < BoxPoolSize; i++) {
             let box = cc.instantiate(this.boxPrefab);
             this.boxPool.put(box);
         }
+
+        this.gameJS = cc.find('Canvas/game').getComponent('game');
     },
 
     start: function () {
@@ -45,7 +48,7 @@ cc.Class({
     drop: function () {
         var j = 0;
         for (j = 0, len = this.node.children.length; j < len; j++) {
-            if(this.node.children[j].getComponent('box').alive) {
+            if (this.node.children[j].getComponent('box').alive) {
                 break;
             }
         }
@@ -123,13 +126,30 @@ cc.Class({
         return cc.v2(poxX, poxY);
     },
 
-    getJumpedInfo: function (aimX, aimY) {
-        var jumpedInfo = {
-            aimX: aimX,
-            aimY: aimY,
-            boxType: BoxType.normalBox,
+    //处理脚印，以及返回下个目标块是什么类型的
+    getJumpedInfo: function (aimX, aimY, curX, curY, curdir) {
+        var resultBoxType = BoxType.noneBox;
+
+        for (let i = 0, len = this.node.children.length; i < len; i++) {
+            let box = this.node.children[i];
+
+            if (Math.abs(curY - box.y) < 10 && Math.abs(curX - box.x)<10 && this.gameJS.hasFoot()) {
+                let boxJS = box.getComponent('box');
+                boxJS.showFoot(curdir);
+            }
+
+            let dis = cc.v2(box.x - aimX, box.y - aimY).magSqr();
+            if (dis < 100) {
+                let boxJS = box.getComponent('box');
+                if (boxJS.boxType === BoxType.blockBox) {
+                    resultBoxType = BoxType.blockBox
+                } else if (boxJS.boxType === BoxType.normalBox) {
+                    resultBoxType = BoxType.normalBox;
+                }
+            }
         }
-        return jumpedInfo;
+
+        return resultBoxType;
     },
 
 

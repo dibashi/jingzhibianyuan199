@@ -41,7 +41,7 @@ cc.Class({
         //游戏内的boxes管理脚本
         this.boxesMgrJS = this.boxesMgr.getComponent('boxesMgr');
 
-     
+        this._hasFoot = true;
     },
 
     start: function () {
@@ -71,7 +71,11 @@ cc.Class({
 
     },
 
-    //获取精灵图片
+    hasFoot:function() {
+        return this._hasFoot;
+    },
+
+     //获取精灵图片
     getGameFrame_sf: function (name) {
         let sf = this.atlasGame.getSpriteFrame(name);
         if (!sf)

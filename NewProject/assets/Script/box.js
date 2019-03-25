@@ -23,10 +23,14 @@ cc.Class({
 
         this.gameJS = cc.find('Canvas/game').getComponent('game');
         this.alive = false;
+
+        this.boxType = null;//box的类型
+
+       
     },
 
     start() {
-        this.boxType = null;//box的类型
+        
     },
 
     initBox: function (countBox, aimPos, dir, boxType) {
@@ -43,7 +47,7 @@ cc.Class({
             //  if (countBox != 1)
             //  this.node.runAction(cc.fadeIn(0.15));
         }
-
+        this.spr_box.color = cc.color(255, 255, 255, 255);
         this.boxType = boxType;
         if (this.boxType === BoxType.blockBox) {
             this.spr_block.active = true;
@@ -56,10 +60,10 @@ cc.Class({
 
             this.spr_prop.scale = 0;
             this.spr_prop.runAction(cc.sequence(cc.delayTime(0.2), cc.scaleTo(0.2, 1)));
-
+            this.spr_prop.y = PropY;
             this.spr_block.setPosition(cc.v2((dir === BoxDir.left ? -1 : 1) * BoxX, BoxY));
-            
-            this.spr_box.color = cc.color(this.spr_box.color.r*0.72,this.spr_box.color.g*0.72,this.spr_box.color.b*0.72,255);
+
+            this.spr_box.color = cc.color(190, 190, 190, 255);
             //修改spriteFrame？
 
 
@@ -86,14 +90,22 @@ cc.Class({
         this.node.runAction(seq);
     },
 
-    unuse: function () {
-       
-        this.spr_box.color = cc.color(255,255,255,255);
+    showFoot: function (curdir) {
+        let footName = "jiaoyin01";
+        this.spr_prop.getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf(footName);
+        this.spr_prop.active = true;
+        this.spr_prop.scaleX = (curdir === BoxDir.right ? 1 : -1);
+        this.spr_prop.y = FootY;
     },
 
-    reuse: function () {
-        
-    }
+    // unuse: function () {
+
+    //     this.spr_box.color = cc.color(255,255,255,255);
+    // },
+
+    // reuse: function () {
+
+    // }
 
 
 });

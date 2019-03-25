@@ -48,14 +48,18 @@ cc.Class({
         if (this.boxType === BoxType.blockBox) {
             this.spr_block.active = true;
             this.spr_prop.active = true;
-            this.spr_box.active =true;
+            this.spr_box.active = true;
 
             let randomImageId = parseInt(Math.random() * BlockImageCount) + 1;
             let blackName = 'zhangai0' + randomImageId;
             this.spr_prop.getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf(blackName);
 
+            this.spr_prop.scale = 0;
+            this.spr_prop.runAction(cc.sequence(cc.delayTime(0.2), cc.scaleTo(0.2, 1)));
+
             this.spr_block.setPosition(cc.v2((dir === BoxDir.left ? -1 : 1) * BoxX, BoxY));
-           
+            
+            this.spr_box.color = cc.color(this.spr_box.color.r*0.72,this.spr_box.color.g*0.72,this.spr_box.color.b*0.72,255);
             //修改spriteFrame？
 
 
@@ -73,7 +77,7 @@ cc.Class({
         this.alive = false;
         this.node.stopAllActions();
         //要判断角色是否在这里
-        
+
         let moveBy = cc.moveBy(1.2, cc.v2(0, -400));
         moveBy.easing(cc.easeIn(1.2));
         let fadeOut = cc.fadeOut(1.2);
@@ -81,6 +85,15 @@ cc.Class({
         let seq = cc.sequence(spawn, cc.callFunc(callback));
         this.node.runAction(seq);
     },
+
+    unuse: function () {
+       
+        this.spr_box.color = cc.color(255,255,255,255);
+    },
+
+    reuse: function () {
+        
+    }
 
 
 });

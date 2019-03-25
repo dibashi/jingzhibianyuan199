@@ -25,7 +25,7 @@ cc.Class({
 
         this.dropSpeed = 1;
 
-        this.boxPool = new cc.NodePool();
+        this.boxPool = new cc.NodePool('box');
 
         for (var i = 0; i < BoxPoolSize; i++) {
             let box = cc.instantiate(this.boxPrefab);

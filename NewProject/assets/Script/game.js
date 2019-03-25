@@ -40,6 +40,8 @@ cc.Class({
         this.roleJS = this.role.getComponent('role');
         //游戏内的boxes管理脚本
         this.boxesMgrJS = this.boxesMgr.getComponent('boxesMgr');
+
+     
     },
 
     start: function () {
@@ -96,6 +98,7 @@ cc.Class({
             self.roleJS.beginJump();
             
             self.boxesMgrJS.beginDrop();
+
         });
     },
 

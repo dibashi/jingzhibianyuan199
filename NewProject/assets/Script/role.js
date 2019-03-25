@@ -80,7 +80,13 @@ cc.Class({
 
         } else if (resultBoxType === BoxType.noneBox) {
             //悬崖，阵亡了
-            console.log("阵亡了");
+            var jumpY = aimY;
+            var jumpX = aimX;
+            this.cliffJumping(function () {
+                console.log("跳崖动作执行完毕");
+                //发送消息游戏结束
+            }.bind(this), aimX, aimY);
+
         }
 
     },
@@ -94,16 +100,28 @@ cc.Class({
         this.node.runAction(resultAction);
     },
 
-    dizzyAnimation: function (callback,jumpX,jumpY) {
+    dizzyAnimation: function (callback, jumpX, jumpY) {
         this.pauseJump();
         this.gameJS.closeTouch();
-        var jump1 = cc.jumpTo(JumpTime,cc.v2(jumpX,jumpY),100,1);
-        var jump2 = cc.jumpTo(JumpTime,cc.v2(this.aimX,this.aimY),100,1);
+        var jump1 = cc.jumpTo(JumpTime, cc.v2(jumpX, jumpY), 100, 1);
+        var jump2 = cc.jumpTo(JumpTime, cc.v2(this.aimX, this.aimY), 100, 1);
         var fadeout = cc.fadeOut(0.3);
         var fadein = cc.fadeIn(0.3);
-        var repeat = cc.repeat(cc.sequence(fadeout,fadein),3);
-        var dizzAction = cc.sequence(jump1,jump2,repeat,cc.callFunc(callback));
+        var repeat = cc.repeat(cc.sequence(fadeout, fadein), 3);
+        var dizzAction = cc.sequence(jump1, jump2, repeat, cc.callFunc(callback));
         this.node.runAction(dizzAction);
+    },
+
+    cliffJumping: function (callback, jumpX, jumpY) {
+        this.pauseJump();
+        this.gameJS.closeTouch();
+        this.node.zIndex = -1;
+        var jump1 = cc.jumpTo(JumpTime, cc.v2(jumpX, jumpY), 100, 1);
+        var fadeout = cc.fadeOut(1.2);
+        var moveBy = cc.moveBy(1.2, cc.v2(0, -360));
+        moveBy.easing(cc.easeIn(0.6));
+        this.node.runAction(cc.sequence(jump1, cc.spawn(fadeout, moveBy), cc.callFunc(callback, this)));
+
     }
 
 });

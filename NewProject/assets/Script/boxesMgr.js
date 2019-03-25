@@ -18,7 +18,7 @@ cc.Class({
         this.lastBoxX = -72;
         this.lastBoxY = -72;
 
-        this.obstacleProbability = 1.0;
+        this.obstacleProbability = 0.2;
 
         //生成了多少个box了
         this.generatedBox = 0;

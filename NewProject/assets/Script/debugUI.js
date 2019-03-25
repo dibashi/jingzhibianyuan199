@@ -27,7 +27,7 @@ cc.Class({
     },
 
     onEnable: function () {
-        this.scoreLabel.string = "当前得分" + this.gameJS.currentScore;
+        this.scoreLabel.string = "当前得分" + this.gameJS.getCurrentScore();
         this.diamondLabel.string = this.diamondCount;
     },
 

@@ -29,9 +29,9 @@ cc.Class({
             type: cc.Node
         },
 
-        debugUI:{
-            default:null,
-            type:cc.Node
+        debugUI: {
+            default: null,
+            type: cc.Node
         }
     },
 
@@ -47,6 +47,8 @@ cc.Class({
         this.boxesMgrJS = this.boxesMgr.getComponent('boxesMgr');
 
         this._hasFoot = true;
+
+        this.currentScore = 0;
     },
 
     start: function () {
@@ -86,6 +88,14 @@ cc.Class({
         return this._hasFoot;
     },
 
+    getCurrentScore: function () {
+        return this.currentScore;
+    },
+
+    addCurrentScore: function (value) {
+        this.currentScore += value;
+    },
+
     //获取精灵图片
     getGameFrame_sf: function (name) {
         let sf = this.atlasGame.getSpriteFrame(name);
@@ -107,31 +117,40 @@ cc.Class({
         console.log("showing game");
         //现在直接执行将来ui回调后的代码
 
+        this.startGame();
+    },
 
-        this.boxesMgrJS.initBoxes(function () {
-            this.startGame();
-            
+    startGame: function () {
+
+       
+        this.currentScore = 0;
+        this.boxesMgrJS.prepareStart();
+        this.roleJS.prepareStart();
+        this.gameCamera.position = cc.v2(0,0);
+        
+        this.boxesMgrJS.initBoxes(function() {
+            this._startGame();
         }.bind(this));
     },
-
-    startGame:function() {
+    _startGame: function () {
         this.currentGameState = gameStates.starting;
+
         this.roleJS.beginJump();
         this.boxesMgrJS.beginDrop();
-
     },
 
-    gameOver:function() {
+    gameOver: function () {
         this.roleJS.pauseJump();
         this.boxesMgrJS.pauseDrop();
         this.debugUI.active = true;
-        
+
     },
 
-    // reliveGame:function() {
-    //     this.startGame();
-    //     //this.role
-    // },
+    reliveGame: function () {
+        this.roleJS.relive();
+        this._startGame();
+
+    },
 
 
     lateUpdate(dt) {

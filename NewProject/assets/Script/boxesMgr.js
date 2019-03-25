@@ -15,16 +15,6 @@ cc.Class({
     // use this for initialization
     onLoad: function () {
 
-        this.lastBoxX = -72;
-        this.lastBoxY = -72;
-
-        this.obstacleProbability = 0.2;
-
-        //生成了多少个box了
-        this.generatedBox = 0;
-
-        this.dropSpeed = 1;
-
         // this.boxPool = new cc.NodePool('box');
         this.boxPool = new cc.NodePool();
 
@@ -34,10 +24,28 @@ cc.Class({
         }
 
         this.gameJS = cc.find('Canvas/game').getComponent('game');
+
+        this.prepareStart();
     },
 
     start: function () {
 
+
+    },
+
+    prepareStart:function() {
+        var len = this.node.children.length;
+        for (var i = len-1;i >=0; i--) {
+            var box = this.node.children[i];
+            box.getComponent('box').alive = false;
+            this.boxPool.put(box);
+        }
+        this.generatedBox = 0;
+
+        this.lastBoxX = -72;
+        this.lastBoxY = -72;
+        this.obstacleProbability = 0.2;
+        this.dropSpeed = 1;
 
     },
 

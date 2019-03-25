@@ -82,7 +82,11 @@ cc.Class({
         this.alive = false;
         this.node.stopAllActions();
         //要判断角色是否在这里
-        this.checkRoleOnThisBox();
+        var roleDroped = this.checkRoleOnThisBox();
+
+        if(roleDroped) {
+            this.roleJS.dropAni();
+        }
 
 
         let moveBy = cc.moveBy(1.2, cc.v2(0, -400));
@@ -104,8 +108,14 @@ cc.Class({
     checkRoleOnThisBox:function() {
         let dis = cc.v2(this.roleJS.aimX - this.node.x,this.roleJS.aimY - this.node.y).magSqr();
         if(dis<100) {
+            //角色被撞倒，有动作的回调会执行，要把动作咔嚓掉。
+            this.roleJS.node.stopAllActions();
             this.gameJS.gameOver();
+
+            return true;
         }
+
+        return false;
     }
 
     // unuse: function () {

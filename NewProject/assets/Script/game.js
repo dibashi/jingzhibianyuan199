@@ -6,7 +6,7 @@ var gameStates = {
     paused: 4//游戏暂停
 }
 
-
+//有一首可以用的不错的背景歌，wolfred
 cc.Class({
     extends: cc.Component,
 
@@ -94,7 +94,7 @@ cc.Class({
         this.boxesMgrJS.initBoxes(function () {
             self.currentGameState = gameStates.starting;
             self.roleJS.beginJump();
-            console.log(self.boxesMgr);
+            
             self.boxesMgrJS.beginDrop();
         });
     },

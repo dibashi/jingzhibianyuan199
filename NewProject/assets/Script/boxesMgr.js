@@ -4,11 +4,7 @@ cc.Class({
     properties: {
 
 
-        obstacleProbability: {
-            default: 0.2,
-            displayName: "障碍物生成概率",
-            tooltip: "0.2表示20%",
-        },
+      
 
         boxPrefab: {
             default: null,
@@ -21,6 +17,8 @@ cc.Class({
 
         this.lastBoxX = -72;
         this.lastBoxY = -72;
+
+        this.obstacleProbability =1.0;
 
         //生成了多少个box了
         this.generatedBox = 0;

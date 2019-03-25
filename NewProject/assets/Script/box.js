@@ -54,7 +54,8 @@ cc.Class({
             let blackName = 'zhangai0' + randomImageId;
             this.spr_prop.getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf(blackName);
 
-            this.spr_block.setPosition(cc.v2(dir === BoxDir.left ? -1 : 1) * BoxX, BoxY);
+            this.spr_block.setPosition(cc.v2((dir === BoxDir.left ? -1 : 1) * BoxX, BoxY));
+           
             //修改spriteFrame？
 
 

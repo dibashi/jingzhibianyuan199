@@ -690,7 +690,7 @@
     "_dstBlendFactor": 771,
     "_fadeTime": 0.6,
     "_minSeg": 1,
-    "_stroke": 60,
+    "_stroke": 50,
     "_texture": {
       "__uuid__": "70601960-868e-43bf-9626-1e3a57644ba5"
     },

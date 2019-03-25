@@ -22,6 +22,7 @@ cc.Class({
     onLoad() {
 
         this.gameJS = cc.find('Canvas/game').getComponent('game');
+        this.roleJS = cc.find('Canvas/game/role').getComponent('role');
         this.alive = false;
 
         this.boxType = null;//box的类型
@@ -81,6 +82,8 @@ cc.Class({
         this.alive = false;
         this.node.stopAllActions();
         //要判断角色是否在这里
+        this.checkRoleOnThisBox();
+
 
         let moveBy = cc.moveBy(1.2, cc.v2(0, -400));
         moveBy.easing(cc.easeIn(1.2));
@@ -97,6 +100,13 @@ cc.Class({
         this.spr_prop.scaleX = (curdir === BoxDir.right ? 1 : -1);
         this.spr_prop.y = FootY;
     },
+
+    checkRoleOnThisBox:function() {
+        let dis = cc.v2(this.roleJS.aimX - this.node.x,this.roleJS.aimY - this.node.y).magSqr();
+        if(dis<100) {
+            this.gameJS.gameOver();
+        }
+    }
 
     // unuse: function () {
 

@@ -27,6 +27,11 @@ cc.Class({
         gameCamera: {
             default: null,
             type: cc.Node
+        },
+
+        debugUI:{
+            default:null,
+            type:cc.Node
         }
     },
 
@@ -104,13 +109,29 @@ cc.Class({
 
 
         this.boxesMgrJS.initBoxes(function () {
-            self.currentGameState = gameStates.starting;
-            self.roleJS.beginJump();
-
-            self.boxesMgrJS.beginDrop();
-
-        });
+            this.startGame();
+            
+        }.bind(this));
     },
+
+    startGame:function() {
+        this.currentGameState = gameStates.starting;
+        this.roleJS.beginJump();
+        this.boxesMgrJS.beginDrop();
+
+    },
+
+    gameOver:function() {
+        this.roleJS.pauseJump();
+        this.boxesMgrJS.pauseDrop();
+        this.debugUI.active = true;
+        
+    },
+
+    // reliveGame:function() {
+    //     this.startGame();
+    //     //this.role
+    // },
 
 
     lateUpdate(dt) {

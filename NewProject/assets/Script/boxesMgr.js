@@ -45,6 +45,10 @@ cc.Class({
         this.schedule(this.drop, this.dropSpeed);
     },
 
+    pauseDrop:function() {
+        this.unschedule(this.drop,this);
+    },
+
     drop: function () {
         var j = 0;
         for (j = 0, len = this.node.children.length; j < len; j++) {

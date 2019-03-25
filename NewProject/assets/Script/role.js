@@ -85,6 +85,7 @@ cc.Class({
             this.cliffJumping(function () {
                 console.log("跳崖动作执行完毕");
                 //发送消息游戏结束
+               
             }.bind(this), aimX, aimY);
 
         }
@@ -113,8 +114,7 @@ cc.Class({
     },
 
     cliffJumping: function (callback, jumpX, jumpY) {
-        this.pauseJump();
-        this.gameJS.closeTouch();
+        this.gameJS.gameOver();
         this.node.zIndex = -1;
         var jump1 = cc.jumpTo(JumpTime, cc.v2(jumpX, jumpY), 100, 1);
         var fadeout = cc.fadeOut(1.2);
@@ -122,6 +122,5 @@ cc.Class({
         moveBy.easing(cc.easeIn(0.6));
         this.node.runAction(cc.sequence(jump1, cc.spawn(fadeout, moveBy), cc.callFunc(callback, this)));
 
-    }
-
+    },
 });

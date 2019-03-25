@@ -45,37 +45,43 @@ cc.Class({
     },
 
     start: function () {
-        var self = this;
-
-        this.node.on(cc.Node.EventType.TOUCH_START, function (touch) {
-            var touchPosition = touch.getLocation();
-
-            switch (self.currentGameState) {
-                case gameStates.unStart:
-                    self.currentGameState = gameStates.showing;
-                    self.showingGame();
-                    break;
-
-                case gameStates.showing:
-                    break;
-                case gameStates.starting:
-                    //游戏已经开始，点击屏幕是改变方向
-                    self.roleJS.changeDir(touchPosition);
-                    break;
-                case gameStates.paused:
-
-                    break;
-            }
-
-        }, this);
-
+        this.openTouch();
     },
 
-    hasFoot:function() {
+    openTouch: function () {
+        this.node.on(cc.Node.EventType.TOUCH_START, this.gameStateSwitch, this);
+    },
+
+    gameStateSwitch: function (touch) {
+        var touchPosition = touch.getLocation();
+
+        switch (this.currentGameState) {
+            case gameStates.unStart:
+                this.currentGameState = gameStates.showing;
+                this.showingGame();
+                break;
+
+            case gameStates.showing:
+                break;
+            case gameStates.starting:
+                //游戏已经开始，点击屏幕是改变方向
+                this.roleJS.changeDir(touchPosition);
+                break;
+            case gameStates.paused:
+
+                break;
+        }
+    },
+
+    closeTouch: function () {
+        this.node.off(cc.Node.EventType.TOUCH_END, this.gameStateSwitch, this);
+    },
+
+    hasFoot: function () {
         return this._hasFoot;
     },
 
-     //获取精灵图片
+    //获取精灵图片
     getGameFrame_sf: function (name) {
         let sf = this.atlasGame.getSpriteFrame(name);
         if (!sf)
@@ -100,7 +106,7 @@ cc.Class({
         this.boxesMgrJS.initBoxes(function () {
             self.currentGameState = gameStates.starting;
             self.roleJS.beginJump();
-            
+
             self.boxesMgrJS.beginDrop();
 
         });

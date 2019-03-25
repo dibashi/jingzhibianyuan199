@@ -42,6 +42,10 @@ cc.Class({
 
     },
 
+    pauseJump: function () {
+        this.unschedule(this.jump);
+    },
+
     jump: function () {
         this.jumpCount++;
         //通知ui显示?
@@ -53,7 +57,7 @@ cc.Class({
 
         this.node.stopAllActions();
 
-        var resultBoxType = this.boxesMgrJS.getJumpedInfo(aimX, aimY,this.aimX,this.aimY,this.curDir);
+        var resultBoxType = this.boxesMgrJS.getJumpedInfo(aimX, aimY, this.aimX, this.aimY, this.curDir);
 
         // this.aimX = jumpedInfo.aimX;
         // this.aimY = jumpedInfo.aimY;
@@ -61,14 +65,18 @@ cc.Class({
         if (resultBoxType === BoxType.normalBox) {
             this.aimX = aimX;
             this.aimY = aimY;
-            
+
             this.jumpAinmation();
             this.boxesMgrJS.createBox();
 
         } else if (resultBoxType === BoxType.blockBox) {
-           
-            //阵亡？眩晕？
-            console.log("眩晕了");
+            var jumpY = aimY;
+            var jumpX = aimX + (this.curDir === BoxDir.right ? -10 : 10);
+            this.dizzyAnimation(function () {
+                this.changeDir();
+                this.beginJump();
+                this.gameJS.openTouch();
+            }.bind(this), jumpX, jumpY);
 
         } else if (resultBoxType === BoxType.noneBox) {
             //悬崖，阵亡了
@@ -84,6 +92,18 @@ cc.Class({
             resultAction = cc.sequence(jumpAction, cc.callFunc(callback, this));
         }
         this.node.runAction(resultAction);
+    },
+
+    dizzyAnimation: function (callback,jumpX,jumpY) {
+        this.pauseJump();
+        this.gameJS.closeTouch();
+        var jump1 = cc.jumpTo(JumpTime,cc.v2(jumpX,jumpY),100,1);
+        var jump2 = cc.jumpTo(JumpTime,cc.v2(this.aimX,this.aimY),100,1);
+        var fadeout = cc.fadeOut(0.3);
+        var fadein = cc.fadeIn(0.3);
+        var repeat = cc.repeat(cc.sequence(fadeout,fadein),3);
+        var dizzAction = cc.sequence(jump1,jump2,repeat,cc.callFunc(callback));
+        this.node.runAction(dizzAction);
     }
 
 });

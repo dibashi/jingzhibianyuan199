@@ -556,7 +556,6 @@
       "__id__": 11
     },
     "_enabled": true,
-    "obstacleProbability": 0.2,
     "boxPrefab": {
       "__uuid__": "934acb9a-c098-4d05-925b-8b12cba9ff72"
     },
@@ -729,7 +728,7 @@
       "__id__": 13
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_level": 3,
     "_components": [
       {
@@ -799,7 +798,7 @@
     "_spriteFrame": {
       "__uuid__": "424c705f-3f19-4cd6-b844-eca20ce7bdc7"
     },
-    "_stopped": true,
+    "_stopped": false,
     "playOnLoad": true,
     "autoRemoveOnFinish": false,
     "totalParticles": 150,

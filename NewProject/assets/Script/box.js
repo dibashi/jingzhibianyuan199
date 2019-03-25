@@ -27,11 +27,11 @@ cc.Class({
 
         this.boxType = null;//box的类型
 
-       
+
     },
 
     start() {
-        
+
     },
 
     initBox: function (countBox, aimPos, dir, boxType) {
@@ -84,7 +84,7 @@ cc.Class({
         //要判断角色是否在这里
         var roleDroped = this.checkRoleOnThisBox();
 
-        if(roleDroped) {
+        if (roleDroped) {
             this.roleJS.dropAni();
         }
 
@@ -105,9 +105,9 @@ cc.Class({
         this.spr_prop.y = FootY;
     },
 
-    checkRoleOnThisBox:function() {
-        let dis = cc.v2(this.roleJS.aimX - this.node.x,this.roleJS.aimY - this.node.y).magSqr();
-        if(dis<100) {
+    checkRoleOnThisBox: function () {
+        let dis = cc.v2(this.roleJS.aimX - this.node.x, this.roleJS.aimY - this.node.y).magSqr();
+        if (dis < 100) {
             //角色被撞倒，有动作的回调会执行，要把动作咔嚓掉。
             this.roleJS.node.stopAllActions();
             this.gameJS.gameOver();

@@ -142,5 +142,9 @@ cc.Class({
         this.node.y = this.aimY;
         this.changeDir();
         this.node.opacity = 255;
+
+        this.node.zIndex = 1;
     }
+
+    
 });

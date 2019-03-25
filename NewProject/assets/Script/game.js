@@ -32,6 +32,11 @@ cc.Class({
         debugUI: {
             default: null,
             type: cc.Node
+        },
+
+        node_streak:{
+            default:null,
+            type:cc.Node
         }
     },
 
@@ -47,6 +52,7 @@ cc.Class({
         this.boxesMgrJS = this.boxesMgr.getComponent('boxesMgr');
 
         this._hasFoot = true;
+        this._hasStreak = true;
 
         this.currentScore = 0;
     },
@@ -144,6 +150,7 @@ cc.Class({
         this.boxesMgrJS.pauseDrop();
         this.debugUI.active = true;
 
+        this.currentGameState = gameStates.unStart;
     },
 
     reliveGame: function () {
@@ -177,8 +184,10 @@ cc.Class({
 
             this.gameCamera.x += moveX;
             this.gameCamera.y += moveY;
-
-
+            if(this._hasStreak) {
+                this.node_streak.position = cc.v2(this.roleJS.node.x, this.roleJS.node.y + 54);
+            }
+            
         }
     }
 

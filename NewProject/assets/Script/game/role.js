@@ -3,6 +3,11 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        streak_textures:{
+            default:[],
+            type:cc.Texture2D
+        }
+
     },
 
     // use this for initialization
@@ -10,18 +15,18 @@ cc.Class({
 
 
 
-        this.boxesMgrJS = cc.find('Canvas/game/boxes_mgr').getComponent('boxesMgr');
-        this.gameJS = cc.find('Canvas/game').getComponent('game');
-
 
         this.jumpHeight = 50;
         this.prepareStart();
+
     },
 
     start: function () {
 
 
     },
+
+
 
     prepareStart: function () {
         this.curDir = BoxDir.right;
@@ -35,9 +40,37 @@ cc.Class({
 
         this.node.scaleX = 1;
 
-        this.roleType = RoleType.slowDownType;
+        this.settingType();
+
+
 
         this.unscheduleAllCallbacks();
+    },
+
+
+
+    settingType: function () {
+        this.boxesMgrJS = cc.find('Canvas/game/boxes_mgr').getComponent('boxesMgr');
+        this.gameJS = cc.find('Canvas/game').getComponent('game');
+
+        this.roleType = RoleType.slowDownType;
+        var roleData = null;
+        switch (this.roleType) {
+            case RoleType.normalType:
+                roleData = Role_Normal_Data;
+                break;
+
+            case RoleType.accelerateType:
+                roleData = Role_Accelerate_Data;
+                break;
+
+            case RoleType.slowDownType:
+                roleData = Role_SlowDown_Data;
+                break;
+
+        }
+        this.node.getChildByName("spr_role").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf(roleData.Role_Image);
+        this.gameJS.node_streak.getComponent(cc.MotionStreak).texture = this.streak_textures[this.roleType];
     },
 
     // called every frame
@@ -148,7 +181,7 @@ cc.Class({
         this.unschedule(this._accelerateAndPathfinding, this);
         this.accelerateCount = 0;
         this.gameJS.closeTouch();
-        this.schedule(this._accelerateAndPathfinding, AccelerateInterval)
+        this.schedule(this._accelerateAndPathfinding, Role_Accelerate_Data.AccelerateInterval);
     },
 
     _accelerateAndPathfinding: function () {
@@ -162,20 +195,20 @@ cc.Class({
 
 
         if (resultBoxType === BoxType.normalBox) {
-            this.changeDir(cc.v2(500,0));
+            this.changeDir(cc.v2(500, 0));
         } else if (resultBoxType === BoxType.blockBox) {
-            this.changeDir(cc.v2(0,0));
+            this.changeDir(cc.v2(0, 0));
 
         } else if (resultBoxType === BoxType.noneBox) {
 
-            this.changeDir(cc.v2(0,0));
+            this.changeDir(cc.v2(0, 0));
         }
 
         this.jump();
 
         this.accelerateCount++;
-        if(this.accelerateCount===AccelerateTotalCount) {
-            this.unschedule(this._accelerateAndPathfinding,this);
+        if (this.accelerateCount === Role_Accelerate_Data.AccelerateTotalCount) {
+            this.unschedule(this._accelerateAndPathfinding, this);
             this.gameJS.openTouch();
         }
 

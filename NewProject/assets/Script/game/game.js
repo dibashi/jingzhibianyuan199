@@ -96,7 +96,10 @@ cc.Class({
 
 
             case gameStates.starting:
-                this.skillBtnNode.active = true;
+                if(this.roleJS.roleType !== RoleType.normalType) {
+                    this.skillBtnNode.active = true;
+                }
+               
                 this.roleJS.changeDir(touchPosition);
                 this.roleJS.jump();
                 break;
@@ -141,6 +144,7 @@ cc.Class({
         this.currentScore = 0;
         this.boxesMgrJS.prepareStart();
         this.roleJS.prepareStart();
+      
         this.gameCamera.position = cc.v2(0, 0);
 
         this.boxesMgrJS.initBoxes(function () {
@@ -241,7 +245,7 @@ cc.Class({
                 break;
 
             case RoleType.slowDownType:
-                this.boxesMgrJS.slowDownDrop(5, 10);
+                this.boxesMgrJS.slowDownDrop(Role_SlowDown_Data.SlowCoefficient, Role_SlowDown_Data.RestTime);
                 break;
 
             default:

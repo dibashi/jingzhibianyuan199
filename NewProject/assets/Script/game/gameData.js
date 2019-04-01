@@ -6,12 +6,12 @@ const BoxY = 72;
 const BoxType = {
     normalBox: 0,
     blockBox: 1,
-    noneBox:2,//悬崖
+    noneBox: 2,//悬崖
 }
 
 const BoxDir = {
-    left:0,
-    right:1
+    left: 0,
+    right: 1
 }
 
 const MaxZIndexOfBox = 9999;
@@ -38,12 +38,35 @@ const PropY = -20;
 
 
 
-var RoleType = {
-    accelerateType: 0,//加速角色 根据次数进行加速 自动寻路
-    slowDownType: 1,//减速角色  减速掉落
-}
+const RoleType = Object.freeze({
+    normalType: 0,//什么技能也没有的角色
+    accelerateType: 1,//加速角色 根据次数进行加速 自动寻路
+    slowDownType: 2,//减速角色  减速掉落
+});
 
-//加速过程中的跳跃间隔
-const AccelerateInterval = 0.15
-//加速跳跃次数
-const AccelerateTotalCount = 50;
+
+const Role_Normal_Data = Object.freeze(
+    {
+      
+        Role_Image: "role_right1",
+        Streak_Image: "role_streak1",
+    }
+);
+
+const Role_Accelerate_Data = Object.freeze(
+    {
+        AccelerateInterval: 0.15,//加速过程中的跳跃间隔
+        AccelerateTotalCount: 50,//加速跳跃次数
+        Role_Image: "role_right2",
+        Streak_Image: "role_streak2",
+    }
+);
+
+const Role_SlowDown_Data = Object.freeze(
+    {
+        SlowCoefficient: 5,//慢多少倍
+        RestTime: 10,//慢多长时间
+        Role_Image: "role_right3",
+        Streak_Image: "role_streak3",
+    }
+)

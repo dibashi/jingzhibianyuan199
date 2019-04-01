@@ -47,8 +47,25 @@ cc.Class({
         this.lastBoxX = -72;
         this.lastBoxY = -72;
         this.obstacleProbability = 0.2;
-        this.dropSpeed = 1.0;
+        this.dropSpeed = 0.4;
 
+    },
+
+    slowDownDrop:function(slowCoefficient,restTime) {
+        this.slowSpeed = this.dropSpeed *slowCoefficient;
+        this.restTime = restTime;
+        this.unschedule(this.drop,this);
+        this.schedule(this.slowDrop,this.slowSpeed);
+
+    },
+
+    slowDrop:function() {
+        this.drop();
+        this.restTime -= this.slowSpeed;
+        if(this.restTime<=0) {
+            this.unschedule(this.slowDrop,this);
+            this.beginDrop();
+        }
     },
 
     beginDrop: function () {

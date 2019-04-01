@@ -222,12 +222,12 @@ cc.Class({
     skillClick: function () {
         switch (this.roleJS.roleType) {
             case RoleType.accelerateType:
-                console.log("加速");
+               
                 this.roleJS.accelerateAndPathfinding();
                 break;
 
             case RoleType.slowDownType:
-                console.log("减速");
+                this.boxesMgrJS.slowDownDrop(5,10);
                 break;
 
             default:

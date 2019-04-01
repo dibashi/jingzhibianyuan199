@@ -35,7 +35,7 @@ cc.Class({
 
         this.node.scaleX = 1;
 
-        this.roleType = RoleType.accelerateType;
+        this.roleType = RoleType.slowDownType;
     },
 
     // called every frame

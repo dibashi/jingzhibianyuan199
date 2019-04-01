@@ -36,11 +36,14 @@ const FootY = -4;
 //障碍物、道具 的偏移量
 const PropY = -20;
 
-//难度递增间隔
-const AddDifficultyInterval = 10;
 
-//最小跳跃和掉落的时间 
-const MinQuickly = 0.3;
-//每次减少的时间量
-const ReduceTime = 0.1;
 
+var RoleType = {
+    accelerateType: 0,//加速角色 根据次数进行加速 自动寻路
+    slowDownType: 1,//减速角色  减速掉落
+}
+
+//加速过程中的跳跃间隔
+const AccelerateInterval = 0.15
+//加速跳跃次数
+const AccelerateTotalCount = 50;

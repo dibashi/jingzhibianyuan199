@@ -1,3 +1,4 @@
+
 cc.Class({
     extends: cc.Component,
 
@@ -33,6 +34,8 @@ cc.Class({
         this.node.zIndex = 1;
 
         this.node.scaleX = 1;
+
+        this.roleType = RoleType.accelerateType;
     },
 
     // called every frame
@@ -71,7 +74,7 @@ cc.Class({
             var jumpY = aimY;
             var jumpX = aimX + (this.curDir === BoxDir.right ? -10 : 10);
             this.dizzyAnimation(function () {
-               
+
                 this.gameJS.openTouch();
             }.bind(this), jumpX, jumpY);
 
@@ -79,10 +82,7 @@ cc.Class({
             //悬崖，阵亡了
             var jumpY = aimY;
             var jumpX = aimX;
-            this.cliffJumping(function () {
-                this.gameJS.gameOver();
-
-            }.bind(this), aimX, aimY);
+            this.cliffJumping(this.deadCallback, aimX, aimY);
 
         }
 
@@ -109,7 +109,7 @@ cc.Class({
     },
 
     cliffJumping: function (callback, jumpX, jumpY) {
-       
+
         this.node.zIndex = -1;
         var jump1 = cc.jumpTo(JumpTime, cc.v2(jumpX, jumpY), this.jumpHeight, 1);
         var fadeout = cc.fadeOut(1.2);
@@ -117,31 +117,68 @@ cc.Class({
         moveBy.easing(cc.easeIn(0.6));
         this.node.runAction(cc.sequence(jump1, cc.spawn(fadeout, moveBy), cc.callFunc(callback, this)));
 
-        this.gameJS.closeTouch();
+        this.gameJS.gameOver();
         this.gameJS.node_streak.active = false;
 
     },
 
     dropAni: function () {
-        this.gameJS.closeTouch();
+        this.gameJS.gameOver();
         this.gameJS.node_streak.active = false;
         var fadeout = cc.fadeOut(1.2);
         var moveBy = cc.moveBy(1.2, cc.v2(0, -400));
         moveBy.easing(cc.easeIn(1.2));
-        this.node.runAction(cc.sequence(cc.spawn(fadeout, moveBy),cc.callFunc(function(){
+        this.node.runAction(cc.sequence(cc.spawn(fadeout, moveBy), cc.callFunc(this.deadCallback, this)));
 
-            this.gameJS.gameOver();
-        }.bind(this))));
+    },
 
+    deadCallback: function () {
+        cc.uiMgr.Push("GameOverFrame", {}, { add: false });
     },
 
     relive: function () {
         this.node.stopAllActions();
-
         this.node.opacity = 255;
-
         this.node.zIndex = 1;
+    },
+
+    accelerateAndPathfinding: function () {
+        this.unschedule(this._accelerateAndPathfinding, this);
+        this.accelerateCount = 0;
+        this.gameJS.closeTouch();
+        this.schedule(this._accelerateAndPathfinding, AccelerateInterval)
+    },
+
+    _accelerateAndPathfinding: function () {
+
+
+        let aimY = this.aimY + BoxY;
+        let aimX = this.aimX + BoxX;
+
+
+        var resultBoxType = this.boxesMgrJS.getJumpedInfo(aimX, aimY, this.aimX, this.aimY, this.curDir);
+
+
+        if (resultBoxType === BoxType.normalBox) {
+            this.changeDir(cc.v2(500,0));
+        } else if (resultBoxType === BoxType.blockBox) {
+            this.changeDir(cc.v2(0,0));
+
+        } else if (resultBoxType === BoxType.noneBox) {
+
+            this.changeDir(cc.v2(0,0));
+        }
+
+        this.jump();
+
+        this.accelerateCount++;
+        if(this.accelerateCount===AccelerateTotalCount) {
+            this.unschedule(this._accelerateAndPathfinding,this);
+            this.gameJS.openTouch();
+        }
+
     }
+
 
 
 });

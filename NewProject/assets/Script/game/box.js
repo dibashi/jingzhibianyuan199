@@ -102,6 +102,8 @@ cc.Class({
         let spawn = cc.spawn(moveBy, fadeOut);
         let seq = cc.sequence(spawn, cc.callFunc(callback));
         this.node.runAction(seq);
+
+        return roleDroped;
     },
 
     showFoot: function (curdir) {

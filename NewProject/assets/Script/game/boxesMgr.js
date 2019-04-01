@@ -47,7 +47,7 @@ cc.Class({
         this.lastBoxX = -72;
         this.lastBoxY = -72;
         this.obstacleProbability = 0.2;
-        this.dropSpeed = 0.8;
+        this.dropSpeed = 1.0;
 
     },
 
@@ -67,10 +67,13 @@ cc.Class({
 
         var toDropBoxes = this.boxQueue.pop();
         for (var i = 0; i < toDropBoxes.length; i++) {
-            toDropBoxes[i].getComponent("box").drop(function (dropedBox) {
-                //console.log("执行了！", this.boxPool.size());
+            var isRoleDroped = toDropBoxes[i].getComponent("box").drop(function (dropedBox) {
+                console.log("执行了！", this.boxPool.size());
                 this.boxPool.put(dropedBox);
             }.bind(this));
+            if (isRoleDroped) {
+                this.unschedule(this.drop, this);
+            }
         }
     },
 
@@ -130,7 +133,7 @@ cc.Class({
                 box.getChildByName("spr_box").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0" + curColorIndex);
                 box.getChildByName("spr_block").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0" + curColorIndex);
             }
-  
+
         }
 
     },

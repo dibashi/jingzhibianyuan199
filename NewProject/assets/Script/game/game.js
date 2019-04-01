@@ -42,6 +42,10 @@ cc.Class({
             default: null,
             type: cc.Node
         },
+        skillBtnNode: {
+            default: null,
+            type: cc.Node
+        }
     },
 
     // use this for initialization
@@ -59,6 +63,8 @@ cc.Class({
         this._hasStreak = true;
 
         this.currentScore = 0;
+
+        this.skillBtnNode.active = false;
     },
 
     start: function () {
@@ -90,6 +96,7 @@ cc.Class({
 
 
             case gameStates.starting:
+                this.skillBtnNode.active = true;
                 this.roleJS.changeDir(touchPosition);
                 this.roleJS.jump();
                 break;
@@ -136,16 +143,13 @@ cc.Class({
         this.roleJS.prepareStart();
         this.gameCamera.position = cc.v2(0, 0);
 
-        this.node_streak.position = cc.v2(this.roleJS.node.x, this.roleJS.node.y + 54);
-
         this.boxesMgrJS.initBoxes(function () {
             this._startGame();
 
         }.bind(this));
     },
     _startGame: function () {
-        console.log("camera pos",this.gameCamera.position);
-        console.log("role pos aim",this.role.position,this.roleJS.aimX,this.roleJS.aimY);
+
         this.openTouch();
         this.node_hint.active = true;
         this.role.active = true;
@@ -167,19 +171,20 @@ cc.Class({
         this.closeTouch();
         this.boxesMgrJS.pauseDrop();
 
-        cc.uiMgr.Push("GameOverFrame", {}, { add: false })
+        this.skillBtnNode.active = false;
         this.node_streak.active = false;
 
         this.currentGameState = gameStates.unStart;
     },
+
 
     reliveGame: function () {
         this.roleJS.relive();
 
         var boxqueue = this.boxesMgrJS.boxQueue;
         var len = boxqueue.length;
-        this.role.x = boxqueue[len-1][0].x;
-        this.role.y = boxqueue[len-1][0].y;
+        this.role.x = boxqueue[len - 1][0].x;
+        this.role.y = boxqueue[len - 1][0].y;
         this.roleJS.aimX = this.role.x;
         this.roleJS.aimY = this.role.y;
         this.gameCamera.x = this.roleJS.aimX;
@@ -210,6 +215,23 @@ cc.Class({
                 this.node_streak.position = cc.v2(this.roleJS.node.x, this.roleJS.node.y + 54);
             }
 
+        }
+    },
+
+
+    skillClick: function () {
+        switch (this.roleJS.roleType) {
+            case RoleType.accelerateType:
+                console.log("加速");
+                this.roleJS.accelerateAndPathfinding();
+                break;
+
+            case RoleType.slowDownType:
+                console.log("减速");
+                break;
+
+            default:
+                break;
         }
     }
 

@@ -23,7 +23,7 @@ cc.Class({
 
         this.gameJS = cc.find('Canvas/game').getComponent('game');
         this.roleJS = cc.find('Canvas/game/role').getComponent('role');
-        this.alive = false;
+        //this.alive = false;
 
         this.boxType = null;//box的类型
 
@@ -34,8 +34,8 @@ cc.Class({
 
     },
 
-    initBox: function (countBox, aimPos, dir, boxType) {
-        this.alive = true;
+    initBox: function (countBox, aimPos, dir, boxType,colorIndex) {
+        //this.alive = true;
         this.node.zIndex = MaxZIndexOfBox - countBox;
         if (countBox > InitBoxCount) {
             this.node.setPosition(cc.v2(aimPos.x, aimPos.y + BoxY * 2));
@@ -76,10 +76,17 @@ cc.Class({
             debugger;
         }
 
+        this.changeColor(colorIndex);
+
+    },
+
+    changeColor:function(colorIndex) {
+        this.node.getChildByName("spr_box").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0"+colorIndex);
+        this.node.getChildByName("spr_block").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0"+colorIndex);
     },
 
     drop: function (callback) {
-        this.alive = false;
+    
         this.node.stopAllActions();
         //要判断角色是否在这里
         var roleDroped = this.checkRoleOnThisBox();
@@ -109,8 +116,8 @@ cc.Class({
         let dis = cc.v2(this.roleJS.aimX - this.node.x, this.roleJS.aimY - this.node.y).magSqr();
         if (dis < 100) {
             //角色被撞倒，有动作的回调会执行，要把动作咔嚓掉。
-            this.roleJS.node.stopAllActions();
-            this.gameJS.gameOver();
+            // this.roleJS.node.stopAllActions();
+            // this.gameJS.gameOver();
 
             return true;
         }

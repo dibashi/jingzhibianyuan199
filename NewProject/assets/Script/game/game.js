@@ -1,7 +1,7 @@
 
 var gameStates = {
     unStart: 0,//游戏未开始
-    showing: 1,//游戏正准备开始，动画结束才真正开
+    preparing: 1,//游戏准备开始
     starting: 3,//游戏在进行中
     paused: 4//游戏暂停
 }
@@ -34,16 +34,20 @@ cc.Class({
             type: cc.Node
         },
 
-        node_streak:{
-            default:null,
-            type:cc.Node
-        }
+        node_streak: {
+            default: null,
+            type: cc.Node
+        },
+        node_hint: {
+            default: null,
+            type: cc.Node
+        },
     },
 
     // use this for initialization
     onLoad: function () {
 
-        //游戏当前的状态
+        // //游戏当前的状态
         this.currentGameState = gameStates.unStart;
 
         //游戏内的玩家角色脚本
@@ -58,7 +62,12 @@ cc.Class({
     },
 
     start: function () {
-        this.openTouch();
+
+        Notification.on("hallcallBack", function () {
+
+            this.boxesMgrJS.prepareStart();
+
+        }.bind(this), this);
     },
 
     openTouch: function () {
@@ -69,16 +78,20 @@ cc.Class({
         var touchPosition = touch.getLocation();
 
         switch (this.currentGameState) {
-            case gameStates.unStart:
-                this.currentGameState = gameStates.showing;
-                this.showingGame();
+
+            case gameStates.preparing:
+
+                this.boxesMgrJS.beginDrop();
+                this.currentGameState = gameStates.starting;
+                this.node_hint.active = false;
+                this.roleJS.changeDir(touchPosition);
+                this.roleJS.jump();
                 break;
 
-            case gameStates.showing:
-                break;
+
             case gameStates.starting:
-                //游戏已经开始，点击屏幕是改变方向
                 this.roleJS.changeDir(touchPosition);
+                this.roleJS.jump();
                 break;
             case gameStates.paused:
 
@@ -87,7 +100,7 @@ cc.Class({
     },
 
     closeTouch: function () {
-        this.node.off(cc.Node.EventType.TOUCH_END, this.gameStateSwitch, this);
+        this.node.off(cc.Node.EventType.TOUCH_START, this.gameStateSwitch, this);
     },
 
     hasFoot: function () {
@@ -115,79 +128,88 @@ cc.Class({
 
     },
 
-    showingGame: function () {
-        let self = this;
-        //1发送事件通知ui层做动画，ui层将动画做完给我回调，然后改变游戏状态
-        //2发送事件通知boxesMgr做初始生成动画
-        //以上双层回调后执行以下代码
-        console.log("showing game");
-        //现在直接执行将来ui回调后的代码
-
-        this.startGame();
-    },
 
     startGame: function () {
 
-       
         this.currentScore = 0;
         this.boxesMgrJS.prepareStart();
         this.roleJS.prepareStart();
-        this.gameCamera.position = cc.v2(0,0);
-        
-        this.boxesMgrJS.initBoxes(function() {
+        this.gameCamera.position = cc.v2(0, 0);
+
+        this.node_streak.position = cc.v2(this.roleJS.node.x, this.roleJS.node.y + 54);
+
+        this.boxesMgrJS.initBoxes(function () {
             this._startGame();
+
         }.bind(this));
     },
     _startGame: function () {
-        this.currentGameState = gameStates.starting;
+        console.log("camera pos",this.gameCamera.position);
+        console.log("role pos aim",this.role.position,this.roleJS.aimX,this.roleJS.aimY);
+        this.openTouch();
+        this.node_hint.active = true;
+        this.role.active = true;
+        this.currentGameState = gameStates.preparing;
 
-        this.roleJS.beginJump();
-        this.boxesMgrJS.beginDrop();
+
+        if (this._hasStreak) {
+            this.node_streak.position = cc.v2(this.roleJS.node.x, this.roleJS.node.y + 54);
+            this.node_streak.active = true;
+        }
+    },
+
+    addDifficulty: function () {
+        this.roleJS.reduceJumpTime();
+        this.boxesMgrJS.reduceDropTime();
     },
 
     gameOver: function () {
-        this.roleJS.pauseJump();
+        this.closeTouch();
         this.boxesMgrJS.pauseDrop();
-        this.debugUI.active = true;
+
+        cc.uiMgr.Push("GameOverFrame", {}, { add: false })
+        this.node_streak.active = false;
 
         this.currentGameState = gameStates.unStart;
     },
 
     reliveGame: function () {
         this.roleJS.relive();
-        this._startGame();
 
+        var boxqueue = this.boxesMgrJS.boxQueue;
+        var len = boxqueue.length;
+        this.role.x = boxqueue[len-1][0].x;
+        this.role.y = boxqueue[len-1][0].y;
+        this.roleJS.aimX = this.role.x;
+        this.roleJS.aimY = this.role.y;
+        this.gameCamera.x = this.roleJS.aimX;
+        this.gameCamera.y = this.roleJS.aimY;
+
+        this._startGame();
     },
 
 
     lateUpdate(dt) {
         if (this.currentGameState === gameStates.starting) {
             var dx = this.roleJS.aimX - this.gameCamera.x;
+            var dy = this.roleJS.aimY - this.gameCamera.y;
 
-            let moveX = BoxX * dt / (this.roleJS.jumpSpeed);
-            let moveY = BoxY * dt / (this.roleJS.jumpSpeed);
-
-            if (moveY + this.gameCamera.y > this.roleJS.aimY) {
-                moveY = this.roleJS.aimY - this.gameCamera.y;
+            let moveX = 0;
+            let moveY = 0;
+            if (dx !== 0) {
+                moveX = dx * dt / CameraFollewTime;
             }
 
-            if (dx > 0) {
-                if (moveX + this.gameCamera.x > this.roleJS.aimX) {
-                    moveX = this.roleJS.aimX - this.gameCamera.x;
-                }
-            } else {
-                moveX *= -1;
-                if (moveX + this.gameCamera.x < this.roleJS.aimX) {
-                    moveX = this.roleJS.aimX - this.gameCamera.x;
-                }
+            if (dy != 0) {
+                moveY = dy * dt / CameraFollewTime;
             }
 
             this.gameCamera.x += moveX;
             this.gameCamera.y += moveY;
-            if(this._hasStreak) {
+            if (this._hasStreak) {
                 this.node_streak.position = cc.v2(this.roleJS.node.x, this.roleJS.node.y + 54);
             }
-            
+
         }
     }
 

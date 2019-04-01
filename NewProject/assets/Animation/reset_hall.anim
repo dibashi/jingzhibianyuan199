@@ -1,0 +1,149 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "reset_hall",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "paths": {
+      "light": {
+        "props": {
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            }
+          ]
+        }
+      },
+      "startBtn": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            }
+          ]
+        }
+      },
+      "tubiao_biankuanglt": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            }
+          ]
+        },
+        "comps": {
+          "cc.Widget": {
+            "top": [
+              {
+                "frame": 0,
+                "value": 20
+              }
+            ],
+            "left": [
+              {
+                "frame": 0,
+                "value": 20
+              }
+            ]
+          }
+        }
+      },
+      "tubiao_biankuangrt": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            }
+          ]
+        },
+        "comps": {
+          "cc.Widget": {
+            "top": [
+              {
+                "frame": 0,
+                "value": 20
+              }
+            ],
+            "right": [
+              {
+                "frame": 0,
+                "value": 20
+              }
+            ]
+          }
+        }
+      },
+      "tubiao_biankuangld": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            }
+          ]
+        },
+        "comps": {
+          "cc.Widget": {
+            "left": [
+              {
+                "frame": 0,
+                "value": 20
+              }
+            ],
+            "bottom": [
+              {
+                "frame": 0,
+                "value": 20
+              }
+            ]
+          }
+        }
+      },
+      "tubiao_biankuangrd": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            }
+          ]
+        },
+        "comps": {
+          "cc.Widget": {
+            "right": [
+              {
+                "frame": 0,
+                "value": 20
+              }
+            ],
+            "bottom": [
+              {
+                "frame": 0,
+                "value": 20
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "events": []
+}

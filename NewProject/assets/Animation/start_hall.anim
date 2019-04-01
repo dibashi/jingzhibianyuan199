@@ -1,0 +1,217 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "start",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.5,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": "1",
+  "curveData": {
+    "paths": {
+      "light": {
+        "props": {
+          "scale": [
+            {
+              "frame": 0.3333333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 1.3333333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0,
+                "y": 1
+              }
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0.3333333333333333,
+              "value": 255
+            },
+            {
+              "frame": 1.3333333333333333,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "node_box": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                0,
+                -155
+              ]
+            },
+            {
+              "frame": 1.5,
+              "value": [
+                0,
+                0
+              ]
+            }
+          ]
+        }
+      },
+      "particle": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            },
+            {
+              "frame": 0.5,
+              "value": false
+            }
+          ]
+        }
+      },
+      "tubiao_biankuanglt": {
+        "comps": {
+          "cc.Widget": {
+            "left": [
+              {
+                "frame": 0,
+                "value": 20
+              },
+              {
+                "frame": 0.5,
+                "value": -80
+              }
+            ],
+            "top": [
+              {
+                "frame": 0,
+                "value": 20
+              },
+              {
+                "frame": 0.5,
+                "value": -80
+              }
+            ]
+          }
+        }
+      },
+      "tubiao_biankuangrt": {
+        "comps": {
+          "cc.Widget": {
+            "top": [
+              {
+                "frame": 0,
+                "value": 20
+              },
+              {
+                "frame": 0.5,
+                "value": -80
+              }
+            ],
+            "right": [
+              {
+                "frame": 0,
+                "value": 20
+              },
+              {
+                "frame": 0.5,
+                "value": -80
+              }
+            ]
+          }
+        }
+      },
+      "tubiao_biankuangld": {
+        "comps": {
+          "cc.Widget": {
+            "left": [
+              {
+                "frame": 0,
+                "value": 20
+              },
+              {
+                "frame": 0.5,
+                "value": -80
+              }
+            ],
+            "bottom": [
+              {
+                "frame": 0,
+                "value": 20
+              },
+              {
+                "frame": 0.5,
+                "value": -80
+              }
+            ]
+          }
+        }
+      },
+      "tubiao_biankuangrd": {
+        "comps": {
+          "cc.Widget": {
+            "right": [
+              {
+                "frame": 0,
+                "value": 20
+              },
+              {
+                "frame": 0.5,
+                "value": -80
+              }
+            ],
+            "bottom": [
+              {
+                "frame": 0,
+                "value": 20
+              },
+              {
+                "frame": 0.5,
+                "value": -80
+              }
+            ]
+          }
+        }
+      },
+      "startBtn": {
+        "props": {
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 0.3333333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.1,
+                "y": 1
+              }
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            },
+            {
+              "frame": 0.3333333333333333,
+              "value": 0
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

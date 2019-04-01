@@ -1,0 +1,67 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "reset_root",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "paths": {
+      "hero_box": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                0,
+                -155
+              ]
+            }
+          ]
+        }
+      },
+      "node_box": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -247,
+                -86
+              ]
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            }
+          ]
+        }
+      },
+      "title": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            }
+          ]
+        }
+      },
+      "shadow": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 68
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

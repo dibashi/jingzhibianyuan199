@@ -36,6 +36,8 @@ cc.Class({
         this.node.scaleX = 1;
 
         this.roleType = RoleType.slowDownType;
+
+        this.unscheduleAllCallbacks();
     },
 
     // called every frame
@@ -156,7 +158,7 @@ cc.Class({
         let aimX = this.aimX + BoxX;
 
 
-        var resultBoxType = this.boxesMgrJS.getJumpedInfo(aimX, aimY, this.aimX, this.aimY, this.curDir);
+        var resultBoxType = this.boxesMgrJS.getJumpedInfo(aimX, aimY);
 
 
         if (resultBoxType === BoxType.normalBox) {

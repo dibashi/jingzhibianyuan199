@@ -49,21 +49,22 @@ cc.Class({
         this.obstacleProbability = 0.2;
         this.dropSpeed = 0.4;
 
+        this.unscheduleAllCallbacks();
     },
 
-    slowDownDrop:function(slowCoefficient,restTime) {
-        this.slowSpeed = this.dropSpeed *slowCoefficient;
+    slowDownDrop: function (slowCoefficient, restTime) {
+        this.slowSpeed = this.dropSpeed * slowCoefficient;
         this.restTime = restTime;
-        this.unschedule(this.drop,this);
-        this.schedule(this.slowDrop,this.slowSpeed);
+        this.unschedule(this.drop, this);
+        this.schedule(this.slowDrop, this.slowSpeed);
 
     },
 
-    slowDrop:function() {
+    slowDrop: function () {
         this.drop();
         this.restTime -= this.slowSpeed;
-        if(this.restTime<=0) {
-            this.unschedule(this.slowDrop,this);
+        if (this.restTime <= 0) {
+            this.unschedule(this.slowDrop, this);
             this.beginDrop();
         }
     },
@@ -179,10 +180,11 @@ cc.Class({
 
         for (let i = 0, len = this.node.children.length; i < len; i++) {
             let box = this.node.children[i];
-
-            if (Math.abs(curY - box.y) < 10 && Math.abs(curX - box.x) < 10 && this.gameJS.hasFoot()) {
-                let boxJS = box.getComponent('box');
-                boxJS.showFoot(curdir);
+            if (curX !== undefined) {
+                if (Math.abs(curY - box.y) < 10 && Math.abs(curX - box.x) < 10 && this.gameJS.hasFoot()) {
+                    let boxJS = box.getComponent('box');
+                    boxJS.showFoot(curdir);
+                }
             }
 
             let dis = cc.v2(box.x - aimX, box.y - aimY).magSqr();

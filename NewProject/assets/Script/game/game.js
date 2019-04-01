@@ -181,17 +181,31 @@ cc.Class({
     reliveGame: function () {
         this.roleJS.relive();
 
-        var boxqueue = this.boxesMgrJS.boxQueue;
-        var len = boxqueue.length;
-        this.role.x = boxqueue[len - 1][0].x;
-        this.role.y = boxqueue[len - 1][0].y;
-        this.roleJS.aimX = this.role.x;
-        this.roleJS.aimY = this.role.y;
+        var resultBoxType = this.boxesMgrJS.getJumpedInfo(this.roleJS.aimX, this.roleJS.aimY);
+
+
+        if (resultBoxType === BoxType.normalBox) {
+            //不用变 原地即可
+        } else {
+            var rbt = this.boxesMgrJS.getJumpedInfo(this.roleJS.aimX + BoxX, this.roleJS.aimY + BoxY);
+            if (rbt === BoxType.normalBox) {
+                this.roleJS.aimX += BoxX;
+                this.roleJS.aimY += BoxY;
+            } else {
+                this.roleJS.aimX -= BoxX;
+                this.roleJS.aimY += BoxY;
+            }
+        }
+
+
+        this.role.x = this.roleJS.aimX;
+        this.role.y = this.roleJS.aimY;
         this.gameCamera.x = this.roleJS.aimX;
         this.gameCamera.y = this.roleJS.aimY;
 
         this._startGame();
     },
+
 
 
     lateUpdate(dt) {
@@ -222,12 +236,12 @@ cc.Class({
     skillClick: function () {
         switch (this.roleJS.roleType) {
             case RoleType.accelerateType:
-               
+
                 this.roleJS.accelerateAndPathfinding();
                 break;
 
             case RoleType.slowDownType:
-                this.boxesMgrJS.slowDownDrop(5,10);
+                this.boxesMgrJS.slowDownDrop(5, 10);
                 break;
 
             default:

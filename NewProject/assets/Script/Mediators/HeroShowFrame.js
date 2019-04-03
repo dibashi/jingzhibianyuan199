@@ -16,6 +16,7 @@ export default class HeroShowFrame extends cc.Component {
         this.nodeN = {}
         this.nodeN.bg = this.node.getChildByName("bg")
         this.nodeN.role = this.node.getChildByName("role")
+        this.nodeN.floor = this.node.getChildByName("floor")
         this.nodeN.skillIcon = this.node.getChildByName("skillBg").getChildByName("icon")
         this.nodeN.skillName = this.node.getChildByName("skillBg").getChildByName("skillName").getComponent(cc.Label)
         this.nodeN.skillDesc = this.node.getChildByName("skillBg").getChildByName("skillDesc").getComponent(cc.Label)
@@ -65,6 +66,7 @@ export default class HeroShowFrame extends cc.Component {
         Notification.on("ItemModuleUpdate",function(){
             this.RoleChange(id)
         },this)
+        cc.tools.changeSprite(this.nodeN.floor,"floor/zz0"+cc.moduleMgr.tempModule.module._bg_Color)
     }
     RoleChange(id){
         let roleConf = cc.config("role")

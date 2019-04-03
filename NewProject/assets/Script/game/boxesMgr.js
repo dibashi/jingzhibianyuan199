@@ -86,10 +86,23 @@ cc.Class({
 
     drop: function () {
 
+        //console.log("执行了！", this.boxPool.size());
+
         var toDropBoxes = this.boxQueue.pop();
 
+        //身后格子数
+        var count = 0;
+        for (var i = this.boxQueue.length - 1; i >= 0; i--) {
+            
+            if (this.boxQueue[i][0].getComponent("box").checkRoleOnThisBox() === true) {
+                //console.log("角色身后的格子数量为--->  ", count);
+                break;
+            } else {
+                count++;
+            }
+        }
+
         var isRoleDroped0 = toDropBoxes[0].getComponent("box").drop(function (dropedBox) {
-            //console.log("执行了！", this.boxPool.size());
 
             if (!isRoleDroped0) {
                 this.boxPool.put(dropedBox);
@@ -167,21 +180,19 @@ cc.Class({
         }
 
         if (this.generatedBox > 0 && this.generatedBox % 10 === 0) {
-            
+
             if (this.dropSpeed > BoxLimitDropTime) {
                 this.dropSpeed -= 0.02;
                 if (this.dropSpeed < BoxLimitDropTime) {
                     this.dropSpeed = BoxLimitDropTime;
                 }
-                if(cc.director.getScheduler().isScheduled(this.drop,this)) {
-                    console.log("this.drop定时器是开启的！！！")
-                    this.unschedule(this.drop,this);
+                if (cc.director.getScheduler().isScheduled(this.drop, this)) {
+                    //console.log("this.drop定时器是开启的！！！")
+                    this.unschedule(this.drop, this);
                     this.beginDrop();
                 } else {
-                    console.log("this.drop定时未开启！！！");
+                    //console.log("this.drop定时未开启！！！");
                 }
-
-
             }
         }
 

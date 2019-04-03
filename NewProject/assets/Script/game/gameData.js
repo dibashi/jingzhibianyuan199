@@ -80,7 +80,7 @@ const Role_Accelerate_Data = Object.freeze(
 
 const Role_SlowDown_Data = Object.freeze(
     {
-        SlowCoefficient: 5,//慢多少倍 现在修改为 多长时间 不在关联当前速度
+        SlowCoefficient: 5,//慢多长时间 不在关联当前速度
         RestTime: 10,//慢多长时间
         Role_Image: "role_right3",
         Streak_Image: "role_streak3",

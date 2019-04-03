@@ -10,9 +10,36 @@
   },
   "2001": {
     "id": 2001,
-    "type": 0.0,
-    "type_desc": "",
-    "name": "",
+    "type": 2,
+    "type_desc": "物品",
+    "name": "炸天2号",
+    "icon_type": 0.0,
+    "icon": "",
+    "desc": ""
+  },
+  "2002": {
+    "id": 2002,
+    "type": 2,
+    "type_desc": "物品",
+    "name": "炸天3号",
+    "icon_type": 0.0,
+    "icon": "",
+    "desc": ""
+  },
+  "2003": {
+    "id": 2003,
+    "type": 2,
+    "type_desc": "物品",
+    "name": "炸天4号",
+    "icon_type": 0.0,
+    "icon": "",
+    "desc": ""
+  },
+  "2004": {
+    "id": 2004,
+    "type": 2,
+    "type_desc": "物品",
+    "name": "炸天5号",
     "icon_type": 0.0,
     "icon": "",
     "desc": ""

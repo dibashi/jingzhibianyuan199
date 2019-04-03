@@ -26,6 +26,15 @@ export default class PlayerProxy{
             cc.sys.localStorage.setItem('PlayerModule', JSON.stringify(this.DataModule._playerData));
         }
     }
+    GetRoleSkill(id){
+        let roleConf = cc.config("role")
+        let skilConf = cc.config("skills")
+        if (roleConf[id] && skilConf[roleConf[id].skills]){
+            let conf = skilConf[roleConf[id].skills]
+            return {cd:conf.cd,icon:conf.icon,duration:conf.duration}
+        }
+        return {}
+    }
     UpdateTime(time){
         this.module.time = time
         cc.sys.localStorage.setItem('PlayerModule', JSON.stringify(this.DataModule._playerData));

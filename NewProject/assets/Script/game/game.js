@@ -98,6 +98,7 @@ cc.Class({
             case gameStates.starting:
                 if (this.roleJS.roleType !== RoleType.normalType) {
                     this.skillBtnNode.active = true;
+                    this._skillActive = true;
                 }
 
                 this.roleJS.changeDir(touchPosition);
@@ -192,7 +193,7 @@ cc.Class({
             this.gameCamera.y = this.roleJS.aimY;
             this._startGame();
         } else {
-       
+
             this.role.opacity = 0;
             var fadeIn = cc.fadeIn(1.2);
             var moveBy = cc.moveBy(1.2, cc.v2(0, 400));
@@ -203,10 +204,10 @@ cc.Class({
             var fadeIn1 = cc.fadeIn(1.2);
             var moveBy1 = cc.moveBy(1.2, cc.v2(0, 400));
             moveBy1.easing(cc.easeOut(1.2));
-          
-            this.boxesMgrJS.boxQueue[this.boxesMgrJS.boxQueue.length-1][0].runAction(cc.spawn(fadeIn1, moveBy1));
-        
-        
+
+            this.boxesMgrJS.boxQueue[this.boxesMgrJS.boxQueue.length - 1][0].runAction(cc.spawn(fadeIn1, moveBy1));
+
+
         }
 
     },
@@ -237,22 +238,42 @@ cc.Class({
         }
     },
 
+    skillComplete: function () {
+        console.log("技能好了！！！！！！！！！！");
+        this._skillActive = true;
+    },
 
     skillClick: function () {
+
+        if(this._skillActive === false) {
+            return ;
+        }
+
+
+        let id = cc.moduleMgr.playerModule.module.Role
+        let skillconf = cc.moduleMgr.playerModule.GetRoleSkill(id);
+        // {cd:conf.cd 
+
+        // ,icon:conf.icon,duration:conf.duration}
+
         switch (this.roleJS.roleType) {
             case RoleType.accelerateType:
 
-                this.roleJS.accelerateAndPathfinding();
+                this.roleJS.accelerateAndPathfinding(0.15, Math.ceil(skillconf.duration / 0.15));
                 Notification.emit("skillShowTime");
-
+                this._skillActive = false;
+                this.scheduleOnce(this.skillComplete, skillconf.cd);
                 break;
 
             case RoleType.slowDownType:
-                this.boxesMgrJS.slowDownDrop(Role_SlowDown_Data.SlowCoefficient, Role_SlowDown_Data.RestTime);
+                this.boxesMgrJS.slowDownDrop(5, skillconf.duration);
                 Notification.emit("skillShowTime");
+                this._skillActive = false;
+                this.scheduleOnce(this.skillComplete, skillconf.cd);
                 break;
 
             default:
+                debugger;
                 break;
         }
     }

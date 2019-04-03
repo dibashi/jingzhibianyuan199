@@ -4,41 +4,47 @@
     "name": "无",
     "icon": "",
     "desc": "无",
-    "cd": 0
+    "cd": 0,
+    "duration": 0
   },
   "1001": {
     "id": 1001,
-    "name": "时间扭曲",
-    "icon": "still",
-    "desc": "操控时间使其静止",
-    "cd": 30
-  },
-  "1002": {
-    "id": 1002,
     "name": "健步如飞",
     "icon": "acceleration",
     "desc": "穿上耐克跑鞋，体验飞一般的感觉",
-    "cd": 10
+    "cd": 10,
+    "duration": 5
+  },
+  "1002": {
+    "id": 1002,
+    "name": "时间扭曲",
+    "icon": "still",
+    "desc": "操控时间使其静止",
+    "cd": 30,
+    "duration": 20
   },
   "1003": {
     "id": 1003,
     "name": "？？？",
     "icon": "",
     "desc": "？？？",
-    "cd": 0
+    "cd": 0,
+    "duration": 0
   },
   "1004": {
     "id": 1004,
     "name": "？？？",
     "icon": "",
     "desc": "？？？",
-    "cd": 0
+    "cd": 0,
+    "duration": 0
   },
   "1005": {
     "id": 1005,
     "name": "？？？",
     "icon": "",
     "desc": "？？？",
-    "cd": 0
+    "cd": 0,
+    "duration": 0
   }
 }

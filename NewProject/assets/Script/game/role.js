@@ -22,7 +22,7 @@ cc.Class({
 
 
         this.jumpHeight = 50;
-        this.prepareStart();
+        //this.prepareStart();
 
     },
 
@@ -57,25 +57,32 @@ cc.Class({
     settingType: function () {
         this.boxesMgrJS = cc.find('Canvas/game/boxes_mgr').getComponent('boxesMgr');
         this.gameJS = cc.find('Canvas/game').getComponent('game');
-
-        this.roleType = RoleType.slowDownType;
-        var roleData = null;
-        switch (this.roleType) {
-            case RoleType.normalType:
-                roleData = Role_Normal_Data;
-                break;
-
-            case RoleType.accelerateType:
-                roleData = Role_Accelerate_Data;
-                break;
-
-            case RoleType.slowDownType:
-                roleData = Role_SlowDown_Data;
-                break;
-
+        //------------------------------------------------↓↓↓↓↓↓↓角色衣服和拖尾修改↓↓↓↓↓↓↓↓↓-----------------------------------------------
+        let roleConf = cc.config("role")
+        if (roleConf[cc.moduleMgr.playerModule.module.Role]){
+            this.roleType = roleConf[cc.moduleMgr.playerModule.module.Role].skills
+            cc.tools.changeSprite(this.node.getChildByName("spr_role"),"role/"+ roleConf[cc.moduleMgr.playerModule.module.Role].Role)
+            cc.tools.changeMotionStreak(this.gameJS.node_streak,"streak/"+roleConf[cc.moduleMgr.playerModule.module.Role].Streak)
         }
-        this.node.getChildByName("spr_role").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf(roleData.Role_Image);
-        this.gameJS.node_streak.getComponent(cc.MotionStreak).texture = this.streak_textures[this.roleType];
+        //--------------------------------------------------------------------------------------------------------------------------------
+        // this.roleType = RoleType.slowDownType;
+        // var roleData = null;
+        // switch (this.roleType) {
+        //     case RoleType.normalType:
+        //         roleData = Role_Normal_Data;
+        //         break;
+
+        //     case RoleType.accelerateType:
+        //         roleData = Role_Accelerate_Data;
+        //         break;
+
+        //     case RoleType.slowDownType:
+        //         roleData = Role_SlowDown_Data;
+        //         break;
+
+        // }
+        //this.node.getChildByName("spr_role").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf(roleData.Role_Image);
+        //this.gameJS.node_streak.getComponent(cc.MotionStreak).texture = this.streak_textures[this.roleType];
     },
 
     // called every frame
@@ -111,9 +118,15 @@ cc.Class({
             this.aimX = aimX;
             this.aimY = aimY;
 
-            this.jumpAinmation();
+            this.jumpAinmation(function() {
+               
+            });
             this.boxesMgrJS.createBox();
-
+            if(resultBoxJS.coinType!==CoinType.noneCoin) {
+                // console.log("金币增加--->",resultBoxJS.coinType);
+                resultBoxJS.spr_prop.active = false;
+                cc.moduleMgr.itemModule.GameGoldAdd(resultBoxJS.coinType);
+            }
             cc.moduleMgr.tempModule.module.score += 1
 
         } else if (resultBoxJS.boxType === BoxType.blockBox) {

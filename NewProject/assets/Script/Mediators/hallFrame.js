@@ -28,7 +28,11 @@ export default class hallFrame extends cc.Component {
         this.nodeN = {}
         this.nodeN.startBtn = this.node.getChildByName("startBtn").getComponent("ClickEventListener")
         this.nodeN.roleBtn = this.node.getChildByName("roleBtn").getComponent("ClickEventListener")
-
+        this.nodeN.goldBtn = this.node.getChildByName("gold").getComponent("ClickEventListener")
+        this.nodeN.gold = this.node.getChildByName("gold").getChildByName("num").getComponent(cc.Label)
+        this.nodeN.score = this.node.getChildByName("score").getChildByName("num").getComponent(cc.Label)
+        this.nodeN.score.string = cc.moduleMgr.playerModule.module.OldScore
+        this.nodeN.gold.string = cc.moduleMgr.itemModule.ItemCount(1000)
         this.nodeN.startBtn.onClick = function(){
             //cc.moduleMgr.tempModule.randomBgColor()
             self.node.getComponent(cc.Animation).play("start_hall")
@@ -38,10 +42,23 @@ export default class hallFrame extends cc.Component {
             let id = cc.moduleMgr.playerModule.module.Role
             cc.uiMgr.Push("HeroShowFrame",{id:id})
         }
+        this.nodeN.goldBtn.onClick = function(){
+            // let id = 1000
+            // let count = cc.moduleMgr.itemModule.ItemCount(id) + 1
+            // cc.moduleMgr.itemModule.AddOrUpdateDatas([{id:id,count:count}])
+            cc.moduleMgr.itemModule.itemAddCount(1000,1)
+        }
         Notification.on("hallcallBack",function(arg){
             this.node.getComponent(cc.Animation).play("reset_hall")
             this.node.parent.getComponent(cc.Animation).play("reset_root")
-            this.node.parent.active = true
+            this.nodeN.score.string = cc.moduleMgr.playerModule.module.OldScore
+            //this.node.parent.active = true
+        },this)
+        Notification.on("TempModuleScoreUpdate",function(arg){
+            this.nodeN.score.string = cc.moduleMgr.tempModule.module.score
+        },this)
+        Notification.on("ItemModuleUpdate",function(){
+            this.nodeN.gold.string = cc.moduleMgr.itemModule.ItemCount(1000)
         },this)
         Notification.on("UIMgr_pop",function(data){
             self.node.getChildByName("mask").active = data.length > 0 ? true : false

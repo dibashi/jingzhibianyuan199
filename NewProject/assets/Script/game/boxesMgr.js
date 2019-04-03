@@ -49,11 +49,13 @@ cc.Class({
         this.obstacleProbability = 0.2;
         this.dropSpeed = 0.4;
 
+
         this.unscheduleAllCallbacks();
     },
 
     slowDownDrop: function (slowCoefficient, restTime) {
-        this.slowSpeed = this.dropSpeed * slowCoefficient;
+        //this.slowSpeed = this.dropSpeed * slowCoefficient;
+        this.slowSpeed = slowCoefficient;
         this.restTime = restTime;
         this.unschedule(this.drop, this);
         this.schedule(this.slowDrop, this.slowSpeed);
@@ -79,7 +81,7 @@ cc.Class({
 
     pauseDrop: function () {
         this.unschedule(this.drop, this);
-        this.unschedule(this.slowDrop,this);
+        this.unschedule(this.slowDrop, this);
     },
 
     drop: function () {
@@ -88,7 +90,7 @@ cc.Class({
 
         var isRoleDroped0 = toDropBoxes[0].getComponent("box").drop(function (dropedBox) {
             //console.log("执行了！", this.boxPool.size());
-            
+
             if (!isRoleDroped0) {
                 this.boxPool.put(dropedBox);
             }
@@ -152,7 +154,7 @@ cc.Class({
         this.lastBoxX = pos.x;
         this.lastBoxY = pos.y;
 
-        if (this.generatedBox > 0 & this.generatedBox % 20 === 0) {
+        if (this.generatedBox > 0 && this.generatedBox % 20 === 0) {
             //云龙那边监听到数据改变会自动修改背景
             curColorIndex = cc.moduleMgr.tempModule.randomBgColor();
 
@@ -162,6 +164,25 @@ cc.Class({
                 box.getChildByName("spr_block").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0" + curColorIndex);
             }
 
+        }
+
+        if (this.generatedBox > 0 && this.generatedBox % 10 === 0) {
+            
+            if (this.dropSpeed > BoxLimitDropTime) {
+                this.dropSpeed -= 0.02;
+                if (this.dropSpeed < BoxLimitDropTime) {
+                    this.dropSpeed = BoxLimitDropTime;
+                }
+                if(cc.director.getScheduler().isScheduled(this.drop,this)) {
+                    console.log("this.drop定时器是开启的！！！")
+                    this.unschedule(this.drop,this);
+                    this.beginDrop();
+                } else {
+                    console.log("this.drop定时未开启！！！");
+                }
+
+
+            }
         }
 
     },

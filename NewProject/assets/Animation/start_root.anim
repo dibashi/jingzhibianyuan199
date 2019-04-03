@@ -3,7 +3,7 @@
   "_name": "start_root",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 1.5,
+  "_duration": 2,
   "sample": 60,
   "speed": 1,
   "wrapMode": "1",
@@ -266,6 +266,20 @@
                 0,
                 0
               ]
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            },
+            {
+              "frame": 1.5,
+              "value": 255
+            },
+            {
+              "frame": 2,
+              "value": 0
             }
           ]
         }

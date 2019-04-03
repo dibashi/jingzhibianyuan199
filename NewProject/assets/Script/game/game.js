@@ -243,10 +243,13 @@ cc.Class({
             case RoleType.accelerateType:
 
                 this.roleJS.accelerateAndPathfinding();
+                Notification.emit("skillShowTime");
+
                 break;
 
             case RoleType.slowDownType:
                 this.boxesMgrJS.slowDownDrop(Role_SlowDown_Data.SlowCoefficient, Role_SlowDown_Data.RestTime);
+                Notification.emit("skillShowTime");
                 break;
 
             default:

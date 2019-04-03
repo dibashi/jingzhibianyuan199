@@ -36,6 +36,12 @@
               "frame": 0,
               "value": 255
             }
+          ],
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
           ]
         }
       },
@@ -159,6 +165,12 @@
             {
               "frame": 0,
               "value": 255
+            }
+          ],
+          "active": [
+            {
+              "frame": 0,
+              "value": true
             }
           ]
         }

@@ -26,14 +26,6 @@ export default class PlayerProxy{
             cc.sys.localStorage.setItem('PlayerModule', JSON.stringify(this.DataModule._playerData));
         }
     }
-    // UpdateScore(score){
-    //     this.module.score += score
-    //     if (score > this.module.OldScore){
-    //         this.module.OldScore = score
-    //     }
-    //     Notification.emit("PlayerModuleUpdate")
-    //     cc.sys.localStorage.setItem('PlayerModule', JSON.stringify(this.DataModule._playerData));
-    // }
     UpdateTime(time){
         this.module.time = time
         cc.sys.localStorage.setItem('PlayerModule', JSON.stringify(this.DataModule._playerData));

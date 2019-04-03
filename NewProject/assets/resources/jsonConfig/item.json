@@ -7,5 +7,14 @@
     "icon_type": 0,
     "icon": "gold",
     "desc": "一种货币"
+  },
+  "2001": {
+    "id": 2001,
+    "type": 0.0,
+    "type_desc": "",
+    "name": "",
+    "icon_type": 0.0,
+    "icon": "",
+    "desc": ""
   }
 }

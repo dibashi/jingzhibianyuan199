@@ -31,7 +31,7 @@ export default class uiRoot extends cc.Component {
         }
     }
     start_root_stop(){
-        this.node.active = false
+        //this.node.active = false
         Notification.emit("GameStart")
     }
 }

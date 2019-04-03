@@ -49,6 +49,15 @@ export default class ItemProxy{
             return 0
         }
     }
+    GameGoldAdd(count){//该接口只用于游戏内金币增加
+        if (count > 0){
+            this.itemAddCount(1000,count)  
+        }
+    }
+    itemAddCount(id,count){
+        count = this.ItemCount(id) + count
+        this.AddOrUpdateDatas([{id:id,count:count}])
+    }
     get warehouseList(){
         let list = []
         let itemConf = cc.config("item")

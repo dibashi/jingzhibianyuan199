@@ -92,6 +92,30 @@ export default class Tools extends cc.Component {
             _this.getComponent(cc.Sprite).spriteFrame = null
         }
     }
+    changeMotionStreak(_this,icon){
+        if (icon){
+            if (this.ImageController == null){
+                this.ImageController = cc.find("Notification").getChildByName("imageController").getComponent("ImageController");
+            }
+            let url = 'texture/'+icon;
+            let urls = icon.split("/")
+            //console.log(urls);
+            let image = this.ImageController.getpictures(urls[urls.length-1])
+            if (image){
+                _this.getComponent(cc.MotionStreak).texture = image
+            }else{
+                cc.loader.loadRes(url,function(err,_spriteFrame){
+                    if (err == null){
+                        _this.getComponent(cc.MotionStreak).texture = _spriteFrame; 
+                    }else{
+                        console.log(err)
+                    }
+                });
+            }
+        }else{
+            _this.getComponent(cc.MotionStreak).texture = null
+        }
+    }
     shopBuy(conf){
         let sum = 0
         for (let i = 0;i<conf.probability.length;i++){

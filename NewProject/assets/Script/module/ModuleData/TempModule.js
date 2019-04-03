@@ -37,5 +37,6 @@ export default class TempModule{
     }
     set score(value){
         this._score = value
+        Notification.emit("TempModuleScoreUpdate")
     }
 }

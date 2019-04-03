@@ -24,7 +24,7 @@ const InitRightBoxCount = 4;
 const JumpTime = 0.12;
 
 //相机在多长时间内必须跟随到角色
-const CameraFollewTime = 0.3;
+const CameraFollewTime = 0.2;
 
 //障碍物图片个数
 const BlockImageCount = 5;
@@ -37,10 +37,13 @@ const FootY = -4;
 const PropY = -20;
 
 //金币掉落概率
-const CoinProb = 0.9;
+const CoinProb = 0.02;
 //金币掉落后  是小金币还是大金币？ 
 const SmallCoinProb = 0.9;
 const BigCoinProb = 0.1;
+
+//砖块掉落的极限时间
+const BoxLimitDropTime = 0.2;
 
 //金币类型的标示, 注！！！！！ 顺带定义了数量  类型===数量
 const CoinType = Object.freeze({
@@ -53,8 +56,8 @@ const CoinType = Object.freeze({
 
 const RoleType = Object.freeze({
     normalType: 0,//什么技能也没有的角色
-    accelerateType: 1,//加速角色 根据次数进行加速 自动寻路
-    slowDownType: 2,//减速角色  减速掉落
+    accelerateType: 1001,//加速角色 根据次数进行加速 自动寻路
+    slowDownType: 1002,//减速角色  减速掉落
 });
 
 
@@ -77,7 +80,7 @@ const Role_Accelerate_Data = Object.freeze(
 
 const Role_SlowDown_Data = Object.freeze(
     {
-        SlowCoefficient: 5,//慢多少倍
+        SlowCoefficient: 5,//慢多少倍 现在修改为 多长时间 不在关联当前速度
         RestTime: 10,//慢多长时间
         Role_Image: "role_right3",
         Streak_Image: "role_streak3",

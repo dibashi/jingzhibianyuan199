@@ -12,7 +12,7 @@
     "name": "健步如飞",
     "icon": "acceleration",
     "desc": "穿上耐克跑鞋，体验飞一般的感觉",
-    "cd": 10,
+    "cd": 30,
     "duration": 5
   },
   "1002": {
@@ -21,12 +21,12 @@
     "icon": "still",
     "desc": "操控时间使其静止",
     "cd": 30,
-    "duration": 20
+    "duration": 5
   },
   "1003": {
     "id": 1003,
     "name": "？？？",
-    "icon": "",
+    "icon": "unknown",
     "desc": "？？？",
     "cd": 0,
     "duration": 0
@@ -34,7 +34,7 @@
   "1004": {
     "id": 1004,
     "name": "？？？",
-    "icon": "",
+    "icon": "unknown",
     "desc": "？？？",
     "cd": 0,
     "duration": 0
@@ -42,7 +42,7 @@
   "1005": {
     "id": 1005,
     "name": "？？？",
-    "icon": "",
+    "icon": "unknown",
     "desc": "？？？",
     "cd": 0,
     "duration": 0

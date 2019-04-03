@@ -3,9 +3,14 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        streak_textures:{
-            default:[],
-            type:cc.Texture2D
+        streak_textures: {
+            default: [],
+            type: cc.Texture2D
+        },
+
+        vertigo: {
+            default: null,
+            type: cc.Node
         }
 
     },
@@ -42,7 +47,7 @@ cc.Class({
 
         this.settingType();
 
-
+        this.vertigo.active = false;
 
         this.unscheduleAllCallbacks();
     },
@@ -95,29 +100,31 @@ cc.Class({
 
         this.node.stopAllActions();
 
-        var resultBoxType = this.boxesMgrJS.getJumpedInfo(aimX, aimY, this.aimX, this.aimY, this.curDir);
+        var resultBoxJS = this.boxesMgrJS.getJumpedInfo(aimX, aimY, this.aimX, this.aimY, this.curDir);
+        if (resultBoxJS === null) {
+            //悬崖，阵亡了
+            var jumpY = aimY;
+            var jumpX = aimX;
+            this.cliffJumping(this.deadCallback, aimX, aimY);
 
-        if (resultBoxType === BoxType.normalBox) {
+        } else if (resultBoxJS.boxType === BoxType.normalBox) {
             this.aimX = aimX;
             this.aimY = aimY;
 
             this.jumpAinmation();
             this.boxesMgrJS.createBox();
 
-            this.gameJS.addCurrentScore(1);
-        } else if (resultBoxType === BoxType.blockBox) {
+            cc.moduleMgr.tempModule.module.score += 1
+
+        } else if (resultBoxJS.boxType === BoxType.blockBox) {
             var jumpY = aimY;
             var jumpX = aimX + (this.curDir === BoxDir.right ? -10 : 10);
             this.dizzyAnimation(function () {
 
                 this.gameJS.openTouch();
+                this.vertigo.getComponent(cc.Animation).stop();
+                this.vertigo.active = false;
             }.bind(this), jumpX, jumpY);
-
-        } else if (resultBoxType === BoxType.noneBox) {
-            //悬崖，阵亡了
-            var jumpY = aimY;
-            var jumpX = aimX;
-            this.cliffJumping(this.deadCallback, aimX, aimY);
 
         }
 
@@ -133,14 +140,23 @@ cc.Class({
     },
 
     dizzyAnimation: function (callback, jumpX, jumpY) {
+        //3.2秒
         this.gameJS.closeTouch();
         var jump1 = cc.jumpTo(JumpTime, cc.v2(jumpX, jumpY), this.jumpHeight, 1);
         var jump2 = cc.jumpTo(JumpTime, cc.v2(this.aimX, this.aimY), this.jumpHeight, 1);
-        var fadeout = cc.fadeOut(0.3);
-        var fadein = cc.fadeIn(0.3);
-        var repeat = cc.repeat(cc.sequence(fadeout, fadein), 3);
-        var dizzAction = cc.sequence(jump1, jump2, repeat, cc.callFunc(callback));
+        var fadeout = cc.fadeOut(0.2);
+        var fadein = cc.fadeIn(0.2);
+        var repeat = cc.repeat(cc.sequence(fadeout, fadein), 2);
+        // var dizzAction = cc.sequence(jump1, jump2, repeat, cc.callFunc(callback));
+        var dizzAction = cc.sequence(jump1, jump2, repeat, cc.callFunc(function () {
+            this.vertigo.active = true;
+            this.vertigo.getComponent(cc.Animation).play();
+            this.scheduleOnce(callback, 1.0);
+
+        }.bind(this)));
         this.node.runAction(dizzAction);
+
+
     },
 
     cliffJumping: function (callback, jumpX, jumpY) {
@@ -191,17 +207,16 @@ cc.Class({
         let aimX = this.aimX + BoxX;
 
 
-        var resultBoxType = this.boxesMgrJS.getJumpedInfo(aimX, aimY);
+        var resultBoxJS = this.boxesMgrJS.getJumpedInfo(aimX, aimY);
 
-
-        if (resultBoxType === BoxType.normalBox) {
+        if (resultBoxJS === null) {
+            this.changeDir(cc.v2(0, 0));
+        }
+        else if (resultBoxJS.boxType === BoxType.normalBox) {
             this.changeDir(cc.v2(500, 0));
-        } else if (resultBoxType === BoxType.blockBox) {
+        } else if (resultBoxJS.boxType === BoxType.blockBox) {
             this.changeDir(cc.v2(0, 0));
 
-        } else if (resultBoxType === BoxType.noneBox) {
-
-            this.changeDir(cc.v2(0, 0));
         }
 
         this.jump();

@@ -36,6 +36,19 @@ const FootY = -4;
 //障碍物、道具 的偏移量
 const PropY = -20;
 
+//金币掉落概率
+const CoinProb = 0.9;
+//金币掉落后  是小金币还是大金币？ 
+const SmallCoinProb = 0.9;
+const BigCoinProb = 0.1;
+
+//金币类型的标示, 注！！！！！ 顺带定义了数量  类型===数量
+const CoinType = Object.freeze({
+    noneCoin: 0,
+    smallCoin: 1,
+    bigCoin: 10,
+});
+
 
 
 const RoleType = Object.freeze({
@@ -47,7 +60,7 @@ const RoleType = Object.freeze({
 
 const Role_Normal_Data = Object.freeze(
     {
-      
+
         Role_Image: "role_right1",
         Streak_Image: "role_streak1",
     }

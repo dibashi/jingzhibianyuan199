@@ -62,7 +62,7 @@ cc.Class({
         this._hasFoot = true;
         this._hasStreak = true;
 
-        this.currentScore = 0;
+
 
         this.skillBtnNode.active = false;
     },
@@ -96,10 +96,10 @@ cc.Class({
 
 
             case gameStates.starting:
-                if(this.roleJS.roleType !== RoleType.normalType) {
+                if (this.roleJS.roleType !== RoleType.normalType) {
                     this.skillBtnNode.active = true;
                 }
-               
+
                 this.roleJS.changeDir(touchPosition);
                 this.roleJS.jump();
                 break;
@@ -117,13 +117,7 @@ cc.Class({
         return this._hasFoot;
     },
 
-    getCurrentScore: function () {
-        return this.currentScore;
-    },
 
-    addCurrentScore: function (value) {
-        this.currentScore += value;
-    },
 
     //获取精灵图片
     getGameFrame_sf: function (name) {
@@ -141,10 +135,11 @@ cc.Class({
 
     startGame: function () {
 
-        this.currentScore = 0;
+        cc.moduleMgr.tempModule.module.score = 0;
+
         this.boxesMgrJS.prepareStart();
         this.roleJS.prepareStart();
-      
+
         this.gameCamera.position = cc.v2(0, 0);
 
         this.boxesMgrJS.initBoxes(function () {
@@ -185,10 +180,10 @@ cc.Class({
     reliveGame: function () {
         this.roleJS.relive();
 
-        var resultBoxType = this.boxesMgrJS.getJumpedInfo(this.roleJS.aimX, this.roleJS.aimY);
+        var resultBoxJS = this.boxesMgrJS.getJumpedInfo(this.roleJS.aimX, this.roleJS.aimY);
 
 
-        if (resultBoxType === BoxType.normalBox) {
+        if (resultBoxJS && resultBoxJS.boxType === BoxType.normalBox) {
             //不用变 原地即可
         } else {
             var rbt = this.boxesMgrJS.getJumpedInfo(this.roleJS.aimX + BoxX, this.roleJS.aimY + BoxY);

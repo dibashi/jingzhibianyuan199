@@ -176,8 +176,8 @@ cc.Class({
 
     //处理脚印，以及返回下个目标块是什么类型的
     getJumpedInfo: function (aimX, aimY, curX, curY, curdir) {
-        var resultBoxType = BoxType.noneBox;
 
+        var resultBoxJS = null;
         for (let i = 0, len = this.node.children.length; i < len; i++) {
             let box = this.node.children[i];
             if (curX !== undefined) {
@@ -189,16 +189,11 @@ cc.Class({
 
             let dis = cc.v2(box.x - aimX, box.y - aimY).magSqr();
             if (dis < 100) {
-                let boxJS = box.getComponent('box');
-                if (boxJS.boxType === BoxType.blockBox) {
-                    resultBoxType = BoxType.blockBox
-                } else if (boxJS.boxType === BoxType.normalBox) {
-                    resultBoxType = BoxType.normalBox;
-                }
+                resultBoxJS = box.getComponent('box');
             }
         }
 
-        return resultBoxType;
+        return resultBoxJS;
     },
 
 

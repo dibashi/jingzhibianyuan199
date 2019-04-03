@@ -19,6 +19,11 @@ export default class uiRoot extends cc.Component {
                 }
             }
         },this)
+        let roleConf = cc.config("role")
+        cc.tools.changeSprite(this.node.getChildByName("hero_box").getChildByName("spr_role"),"role/"+ roleConf[cc.moduleMgr.playerModule.module.Role].Role)
+        Notification.on("PlayerModuleUpdate",function(arg){
+            cc.tools.changeSprite(this.node.getChildByName("hero_box").getChildByName("spr_role"),"role/"+ roleConf[cc.moduleMgr.playerModule.module.Role].Role)
+        },this)
         for (let i = 0; i < this.nodeN.node_box.children.length; ++i) {
             let nodeN = this.nodeN.node_box.children[i];
             let randY = Math.random() * 20 + 10;

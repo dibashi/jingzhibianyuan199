@@ -1,6 +1,6 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "start",
+  "_name": "start_hall",
   "_objFlags": 0,
   "_native": "",
   "_duration": 1.5,
@@ -207,6 +207,28 @@
             {
               "frame": 0.3333333333333333,
               "value": 0
+            }
+          ]
+        }
+      },
+      "roleBtn": {
+        "props": {
+          "scale": [
+            {
+              "frame": 0.3333333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 0.5,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0,
+                "y": 1.5
+              }
             }
           ]
         }

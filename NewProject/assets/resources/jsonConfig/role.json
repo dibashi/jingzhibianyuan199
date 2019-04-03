@@ -1,0 +1,52 @@
+{
+  "1001": {
+    "id": 1001,
+    "name": "炸天一号",
+    "Role": "role_right1",
+    "Streak": "role_streak1",
+    "desc": "来自N97星系",
+    "skills": 1001,
+    "item": 1000,
+    "count": 0
+  },
+  "1002": {
+    "id": 1002,
+    "name": "炸天二号",
+    "Role": "role_right2",
+    "Streak": "role_streak2",
+    "desc": "来自M78星系",
+    "skills": 1002,
+    "item": 1000,
+    "count": 1
+  },
+  "1003": {
+    "id": 1003,
+    "name": "炸天三号",
+    "Role": "role_right3",
+    "Streak": "role_streak3",
+    "desc": "来自M79星系",
+    "skills": 1003,
+    "item": 1000,
+    "count": 999
+  },
+  "1004": {
+    "id": 1004,
+    "name": "炸天四号",
+    "Role": "role_right4",
+    "Streak": "role_streak4",
+    "desc": "来自M80星系",
+    "skills": 1004,
+    "item": 1000,
+    "count": 999
+  },
+  "1005": {
+    "id": 1005,
+    "name": "遁地五号",
+    "Role": "role_right5",
+    "Streak": "role_streak5",
+    "desc": "来自M81星系",
+    "skills": 1005,
+    "item": 1000,
+    "count": 999
+  }
+}

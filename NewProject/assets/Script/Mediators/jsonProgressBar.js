@@ -13,8 +13,14 @@ export default class jsonProgressBar extends cc.Component {
     is_json = false
     is_prefab = false
     onLoad(){
-        this.jsonName = []
-        this.PrefabName = []
+        this.jsonName = ["role",
+                        "item",
+                        "param",
+                        "skills",
+                        "language"]
+        this.PrefabName = ["GameOverFrame",
+                            "HeroShowFrame",
+                            "hallFrame"]
     }
     start() {
         let self = this

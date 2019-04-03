@@ -1,0 +1,17 @@
+{
+  "1": {
+    "id": 1,
+    "debug": 1,
+    "StartShowNumberCount": 2,
+    "MoveTime": 0.25,
+    "MapSize": 4,
+    "CubeSize": 155,
+    "MaxNum": 2048,
+    "MinNum": 2,
+    "SecondMinNum": 4,
+    "StartPos": [
+      0.0,
+      0.0
+    ]
+  }
+}

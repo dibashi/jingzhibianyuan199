@@ -100,6 +100,20 @@
             }
           ]
         }
+      },
+      "roleBtn": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.5,
+              "value": 255
+            }
+          ]
+        }
       }
     }
   },

@@ -1,0 +1,11 @@
+{
+  "1000": {
+    "id": 1000,
+    "type": 1,
+    "type_desc": "货币",
+    "name": "金币",
+    "icon_type": 0,
+    "icon": "gold",
+    "desc": "一种货币"
+  }
+}

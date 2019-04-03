@@ -3,7 +3,7 @@ export default class TempModule{
         this._nowNoviceData = {}
         this._is_hall = false
         this._is_sound = true
-
+        this._score = 0
         this._bg_Color = 1;
     }
     get nowNoviceData(){//当前的新手引导关卡数据id、idx
@@ -30,5 +30,12 @@ export default class TempModule{
     }
     set bg_Color(value){
         this._bg_Color = value
+    }
+
+    get score(){
+        return this._score
+    }
+    set score(value){
+        this._score = value
     }
 }

@@ -14,6 +14,15 @@ cc.Class({
         spr_prop: {
             default: null,
             type: cc.Node
+        },
+
+        samllCoinSf: {
+            default: null,
+            type: cc.SpriteFrame
+        },
+        bigCoinSf: {
+            default: null,
+            type: cc.SpriteFrame
         }
     },
 
@@ -27,14 +36,15 @@ cc.Class({
 
         this.boxType = null;//box的类型
 
-
+        this.coinType = CoinType.noneCoin;//金币类型 这里的类型也是金币的数量！为了方便
     },
 
     start() {
 
     },
 
-    initBox: function (countBox, aimPos, dir, boxType,colorIndex) {
+    initBox: function (countBox, aimPos, dir, boxType, colorIndex) {
+        this.coinType = CoinType.noneCoin;
         //this.alive = true;
         this.node.zIndex = MaxZIndexOfBox - countBox;
         if (countBox > InitBoxCount) {
@@ -72,6 +82,20 @@ cc.Class({
             this.spr_block.active = false;
             this.spr_prop.active = false;
             this.spr_box.active = true;
+
+            //或许在这里加金币比较合适
+            //不会存在bug，因为即便缓存池中的节点被反复的使用，但是只要他取出来使用就会调用这个init函数
+            if (countBox > InitBoxCount && Math.random() < CoinProb) { //生成金币
+                this.spr_prop.active = true;
+                if (Math.random() < SmallCoinProb) {//生成小金币
+                    this.coinType = CoinType.smallCoin;
+                    this.spr_prop.getComponent(cc.Sprite).spriteFrame = this.samllCoinSf;
+                } else {
+                    this.coinType = CoinType.bigCoin;
+                    this.spr_prop.getComponent(cc.Sprite).spriteFrame = this.bigCoinSf;
+                }
+
+            }
         } else {
             debugger;
         }
@@ -80,13 +104,13 @@ cc.Class({
 
     },
 
-    changeColor:function(colorIndex) {
-        this.node.getChildByName("spr_box").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0"+colorIndex);
-        this.node.getChildByName("spr_block").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0"+colorIndex);
+    changeColor: function (colorIndex) {
+        this.node.getChildByName("spr_box").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0" + colorIndex);
+        this.node.getChildByName("spr_block").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0" + colorIndex);
     },
 
     drop: function (callback) {
-    
+
         this.node.stopAllActions();
         //要判断角色是否在这里
         var roleDroped = this.checkRoleOnThisBox();

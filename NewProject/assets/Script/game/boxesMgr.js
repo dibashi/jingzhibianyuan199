@@ -79,19 +79,29 @@ cc.Class({
 
     pauseDrop: function () {
         this.unschedule(this.drop, this);
+        this.unschedule(this.slowDrop,this);
     },
 
     drop: function () {
 
         var toDropBoxes = this.boxQueue.pop();
-        for (var i = 0; i < toDropBoxes.length; i++) {
-            var isRoleDroped = toDropBoxes[i].getComponent("box").drop(function (dropedBox) {
-                console.log("执行了！", this.boxPool.size());
+
+        var isRoleDroped0 = toDropBoxes[0].getComponent("box").drop(function (dropedBox) {
+            //console.log("执行了！", this.boxPool.size());
+            
+            if (!isRoleDroped0) {
+                this.boxPool.put(dropedBox);
+            }
+
+        }.bind(this));
+        if (isRoleDroped0) {
+            this.boxQueue.push([toDropBoxes[0]]);
+            this.unschedule(this.drop, this);
+        }
+        if (toDropBoxes.length > 1) {
+            toDropBoxes[1].getComponent("box").drop(function (dropedBox) {
                 this.boxPool.put(dropedBox);
             }.bind(this));
-            if (isRoleDroped) {
-                this.unschedule(this.drop, this);
-            }
         }
     },
 

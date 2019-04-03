@@ -185,24 +185,30 @@ cc.Class({
 
         if (resultBoxJS && resultBoxJS.boxType === BoxType.normalBox) {
             //不用变 原地即可
+
+            this.role.x = this.roleJS.aimX;
+            this.role.y = this.roleJS.aimY;
+            this.gameCamera.x = this.roleJS.aimX;
+            this.gameCamera.y = this.roleJS.aimY;
+            this._startGame();
         } else {
-            var rbt = this.boxesMgrJS.getJumpedInfo(this.roleJS.aimX + BoxX, this.roleJS.aimY + BoxY);
-            if (rbt === BoxType.normalBox) {
-                this.roleJS.aimX += BoxX;
-                this.roleJS.aimY += BoxY;
-            } else {
-                this.roleJS.aimX -= BoxX;
-                this.roleJS.aimY += BoxY;
-            }
+       
+            this.role.opacity = 0;
+            var fadeIn = cc.fadeIn(1.2);
+            var moveBy = cc.moveBy(1.2, cc.v2(0, 400));
+            moveBy.easing(cc.easeOut(1.2));
+            this.role.runAction(cc.sequence(cc.spawn(fadeIn, moveBy), cc.callFunc(this._startGame, this)))
+
+
+            var fadeIn1 = cc.fadeIn(1.2);
+            var moveBy1 = cc.moveBy(1.2, cc.v2(0, 400));
+            moveBy1.easing(cc.easeOut(1.2));
+          
+            this.boxesMgrJS.boxQueue[this.boxesMgrJS.boxQueue.length-1][0].runAction(cc.spawn(fadeIn1, moveBy1));
+        
+        
         }
 
-
-        this.role.x = this.roleJS.aimX;
-        this.role.y = this.roleJS.aimY;
-        this.gameCamera.x = this.roleJS.aimX;
-        this.gameCamera.y = this.roleJS.aimY;
-
-        this._startGame();
     },
 
 

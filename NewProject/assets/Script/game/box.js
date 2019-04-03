@@ -124,7 +124,7 @@ cc.Class({
         moveBy.easing(cc.easeIn(1.2));
         let fadeOut = cc.fadeOut(1.2);
         let spawn = cc.spawn(moveBy, fadeOut);
-        let seq = cc.sequence(spawn, cc.callFunc(callback));
+        let seq = cc.sequence(spawn, cc.callFunc(callback,null,this.node));
         this.node.runAction(seq);
 
         return roleDroped;

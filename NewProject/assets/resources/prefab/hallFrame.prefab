@@ -57,14 +57,14 @@
     "_level": 1,
     "_components": [
       {
-        "__id__": 70
+        "__id__": 71
       },
       {
-        "__id__": 71
+        "__id__": 72
       }
     ],
     "_prefab": {
-      "__id__": 72
+      "__id__": 73
     },
     "_opacity": 255,
     "_color": {
@@ -1182,8 +1182,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 90,
-      "height": 114
+      "width": 72,
+      "height": 75
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1244,7 +1244,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 36.75,
+      "width": 0,
       "height": 60
     },
     "_anchorPoint": {
@@ -1287,8 +1287,8 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_string": "0",
-    "_N$string": "0",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 60,
     "_lineHeight": 80,
     "_enableWrapText": true,
@@ -1325,7 +1325,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "a4849dfc-af03-4abc-9b50-3956a4675f5e"
+      "__uuid__": "117d7c38-367b-41a1-b8f9-a7c8b3b61961"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -1339,9 +1339,7 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_state": 0,
-    "_atlas": {
-      "__uuid__": "1cf0b5f6-5983-4a6b-b18b-66d9b7c6fcf9"
-    },
+    "_atlas": null,
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_id": ""
@@ -1357,9 +1355,9 @@
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 9,
-    "_left": 41,
+    "_left": 50,
     "_right": 0,
-    "_top": 30,
+    "_top": 49.5,
     "_bottom": 0,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
@@ -2204,10 +2202,13 @@
       },
       {
         "__id__": 68
+      },
+      {
+        "__id__": 69
       }
     ],
     "_prefab": {
-      "__id__": 69
+      "__id__": 70
     },
     "_opacity": 0,
     "_color": {
@@ -2324,8 +2325,8 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_string": "0",
-    "_N$string": "0",
+    "_string": "",
+    "_N$string": "",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -2404,6 +2405,23 @@
     "_isAbsVerticalCenter": true,
     "_originalWidth": 0,
     "_originalHeight": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 63
+    },
+    "_enabled": true,
+    "_defaultClip": null,
+    "_clips": [
+      {
+        "__uuid__": "12e33d59-6f9f-42b3-83dd-1d5bafcb7703"
+      }
+    ],
+    "playOnLoad": false,
     "_id": ""
   },
   {

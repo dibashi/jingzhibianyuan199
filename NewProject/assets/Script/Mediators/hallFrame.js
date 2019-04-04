@@ -60,6 +60,12 @@ export default class hallFrame extends cc.Component {
 
             this.skillStartTime = 0
             this.nodeN.Skill_0.active = false
+            this.nodeN.Skill_0.stopAllActions();
+        },this)
+        Notification.on("reliveGame",function(arg){
+            this.skillStartTime = 0
+            this.nodeN.Skill_0.active = false
+            this.nodeN.Skill_0.stopAllActions();
         },this)
         Notification.on("TempModuleScoreUpdate",function(arg){
             this.nodeN.score.string = cc.moduleMgr.tempModule.module.score
@@ -74,8 +80,9 @@ export default class hallFrame extends cc.Component {
             this.RefHallLayout(arg)
         },this)
         Notification.on("skillShowTime",function(arg){
-            let id = cc.moduleMgr.playerModule.module.Role
-            this.skillconf = cc.moduleMgr.playerModule.GetRoleSkill(id)
+            //let id = cc.moduleMgr.playerModule.module.Role
+            //this.skillconf = cc.moduleMgr.playerModule.GetRoleSkill(id)
+            this.skillconf = cc.moduleMgr.playerModule.GetSkill(arg.id)
             cc.tools.changeSprite(this.nodeN.Skill_0,"skill/"+this.skillconf.icon)
             this.nodeN.Skill_0.active = true
             this.skillStartTime = cc.tools.NowTime()
@@ -86,9 +93,29 @@ export default class hallFrame extends cc.Component {
             }))
             this.nodeN.Skill_0.runAction(seq)
         },this)
+        let is_play = false
         Notification.on("warningDistanceUpdate",function(arg){
             //console.log(cc.moduleMgr.tempModule.module.warningDistance)
-            this.nodeN.warning.getChildByName("num").getComponent(cc.Label).string = cc.moduleMgr.tempModule.module.warningDistance
+            //this.nodeN.warning.getChildByName("num").getComponent(cc.Label).string = cc.moduleMgr.tempModule.module.warningDistance
+            if(cc.moduleMgr.tempModule.module.warningDistance <= 10){
+                this.nodeN.warning.runAction(cc.fadeIn(1))
+                //this.nodeN.warning.scale = (10 - cc.moduleMgr.tempModule.module.warningDistance)*0.1 + 1
+                if (cc.moduleMgr.tempModule.module.warningDistance <= 8){
+                    if (!is_play){
+                        is_play = true
+                        this.nodeN.warning.getComponent(cc.Animation).play("warning")
+                    }
+                }else{
+                    if (is_play){
+                        is_play = false
+                        this.nodeN.warning.getComponent(cc.Animation).stop("warning")
+                        this.nodeN.warning.rotation = 0
+                    }
+                }
+            }else{
+                //this.nodeN.warning.scale = 1
+                this.nodeN.warning.runAction(cc.fadeOut(1))
+            }
         },this)
     }
     RefHallLayout(arg){

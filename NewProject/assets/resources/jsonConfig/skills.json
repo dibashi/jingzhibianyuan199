@@ -2,7 +2,7 @@
   "0": {
     "id": 0,
     "name": "无",
-    "icon": "",
+    "icon": "unknown",
     "desc": "无",
     "cd": 0,
     "duration": 0
@@ -46,5 +46,13 @@
     "desc": "？？？",
     "cd": 0,
     "duration": 0
+  },
+  "2001": {
+    "id": 2001,
+    "name": "保护时间",
+    "icon": "acceleration",
+    "desc": "复活保护时间",
+    "cd": 0,
+    "duration": 2
   }
 }

@@ -28,12 +28,20 @@ export default class PlayerProxy{
     }
     GetRoleSkill(id){
         let roleConf = cc.config("role")
-        let skilConf = cc.config("skills")
-        if (roleConf[id] && skilConf[roleConf[id].skills]){
-            let conf = skilConf[roleConf[id].skills]
-            return {cd:conf.cd,icon:conf.icon,duration:conf.duration}
+        if (roleConf[id] ){
+            let skilConf = this.GetSkill(roleConf[id].skills)
+            if(skilConf){
+                return {id:skilConf.id,cd:skilConf.cd,icon:skilConf.icon,duration:skilConf.duration}
+            }
         }
         return {}
+    }
+    GetSkill(id){
+        let skilConf = cc.config("skills")
+        if(skilConf[id]){
+            return skilConf[id]
+        }
+        return null
     }
     UpdateTime(time){
         this.module.time = time

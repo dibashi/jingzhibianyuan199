@@ -63,6 +63,8 @@ cc.Class({
 
         //用于标记玩家是否是复活开始的游戏，如果是会给其一个安全时间
         this.isReliveState = false;
+
+        this.skillMaskSprite = this.skillBtnNode.getChildByName("mask").getComponent(cc.Sprite);
     },
 
     start: function () {
@@ -90,17 +92,21 @@ cc.Class({
                 this.node_hint.active = false;
                 this.roleJS.changeDir(touchPosition);
                 this.roleJS.jump();
-                if(this.isReliveState) {
+                if (this.isReliveState) {
 
                 }
+
+                if (this.roleJS.roleType !== RoleType.normalType) {
+                    this.skillBtnNode.active = true;
+                    this._skillActive = true;
+
+                    this.skillMaskSprite.fillRange = 0;
+                }
+
                 break;
 
 
             case gameStates.starting:
-                if (this.roleJS.roleType !== RoleType.normalType) {
-                    this.skillBtnNode.active = true;
-                    this._skillActive = true;
-                }
 
                 this.roleJS.changeDir(touchPosition);
                 this.roleJS.jump();
@@ -129,11 +135,6 @@ cc.Class({
         return sf;
     },
 
-    // called every frame
-    update: function (dt) {
-
-    },
-
 
     //用于游戏开始的调用
     startGame: function () {
@@ -151,6 +152,10 @@ cc.Class({
             this._startGame();
 
         }.bind(this));
+
+        let id = cc.moduleMgr.playerModule.module.Role
+        let skillconf = cc.moduleMgr.playerModule.GetRoleSkill(id);
+        cc.tools.changeSprite(this.skillBtnNode, "skill/" + skillconf.icon)
     },
     //内部的游戏开始调用，复活开始也需要用到
     _startGame: function () {
@@ -242,12 +247,6 @@ cc.Class({
         }
     },
 
-    skillComplete: function () {
-        console.log("技能好了！！！！！！！！！！");
-        this._skillActive = true;
-    },
-
-    
 
     skillClick: function () {
 
@@ -266,22 +265,46 @@ cc.Class({
             case RoleType.accelerateType:
 
                 this.roleJS.accelerateAndPathfinding(0.15, Math.ceil(skillconf.duration / 0.15));
-                Notification.emit("skillShowTime");
-                this._skillActive = false;
-                this.scheduleOnce(this.skillComplete, skillconf.cd);
+                this.releaseSkill_common(skillconf.id, skillconf.cd);
                 break;
 
             case RoleType.slowDownType:
                 this.boxesMgrJS.slowDownDrop(5, skillconf.duration);
-                Notification.emit("skillShowTime");
-                this._skillActive = false;
-                this.scheduleOnce(this.skillComplete, skillconf.cd);
+                this.releaseSkill_common(skillconf.id, skillconf.cd);
                 break;
 
             default:
                 debugger;
                 break;
         }
-    }
+    },
+
+    //释放技能的时候，需要的公共技能代码
+    releaseSkill_common: function (skillID, skillCD) {
+        this.skillCD = skillCD;
+        Notification.emit("skillShowTime", { id: skillID });
+        this._skillActive = false;
+        this.skillMaskSprite.fillRange = 1;
+
+        this.skillBeginTime = parseInt(Date.now() / 1000);
+    },
+
+
+
+    // called every frame
+    update: function (dt) {
+        if (this.skillBtnNode.active && this._skillActive === false) {
+
+            this.skillMaskSprite.fillRange = 1 - (parseInt(Date.now() / 1000) - this.skillBeginTime) / this.skillCD;
+            console.log(this.skillMaskSprite.fillRange);
+            console.log(this.skillCD);
+            if (this.skillMaskSprite.fillRange <= 0) {
+                this.skillMaskSprite.fillRange = 0;
+                this._skillActive = true;
+            }
+        }
+    },
+
+
 
 });

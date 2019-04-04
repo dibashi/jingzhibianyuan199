@@ -5,6 +5,7 @@ export default class TempModule{
         this._is_sound = true
         this._score = 0
         this._bg_Color = 1;
+        this._warningDistance = 0;
     }
     get nowNoviceData(){//当前的新手引导关卡数据id、idx
         return this._nowNoviceData
@@ -38,5 +39,13 @@ export default class TempModule{
     set score(value){
         this._score = value
         Notification.emit("TempModuleScoreUpdate")
+    }
+    
+    get warningDistance(){
+        return this._warningDistance
+    }
+    set warningDistance(value){
+        this._warningDistance = value
+        Notification.emit("warningDistanceUpdate")
     }
 }

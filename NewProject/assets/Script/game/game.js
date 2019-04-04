@@ -1,10 +1,5 @@
 
-var gameStates = {
-    unStart: 0,//游戏未开始
-    preparing: 1,//游戏准备开始
-    starting: 3,//游戏在进行中
-    paused: 4//游戏暂停
-}
+
 
 //有一首可以用的不错的背景歌，wolfred
 cc.Class({
@@ -65,6 +60,9 @@ cc.Class({
 
 
         this.skillBtnNode.active = false;
+
+        //用于标记玩家是否是复活开始的游戏，如果是会给其一个安全时间
+        this.isReliveState = false;
     },
 
     start: function () {
@@ -92,6 +90,9 @@ cc.Class({
                 this.node_hint.active = false;
                 this.roleJS.changeDir(touchPosition);
                 this.roleJS.jump();
+                if(this.isReliveState) {
+
+                }
                 break;
 
 
@@ -134,9 +135,12 @@ cc.Class({
     },
 
 
+    //用于游戏开始的调用
     startGame: function () {
 
         cc.moduleMgr.tempModule.module.score = 0;
+
+        this.isReliveState = false;
 
         this.boxesMgrJS.prepareStart();
         this.roleJS.prepareStart();
@@ -148,6 +152,7 @@ cc.Class({
 
         }.bind(this));
     },
+    //内部的游戏开始调用，复活开始也需要用到
     _startGame: function () {
 
         this.openTouch();
@@ -179,10 +184,9 @@ cc.Class({
 
 
     reliveGame: function () {
+        this.isReliveState = true;
         this.roleJS.relive();
-
         var resultBoxJS = this.boxesMgrJS.getJumpedInfo(this.roleJS.aimX, this.roleJS.aimY);
-
 
         if (resultBoxJS && resultBoxJS.boxType === BoxType.normalBox) {
             //不用变 原地即可
@@ -243,10 +247,12 @@ cc.Class({
         this._skillActive = true;
     },
 
+    
+
     skillClick: function () {
 
-        if(this._skillActive === false) {
-            return ;
+        if (this._skillActive === false) {
+            return;
         }
 
 

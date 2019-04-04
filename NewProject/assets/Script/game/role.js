@@ -193,10 +193,15 @@ cc.Class({
         this.accelerateCount = 0;
         this.totalAccelerateCount = count;
         this.gameJS.closeTouch();
+        
         this.schedule(this._accelerateAndPathfinding, interval);
     },
 
     _accelerateAndPathfinding: function () {
+        if(this.gameJS.currentGameState === gameStates.unStart) {
+            this.unschedule(this._accelerateAndPathfinding, this);
+            return;
+        }
 
 
         let aimY = this.aimY + BoxY;

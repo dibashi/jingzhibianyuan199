@@ -33,8 +33,8 @@ export default class hallFrame extends cc.Component {
         this.nodeN.gold = this.node.getChildByName("gold").getChildByName("num").getComponent(cc.Label)
         this.nodeN.score = this.node.getChildByName("score").getChildByName("num").getComponent(cc.Label)
         this.nodeN.light = this.node.getChildByName("light")
+        this.nodeN.warning = this.node.getChildByName("warning")
         this.nodeN.skillLayout = this.node.getChildByName("skillLayout")
-        console.log(this.nodeN.skillLayout)
         this.nodeN.Skill_0 = this.nodeN.skillLayout.children[0]
         this.nodeN.score.string = cc.moduleMgr.playerModule.module.OldScore
         this.nodeN.gold.string = cc.moduleMgr.itemModule.ItemCount(1000)
@@ -85,6 +85,10 @@ export default class hallFrame extends cc.Component {
                 self.nodeN.Skill_0.active = false
             }))
             this.nodeN.Skill_0.runAction(seq)
+        },this)
+        Notification.on("warningDistanceUpdate",function(arg){
+            //console.log(cc.moduleMgr.tempModule.module.warningDistance)
+            this.nodeN.warning.getChildByName("num").getComponent(cc.Label).string = cc.moduleMgr.tempModule.module.warningDistance
         },this)
     }
     RefHallLayout(arg){

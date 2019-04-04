@@ -47,7 +47,7 @@ cc.Class({
         this.lastBoxX = -72;
         this.lastBoxY = -72;
         this.obstacleProbability = 0.2;
-        this.dropSpeed = 0.4;
+        this.dropSpeed = BoxInitSpeed;
 
 
         this.unscheduleAllCallbacks();
@@ -95,6 +95,7 @@ cc.Class({
         for (var i = this.boxQueue.length - 1; i >= 0; i--) {
             
             if (this.boxQueue[i][0].getComponent("box").checkRoleOnThisBox() === true) {
+                cc.moduleMgr.tempModule.module.warningDistance = count
                 //console.log("角色身后的格子数量为--->  ", count);
                 break;
             } else {
@@ -179,10 +180,10 @@ cc.Class({
 
         }
 
-        if (this.generatedBox > 0 && this.generatedBox % 10 === 0) {
+        if (this.generatedBox > 0 && this.generatedBox % BoxAccelerateCount === 0) {
 
             if (this.dropSpeed > BoxLimitDropTime) {
-                this.dropSpeed -= 0.02;
+                this.dropSpeed -= DeltaOfBoxAcc;
                 if (this.dropSpeed < BoxLimitDropTime) {
                     this.dropSpeed = BoxLimitDropTime;
                 }

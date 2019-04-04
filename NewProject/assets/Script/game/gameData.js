@@ -1,4 +1,10 @@
 
+const gameStates = Object.freeze({
+    unStart: 0,//游戏未开始
+    preparing: 1,//游戏准备开始
+    starting: 3,//游戏在进行中
+    paused: 4//游戏暂停
+});
 
 const BoxX = 72;
 const BoxY = 72;
@@ -24,7 +30,7 @@ const InitRightBoxCount = 4;
 const JumpTime = 0.12;
 
 //相机在多长时间内必须跟随到角色
-const CameraFollewTime = 0.2;
+const CameraFollewTime = 0.4;
 
 //障碍物图片个数
 const BlockImageCount = 5;
@@ -42,8 +48,15 @@ const CoinProb = 0.02;
 const SmallCoinProb = 0.9;
 const BigCoinProb = 0.1;
 
+//生成多少个砖块后加速一次
+const BoxAccelerateCount = 20;
+//一次加速多少 砖块的掉落速度
+const DeltaOfBoxAcc = 0.02;
+
+//砖块初始掉落速度
+const BoxInitSpeed = 0.4;
 //砖块掉落的极限时间
-const BoxLimitDropTime = 0.2;
+const BoxLimitDropTime = 0.26;
 
 //金币类型的标示, 注！！！！！ 顺带定义了数量  类型===数量
 const CoinType = Object.freeze({

@@ -25,7 +25,7 @@ export default class hallFrame extends cc.Component {
     }
     start() {
         let self = this
-        this.skillStartTime = 0
+        this.skillNode = []
         this.nodeN = {}
         this.nodeN.startBtn = this.node.getChildByName("startBtn").getComponent("ClickEventListener")
         this.nodeN.roleBtn = this.node.getChildByName("roleBtn").getComponent("ClickEventListener")
@@ -58,14 +58,14 @@ export default class hallFrame extends cc.Component {
             this.node.parent.getComponent(cc.Animation).play("reset_root")
             this.nodeN.score.string = cc.moduleMgr.playerModule.module.OldScore
 
-            this.skillStartTime = 0
-            this.nodeN.Skill_0.active = false
-            this.nodeN.Skill_0.stopAllActions();
+            for (let i = 0;i<this.skillNode.length;i++){
+                this.skillNode[i].getComponent("skillTime").stopAllActions()
+            }
         },this)
         Notification.on("reliveGame",function(arg){
-            this.skillStartTime = 0
-            this.nodeN.Skill_0.active = false
-            this.nodeN.Skill_0.stopAllActions();
+            for (let i = 0;i<this.skillNode.length;i++){
+                this.skillNode[i].getComponent("skillTime").stopAllActions()
+            }
         },this)
         Notification.on("TempModuleScoreUpdate",function(arg){
             this.nodeN.score.string = cc.moduleMgr.tempModule.module.score
@@ -80,18 +80,18 @@ export default class hallFrame extends cc.Component {
             this.RefHallLayout(arg)
         },this)
         Notification.on("skillShowTime",function(arg){
-            //let id = cc.moduleMgr.playerModule.module.Role
-            //this.skillconf = cc.moduleMgr.playerModule.GetRoleSkill(id)
-            this.skillconf = cc.moduleMgr.playerModule.GetSkill(arg.id)
-            cc.tools.changeSprite(this.nodeN.Skill_0,"skill/"+this.skillconf.icon)
-            this.nodeN.Skill_0.active = true
-            this.skillStartTime = cc.tools.NowTime()
-            let time = this.skillconf.duration
-            let seq = cc.sequence(cc.delayTime(time-2),cc.blink(2, 10),cc.callFunc(function(){
-                self.skillStartTime = 0
-                self.nodeN.Skill_0.active = false
-            }))
-            this.nodeN.Skill_0.runAction(seq)
+            let is_node = null
+            for (let i = 0;i<this.nodeN.skillLayout.childrenCount;i++){
+                if (i >0 && this.nodeN.skillLayout.children[i].active==false){
+                    is_node = this.nodeN.skillLayout.children[i]
+                }
+            }
+            if (is_node == null){
+                is_node = cc.instantiate(this.nodeN.skillLayout.children[0])
+                is_node.parent = this.nodeN.skillLayout
+            }
+            is_node.getComponent("skillTime").localInit(arg)
+            this.skillNode.push(is_node)
         },this)
         let is_play = false
         Notification.on("warningDistanceUpdate",function(arg){
@@ -125,15 +125,5 @@ export default class hallFrame extends cc.Component {
         this.node.parent.getChildByName("hero_box").active = arg.length > 0 ? false : true
         this.node.parent.getChildByName("title").active = arg.length > 0 ? false : true
         this.node.parent.getChildByName("shadow").active = arg.length > 0 ? false : true
-    }
-    update(){
-        if (this.skillStartTime && this.skillStartTime > 0){
-            let time = cc.tools.TimeFormat(this.skillStartTime + this.skillconf.duration - cc.tools.NowTime())
-            if (time == 0){
-                this.nodeN.Skill_0.children[0].getComponent(cc.Label).string = "00:00"
-            }else{
-                this.nodeN.Skill_0.children[0].getComponent(cc.Label).string = time
-            }
-        }
     }
 }

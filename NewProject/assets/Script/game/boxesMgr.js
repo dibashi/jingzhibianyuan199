@@ -49,7 +49,7 @@ cc.Class({
         this.obstacleProbability = 0.2;
         this.dropSpeed = BoxInitSpeed;
 
-
+        this.isInGenCoinTime = false;
         this.unscheduleAllCallbacks();
     },
 
@@ -82,6 +82,8 @@ cc.Class({
     pauseDrop: function () {
         this.unschedule(this.drop, this);
         this.unschedule(this.slowDrop, this);
+
+        this.isInGenCoinTime = false;
     },
 
     drop: function () {
@@ -149,9 +151,20 @@ cc.Class({
             dir = BoxDir.right;
         } else {
             dir = (Math.random() > 0.5 ? BoxDir.left : BoxDir.right);
+
+            if(this.isInGenCoinTime === false) {
+                if(Math.random() < CoinProb) {
+                    this.isInGenCoinTime = true;
+                   
+                    let coinTime = Math.random()*(CoinGenMaxTime - CoinGenMinTime) + CoinGenMinTime;
+                    this.scheduleOnce(function() {
+                        this.isInGenCoinTime = false;
+                    }.bind(this),coinTime);
+                }
+            }
         }
         var pos = this.getNextBoxPos(dir);
-        box.getComponent('box').initBox(this.generatedBox, pos, dir, BoxType.normalBox, curColorIndex);
+        box.getComponent('box').initBox(this.generatedBox, pos, dir, BoxType.normalBox, curColorIndex,this.isInGenCoinTime);
 
         this.boxQueue[0].push(box);
 
@@ -160,7 +173,7 @@ cc.Class({
             var blockPos = this.getNextBoxPos(blockDir);
             var blockBox = this.getBox();
             this.node.addChild(blockBox);
-            blockBox.getComponent('box').initBox(this.generatedBox, blockPos, blockDir, BoxType.blockBox, curColorIndex);
+            blockBox.getComponent('box').initBox(this.generatedBox, blockPos, blockDir, BoxType.blockBox, curColorIndex,this.isInGenCoinTime);
 
             this.boxQueue[0].push(blockBox);
         }

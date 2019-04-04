@@ -43,7 +43,7 @@ cc.Class({
 
     },
 
-    initBox: function (countBox, aimPos, dir, boxType, colorIndex) {
+    initBox: function (countBox, aimPos, dir, boxType, colorIndex,hasCoin) {
         this.coinType = CoinType.noneCoin;
         //this.alive = true;
         this.node.zIndex = MaxZIndexOfBox - countBox;
@@ -85,7 +85,19 @@ cc.Class({
 
             //或许在这里加金币比较合适
             //不会存在bug，因为即便缓存池中的节点被反复的使用，但是只要他取出来使用就会调用这个init函数
-            if (countBox > InitBoxCount && Math.random() < CoinProb) { //生成金币
+            // if (countBox > InitBoxCount && Math.random() < CoinProb) { //生成金币
+            //     this.spr_prop.active = true;
+            //     if (Math.random() < SmallCoinProb) {//生成小金币
+            //         this.coinType = CoinType.smallCoin;
+            //         this.spr_prop.getComponent(cc.Sprite).spriteFrame = this.samllCoinSf;
+            //     } else {
+            //         this.coinType = CoinType.bigCoin;
+            //         this.spr_prop.getComponent(cc.Sprite).spriteFrame = this.bigCoinSf;
+            //     }
+
+            // }
+
+            if (hasCoin) { //生成金币
                 this.spr_prop.active = true;
                 if (Math.random() < SmallCoinProb) {//生成小金币
                     this.coinType = CoinType.smallCoin;

@@ -21,6 +21,8 @@ export default class jsonProgressBar extends cc.Component {
                         "language"]
         this.PrefabName = ["GameOverFrame",
                             "HeroShowFrame",
+                            "chooseFrame",
+                            "tipsFrame",
                             "hallFrame"]
     }
     start() {

@@ -47,6 +47,9 @@ const CoinProb = 0.02;
 //金币掉落后  是小金币还是大金币？ 
 const SmallCoinProb = 0.9;
 const BigCoinProb = 0.1;
+//新需求 不再是单个金币，而是钱串 需要一个持续生成钱串的时间，为了随机性 有个最长时间和最短时间
+const CoinGenMinTime = 1.0;
+const CoinGenMaxTime = 5.0;
 
 //生成多少个砖块后加速一次
 const BoxAccelerateCount = 20;

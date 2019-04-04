@@ -134,6 +134,9 @@ export default class Tools extends cc.Component {
     showlog(desc){
         cc.uiMgr.Push("tipsFrame",desc,{add:false,parentName:"Canvas/UI2dUp"})
     }
+    showchoose(arg){
+        cc.uiMgr.Push("chooseFrame",arg,{add:false,parentName:"Canvas/UI2dUp"})
+    }
     Notification = null
     getPrefab(name){
         if (this.Notification == null){

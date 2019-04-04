@@ -43,22 +43,28 @@ export default class HeroShowFrame extends cc.Component {
         this.nodeN.unlockBtn.onClick = function(){
             //cc.tools.showlog("正在解锁..."+id)
             let shopConf = cc.config("shop")
-            if (cc.moduleMgr.itemModule.ItemCount(shopConf[6].item_id[self.shopIndex]) >= shopConf[6].price[self.shopIndex]){
-                let Items = []
+            let itemConf = cc.config("item")
+            let fun = function(){
+                if (cc.moduleMgr.itemModule.ItemCount(shopConf[6].item_id[self.shopIndex]) >= shopConf[6].price[self.shopIndex]){
+                    let Items = []
 
-                let id = shopConf[6].item_id[self.shopIndex]
-                let count = cc.moduleMgr.itemModule.ItemCount(id) - shopConf[6].price[self.shopIndex]
-                Items.push({id:id,count:count})
-
-                id = shopConf[6].items[self.shopIndex]
-                count = cc.moduleMgr.itemModule.ItemCount(id) + shopConf[6].prices[self.shopIndex]
-                Items.push({id:id,count:count})
-
-                cc.moduleMgr.itemModule.AddOrUpdateDatas(Items)
-            }else{
-                let itemConf = cc.config("item")
-                cc.tools.showlog(itemConf[shopConf[6].item_id[self.shopIndex]].name+"不足")
+                    let id = shopConf[6].item_id[self.shopIndex]
+                    let count = cc.moduleMgr.itemModule.ItemCount(id) - shopConf[6].price[self.shopIndex]
+                    Items.push({id:id,count:count})
+    
+                    id = shopConf[6].items[self.shopIndex]
+                    count = cc.moduleMgr.itemModule.ItemCount(id) + shopConf[6].prices[self.shopIndex]
+                    Items.push({id:id,count:count})
+    
+                    cc.moduleMgr.itemModule.AddOrUpdateDatas(Items)
+                }else{
+                    cc.tools.showlog(itemConf[shopConf[6].item_id[self.shopIndex]].name+"不足")
+                }
             }
+            cc.tools.showchoose({desc:"是否消耗"+shopConf[6].price[self.shopIndex]+itemConf[shopConf[6].item_id[self.shopIndex]].name+"解锁",fun:fun})
+            
+            
+            
         }
         Notification.on("PlayerModuleUpdate",function(arg){
             self.RoleChange(id)

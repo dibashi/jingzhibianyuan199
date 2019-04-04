@@ -50,7 +50,7 @@
   "2001": {
     "id": 2001,
     "name": "保护时间",
-    "icon": "acceleration",
+    "icon": "still",
     "desc": "复活保护时间",
     "cd": 0,
     "duration": 2

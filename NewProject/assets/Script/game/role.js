@@ -108,6 +108,7 @@ cc.Class({
                 // console.log("金币增加--->",resultBoxJS.coinType);
                 resultBoxJS.spr_prop.active = false;
                 cc.moduleMgr.itemModule.GameGoldAdd(resultBoxJS.coinType);
+                cc.audioMgr.playEffect("coin");
             }
             cc.moduleMgr.tempModule.module.score += 1
 
@@ -144,6 +145,7 @@ cc.Class({
         var repeat = cc.repeat(cc.sequence(fadeout, fadein), 2);
         // var dizzAction = cc.sequence(jump1, jump2, repeat, cc.callFunc(callback));
         var dizzAction = cc.sequence(jump1, jump2, repeat, cc.callFunc(function () {
+            
             this.vertigo.active = true;
             this.vertigo.getComponent(cc.Animation).play();
             this.scheduleOnce(callback, 1.0);
@@ -151,7 +153,7 @@ cc.Class({
         }.bind(this)));
         this.node.runAction(dizzAction);
 
-
+        cc.audioMgr.playEffect("vertigo");
     },
 
     cliffJumping: function (callback, jumpX, jumpY) {
@@ -166,6 +168,8 @@ cc.Class({
         this.gameJS.gameOver();
         this.gameJS.node_streak.active = false;
 
+        cc.audioMgr.playEffect("dead");
+
     },
 
     dropAni: function () {
@@ -175,6 +179,8 @@ cc.Class({
         var moveBy = cc.moveBy(1.2, cc.v2(0, -400));
         moveBy.easing(cc.easeIn(1.2));
         this.node.runAction(cc.sequence(cc.spawn(fadeout, moveBy), cc.callFunc(this.deadCallback, this)));
+
+        cc.audioMgr.playEffect("dead");
 
     },
 

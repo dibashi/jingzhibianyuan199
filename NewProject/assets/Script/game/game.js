@@ -271,11 +271,14 @@ cc.Class({
 
                 this.roleJS.accelerateAndPathfinding(0.15, Math.ceil(skillconf.duration / 0.15));
                 this.releaseSkill_common(skillconf.id, skillconf.cd);
+
+                cc.audioMgr.playEffect("speed");
                 break;
 
             case RoleType.slowDownType:
                 this.boxesMgrJS.slowDownDrop(5, skillconf.duration);
                 this.releaseSkill_common(skillconf.id, skillconf.cd);
+                cc.audioMgr.playEffect("slowTime");
                 break;
 
             default:

@@ -87,15 +87,20 @@ cc.Class({
 
             case gameStates.preparing:
 
-                this.boxesMgrJS.beginDrop();
+           
+            
                 this.currentGameState = gameStates.starting;
                 this.node_hint.active = false;
                 this.roleJS.changeDir(touchPosition);
                 this.roleJS.jump();
+
+                this.boxesMgrJS.beginDrop();
                 if (this.isReliveState) {
-
-                }
-
+                    let skillconf = cc.moduleMgr.playerModule.GetSkill(2001)
+                  
+                    this.boxesMgrJS.slowDownDrop(skillconf.duration, skillconf.duration);
+                    Notification.emit("skillShowTime", { id: skillconf.id });
+                } 
                 if (this.roleJS.roleType !== RoleType.normalType) {
                     this.skillBtnNode.active = true;
                     this._skillActive = true;
@@ -296,8 +301,7 @@ cc.Class({
         if (this.skillBtnNode.active && this._skillActive === false) {
 
             this.skillMaskSprite.fillRange = 1 - (parseInt(Date.now() / 1000) - this.skillBeginTime) / this.skillCD;
-            console.log(this.skillMaskSprite.fillRange);
-            console.log(this.skillCD);
+        
             if (this.skillMaskSprite.fillRange <= 0) {
                 this.skillMaskSprite.fillRange = 0;
                 this._skillActive = true;

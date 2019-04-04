@@ -24,10 +24,7 @@ cc.Class({
             type: cc.Node
         },
 
-        debugUI: {
-            default: null,
-            type: cc.Node
-        },
+       
 
         node_streak: {
             default: null,

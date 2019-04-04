@@ -33,6 +33,8 @@ export default class hallFrame extends cc.Component {
         this.nodeN.gold = this.node.getChildByName("gold").getChildByName("num").getComponent(cc.Label)
         this.nodeN.score = this.node.getChildByName("score").getChildByName("num").getComponent(cc.Label)
         this.nodeN.light = this.node.getChildByName("light")
+        this.nodeN.skillEffect = this.node.getChildByName("skillEffect")
+        this.nodeN.articuloMortis = this.node.getChildByName("articuloMortis")
         this.nodeN.warning = this.node.getChildByName("warning")
         this.nodeN.skillLayout = this.node.getChildByName("skillLayout")
         this.nodeN.Skill_0 = this.nodeN.skillLayout.children[0]
@@ -92,6 +94,7 @@ export default class hallFrame extends cc.Component {
             }
             is_node.getComponent("skillTime").localInit(arg)
             this.skillNode.push(is_node)
+            this.nodeN.skillEffect.active = true
         },this)
         let is_play = false
         Notification.on("warningDistanceUpdate",function(arg){
@@ -99,6 +102,7 @@ export default class hallFrame extends cc.Component {
             //this.nodeN.warning.getChildByName("num").getComponent(cc.Label).string = cc.moduleMgr.tempModule.module.warningDistance
             if(cc.moduleMgr.tempModule.module.warningDistance <= 10){
                 this.nodeN.warning.runAction(cc.fadeIn(1))
+                this.nodeN.articuloMortis.active = true
                 //this.nodeN.warning.scale = (10 - cc.moduleMgr.tempModule.module.warningDistance)*0.1 + 1
                 if (cc.moduleMgr.tempModule.module.warningDistance <= 8){
                     if (!is_play){
@@ -115,7 +119,11 @@ export default class hallFrame extends cc.Component {
             }else{
                 //this.nodeN.warning.scale = 1
                 this.nodeN.warning.runAction(cc.fadeOut(1))
+                this.nodeN.articuloMortis.active = false
             }
+        },this)
+        Notification.on("skillstopAllActions",function(arg){
+            this.nodeN.skillEffect.active = false
         },this)
     }
     RefHallLayout(arg){

@@ -16,8 +16,7 @@ export default class skillTime extends cc.Component {
         this.skillStartTime = cc.tools.NowTime()
         let time = this.skillconf.duration
         let seq = cc.sequence(cc.delayTime(time-2),cc.blink(2, 10),cc.callFunc(function(){
-            self.skillStartTime = 0
-            self.node.active = false
+            self.stopAllActions()
         }))
         this.node.runAction(seq)
     }
@@ -36,5 +35,6 @@ export default class skillTime extends cc.Component {
         this.skillStartTime = 0
         this.node.active = false
         this.node.stopAllActions();
+        Notification.emit("skillstopAllActions")
     }
 }

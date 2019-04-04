@@ -62,9 +62,6 @@ export default class HeroShowFrame extends cc.Component {
                 }
             }
             cc.tools.showchoose({desc:"是否消耗"+shopConf[6].price[self.shopIndex]+itemConf[shopConf[6].item_id[self.shopIndex]].name+"解锁",fun:fun})
-            
-            
-            
         }
         Notification.on("PlayerModuleUpdate",function(arg){
             self.RoleChange(id)
@@ -79,6 +76,8 @@ export default class HeroShowFrame extends cc.Component {
         let skilConf = cc.config("skills")
         if (roleConf[id]){
             cc.tools.changeSprite(this.nodeN.role,"role/"+ roleConf[id].Role)
+            console.log(skilConf[roleConf[id].skills].icon)
+            this.nodeN.skillIcon.getChildByName("up").active = skilConf[roleConf[id].skills].icon != "unknown" ? true : false
             if (skilConf[roleConf[id].skills].icon != 0){
                 cc.tools.changeSprite(this.nodeN.skillIcon,"skill/"+skilConf[roleConf[id].skills].icon)
             }else{

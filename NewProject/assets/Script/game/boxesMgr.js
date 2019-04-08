@@ -80,7 +80,7 @@ cc.Class({
     },
 
     pauseDrop: function () {
-        console.log("暂停！！！box");
+       
         this.unschedule(this.drop, this);
         this.unschedule(this.slowDrop, this);
 

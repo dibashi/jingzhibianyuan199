@@ -181,6 +181,14 @@ export default class Tools extends cc.Component {
     //---------------------------------------------------------------------------------
     //↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓耦合封装↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
     //---------------------------------------------------------------------------------
+    Getcheckpoint(index){
+        let conf = cc.config("checkpoint")
+        if (conf[index]){
+            return conf[index]
+        }else{
+            return conf[1]
+        }
+    }
     itemConfig = null
     itemFormat(thingType,thingLevel){
         if (this.itemConfig == null){

@@ -5,7 +5,8 @@
     "type": 0,
     "Animation": 0,
     "icon": "unknown",
-    "Effect": "",
+    "isEffect": 0,
+    "EffectBg": "",
     "desc": "无",
     "cd": 0,
     "duration": 0
@@ -16,7 +17,8 @@
     "type": 1,
     "Animation": 1,
     "icon": "acceleration",
-    "Effect": "suduxian",
+    "isEffect": 1,
+    "EffectBg": "suduxian",
     "desc": "穿上耐克跑鞋，体验飞一般的感觉",
     "cd": 30,
     "duration": 5
@@ -27,7 +29,8 @@
     "type": 1,
     "Animation": 0,
     "icon": "still",
-    "Effect": "bingdong",
+    "isEffect": 1,
+    "EffectBg": "bingdong",
     "desc": "操控时间使其静止",
     "cd": 30,
     "duration": 5
@@ -38,7 +41,8 @@
     "type": 0,
     "Animation": 0,
     "icon": "unknown",
-    "Effect": "",
+    "isEffect": 0,
+    "EffectBg": "",
     "desc": "？？？",
     "cd": 0,
     "duration": 0
@@ -49,7 +53,8 @@
     "type": 0,
     "Animation": 0,
     "icon": "unknown",
-    "Effect": "",
+    "isEffect": 0,
+    "EffectBg": "",
     "desc": "？？？",
     "cd": 0,
     "duration": 0
@@ -60,7 +65,8 @@
     "type": 0,
     "Animation": 0,
     "icon": "unknown",
-    "Effect": "",
+    "isEffect": 0,
+    "EffectBg": "",
     "desc": "？？？",
     "cd": 0,
     "duration": 0
@@ -71,9 +77,22 @@
     "type": 0,
     "Animation": 0,
     "icon": "still",
-    "Effect": "",
+    "isEffect": 1,
+    "EffectBg": "",
     "desc": "复活保护时间",
     "cd": 0,
+    "duration": 2
+  },
+  "2002": {
+    "id": 2002,
+    "name": "掉钱",
+    "type": 0,
+    "Animation": 0,
+    "icon": "unknown",
+    "isEffect": 0,
+    "EffectBg": "",
+    "desc": "天降横财:掉落一大袋金币",
+    "cd": 4,
     "duration": 2
   }
 }

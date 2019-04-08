@@ -1,0 +1,26 @@
+{
+  "1": {
+    "id": 1,
+    "step": 50,
+    "color": 1,
+    "target": 0,
+    "skill": 0.0,
+    "desc": "紫色关卡",
+    "firstReward_id": 1018,
+    "firstReward": 5,
+    "dailyReward_id": 1018,
+    "dailyReward": 1
+  },
+  "2": {
+    "id": 2,
+    "step": 30,
+    "color": 2,
+    "target": 1,
+    "skill": 2002,
+    "desc": "蓝色生命之花*1",
+    "firstReward_id": 1018,
+    "firstReward": 7,
+    "dailyReward_id": 1018,
+    "dailyReward": 2
+  }
+}

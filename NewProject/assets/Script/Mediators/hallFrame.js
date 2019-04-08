@@ -50,7 +50,7 @@ export default class hallFrame extends cc.Component {
 
             let id = cc.moduleMgr.playerModule.module.Role
             let skillconf = cc.moduleMgr.playerModule.GetRoleSkill(id);
-            cc.tools.changeSprite(self.nodeN.skillEffect,"bg/"+skillconf.conf.Effect)
+            cc.tools.changeSprite(self.nodeN.skillEffect,"bg/"+skillconf.conf.EffectBg)
 
         }
         this.nodeN.roleBtn.onClick = function(){
@@ -105,15 +105,17 @@ export default class hallFrame extends cc.Component {
             this.skillNode.push(is_node)
 
             let skillconf = cc.moduleMgr.playerModule.GetSkill(arg.id);
-            if (skillconf.type == 0){
-                this.nodeN.resurgence.active = true
-            }else{
-                if (skillconf.Animation == 1){
-                    this.nodeN.skillEffect.getComponent(cc.Animation).play("skilleffect")
+            if (skillconf.isEffect == 1){//是否有屏幕特效
+                if (skillconf.type == 0){
+                    this.nodeN.resurgence.active = true
                 }else{
-                    this.nodeN.skillEffect.getComponent(cc.Animation).stop("skilleffect")
+                    if (skillconf.Animation == 1){
+                        this.nodeN.skillEffect.getComponent(cc.Animation).play("skilleffect")
+                    }else{
+                        this.nodeN.skillEffect.getComponent(cc.Animation).stop("skilleffect")
+                    }
+                    this.nodeN.skillEffect.active = true
                 }
-                this.nodeN.skillEffect.active = true
             }
         },this)
         let is_play = false
@@ -144,10 +146,12 @@ export default class hallFrame extends cc.Component {
         },this)
         Notification.on("skillstopAllActions",function(arg){
             let skillconf = cc.moduleMgr.playerModule.GetSkill(arg.id);
-            if (skillconf.type == 0){
-                this.nodeN.resurgence.active = false
-            }else{
-                this.nodeN.skillEffect.active = false
+            if (skillconf.isEffect == 1){//是否有屏幕特效
+                if (skillconf.type == 0){
+                    this.nodeN.resurgence.active = false
+                }else{
+                    this.nodeN.skillEffect.active = false
+                }
             }
         },this)
     }

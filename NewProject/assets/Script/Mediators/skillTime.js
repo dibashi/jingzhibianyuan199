@@ -16,19 +16,33 @@ export default class skillTime extends cc.Component {
         this.node.active = true
         this.skillStartTime = cc.tools.NowTime()
         let time = this.skillconf.duration
-        let seq = cc.sequence(cc.delayTime(time-2),cc.blink(2, 10),cc.callFunc(function(){
-            self.stopAllActions()
-        }))
-        this.node.runAction(seq)
+        if (time > 0){
+            let seq = cc.sequence(cc.delayTime(time-2),cc.blink(2, 10),cc.callFunc(function(){
+                self.stopAllActions()
+            }))
+            this.node.runAction(seq)
+        }else{
+
+        }
     }
-    start(){}
+    start(){
+        Notification.on("StopSkillTime",function(arg){
+            if (arg.id == this.data.id){
+                this.stopAllActions()
+            }
+        },this)
+    }
     update(){
         if (this.skillStartTime && this.skillStartTime > 0){
-            let time = cc.tools.TimeFormat(this.skillStartTime + this.skillconf.duration - cc.tools.NowTime())
-            if (time == 0){
-                this.node.children[0].getComponent(cc.Label).string = "00:00"
+            if (this.skillconf.duration > 0){
+                let time = cc.tools.TimeFormat(this.skillStartTime + this.skillconf.duration - cc.tools.NowTime())
+                if (time == 0){
+                    this.node.children[0].getComponent(cc.Label).string = "00:00"
+                }else{
+                    this.node.children[0].getComponent(cc.Label).string = time
+                }
             }else{
-                this.node.children[0].getComponent(cc.Label).string = time
+                this.node.children[0].getComponent(cc.Label).string = "∞"
             }
         }
     }

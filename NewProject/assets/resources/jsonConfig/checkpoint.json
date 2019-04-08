@@ -16,7 +16,9 @@
     "step": 30,
     "color": 2,
     "target": 1,
-    "skill": 2002,
+    "skill": [
+      2002
+    ],
     "desc": "蓝色生命之花*1",
     "firstReward_id": 1018,
     "firstReward": 7,

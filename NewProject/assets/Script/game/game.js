@@ -142,9 +142,13 @@ cc.Class({
 
     //用于游戏开始的调用
     startGame: function (cpdata) {
-
+        
         console.log(cpdata);
-        window.cpdata = cpdata;
+        
+        cc.moduleMgr.tempModule.module.CurcheckPoint = cpdata;
+
+        // let conf = cc.tools.Getcheckpoint(cpdata.id + 1);
+        // cc.moduleMgr.tempModule.module.CurcheckPoint = conf;
         cc.moduleMgr.tempModule.module.score = 0;
 
         this.isReliveState = false;

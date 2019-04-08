@@ -6,6 +6,7 @@ export default class TempModule{
         this._score = 0
         this._bg_Color = 1;
         this._warningDistance = 0;
+        this._CurcheckPoint = null;
     }
     get nowNoviceData(){//当前的新手引导关卡数据id、idx
         return this._nowNoviceData
@@ -25,7 +26,12 @@ export default class TempModule{
     set is_sound(value){
         return this._is_sound = value
     }
-
+    get CurcheckPoint(){
+        return this._CurcheckPoint
+    }
+    set CurcheckPoint(value){
+        this._CurcheckPoint = value
+    }
     get bg_Color(){
         return this._bg_Color
     }

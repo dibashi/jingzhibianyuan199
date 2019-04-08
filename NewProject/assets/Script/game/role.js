@@ -108,7 +108,7 @@ cc.Class({
             });
 
             this.cpStep++;
-            // console.log(this.cpStep);
+            console.log(this.cpStep);
             if (this.cpStep === cc.moduleMgr.tempModule.module.CurcheckPoint.step) {
                 this.cpStep = 0;
                 let conf = cc.tools.Getcheckpoint(cc.moduleMgr.tempModule.module.CurcheckPoint.id + 1);
@@ -119,6 +119,8 @@ cc.Class({
                     let box = this.boxesMgrJS.node.children[i];
                     box.getChildByName("spr_box").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0" + conf.color);
                     box.getChildByName("spr_block").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0" + conf.color);
+
+
                 }
 
             }

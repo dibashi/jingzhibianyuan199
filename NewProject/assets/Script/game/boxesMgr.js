@@ -181,17 +181,6 @@ cc.Class({
         this.lastBoxX = pos.x;
         this.lastBoxY = pos.y;
 
-        // if (this.generatedBox > 0 && this.generatedBox % 20 === 0) {
-        //     //云龙那边监听到数据改变会自动修改背景
-        //     curColorIndex = cc.moduleMgr.tempModule.randomBgColor();
-
-        //     for (let i = 0, len = this.node.children.length; i < len; i++) {
-        //         let box = this.node.children[i];
-        //         box.getChildByName("spr_box").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0" + curColorIndex);
-        //         box.getChildByName("spr_block").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0" + curColorIndex);
-        //     }
-
-        // }
 
         if (this.generatedBox > 0 && this.generatedBox % BoxAccelerateCount === 0) {
 

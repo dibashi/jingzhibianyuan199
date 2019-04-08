@@ -121,7 +121,7 @@ cc.Class({
                     box.getChildByName("spr_block").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0" + conf.color);
                 }
 
-                this.gameJS.startupTrap();
+                //this.gameJS.startupTrap();
 
             }
 

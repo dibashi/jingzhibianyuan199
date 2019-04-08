@@ -30,13 +30,13 @@ window.InitRightBoxCount = 4;
 window.JumpTime = 0.12;
 
 //相机在多长时间内必须跟随到角色
-window.CameraFollewTime = 0.4;
+window.CameraFollewTime = 0.8;
 
 //障碍物图片个数
 window.BlockImageCount = 5;
 
 //对象池中 box的数量，用来优化程序性能
-window.BoxPoolSize = 50;
+window.BoxPoolSize = 80;
 //脚印的偏移量
 window.FootY = -4;
 //障碍物、道具 的偏移量
@@ -59,7 +59,7 @@ window.DeltaOfBoxAcc = 0.02;
 //砖块初始掉落速度
 window.BoxInitSpeed = 0.4;
 //砖块掉落的极限时间
-window.BoxLimitDropTime = 0.26;
+window.BoxLimitDropTime = 0.22;
 
 //金币类型的标示, 注！！！！！ 顺带定义了数量  类型===数量
 window.CoinType = Object.freeze({

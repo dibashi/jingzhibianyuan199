@@ -40,6 +40,11 @@ export default class HeroShowFrame extends cc.Component {
         this.nodeN.roleChangeBtn.onClick = function(){
             cc.moduleMgr.playerModule.AddOrUpdateSimpleData({Role:id})
         }
+        this.nodeN.skillIcon.getComponent("ClickEventListener").onClick = function(){
+            if (self.nodeN.skillIcon.getChildByName("up").active){
+
+            }
+        }
         this.nodeN.unlockBtn.onClick = function(){
             //cc.tools.showlog("正在解锁..."+id)
             let shopConf = cc.config("shop")

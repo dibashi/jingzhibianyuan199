@@ -30,20 +30,28 @@ export default class hallFrame extends cc.Component {
         this.nodeN.startBtn = this.node.getChildByName("startBtn").getComponent("ClickEventListener")
         this.nodeN.roleBtn = this.node.getChildByName("roleBtn").getComponent("ClickEventListener")
         this.nodeN.goldBtn = this.node.getChildByName("gold").getComponent("ClickEventListener")
+        this.nodeN.startMask = this.node.getChildByName("startMask").getComponent("ClickEventListener")
         this.nodeN.gold = this.node.getChildByName("gold").getChildByName("num").getComponent(cc.Label)
         this.nodeN.score = this.node.getChildByName("score").getChildByName("num").getComponent(cc.Label)
         this.nodeN.light = this.node.getChildByName("light")
         this.nodeN.skillEffect = this.node.getChildByName("skillEffect")
         this.nodeN.articuloMortis = this.node.getChildByName("articuloMortis")
+        this.nodeN.resurgence = this.node.getChildByName("resurgence")
         this.nodeN.warning = this.node.getChildByName("warning")
         this.nodeN.skillLayout = this.node.getChildByName("skillLayout")
         this.nodeN.Skill_0 = this.nodeN.skillLayout.children[0]
         this.nodeN.score.string = cc.moduleMgr.playerModule.module.OldScore
         this.nodeN.gold.string = cc.moduleMgr.itemModule.ItemCount(1000)
-        this.nodeN.startBtn.onClick = function(){
+        //this.nodeN.startBtn.onClick = function(){
+        this.nodeN.startMask.onClick = function(){
             //cc.moduleMgr.tempModule.randomBgColor()
             self.node.getComponent(cc.Animation).play("start_hall")
             self.node.parent.getComponent(cc.Animation).play("start_root")
+
+            let id = cc.moduleMgr.playerModule.module.Role
+            let skillconf = cc.moduleMgr.playerModule.GetRoleSkill(id);
+            cc.tools.changeSprite(self.nodeN.skillEffect,"bg/"+skillconf.conf.Effect)
+
         }
         this.nodeN.roleBtn.onClick = function(){
             let id = cc.moduleMgr.playerModule.module.Role
@@ -63,6 +71,7 @@ export default class hallFrame extends cc.Component {
             for (let i = 0;i<this.skillNode.length;i++){
                 this.skillNode[i].getComponent("skillTime").stopAllActions()
             }
+            this.skillStop()
         },this)
         Notification.on("reliveGame",function(arg){
             for (let i = 0;i<this.skillNode.length;i++){
@@ -94,7 +103,18 @@ export default class hallFrame extends cc.Component {
             }
             is_node.getComponent("skillTime").localInit(arg)
             this.skillNode.push(is_node)
-            this.nodeN.skillEffect.active = true
+
+            let skillconf = cc.moduleMgr.playerModule.GetSkill(arg.id);
+            if (skillconf.type == 0){
+                this.nodeN.resurgence.active = true
+            }else{
+                if (skillconf.Animation == 1){
+                    this.nodeN.skillEffect.getComponent(cc.Animation).play("skilleffect")
+                }else{
+                    this.nodeN.skillEffect.getComponent(cc.Animation).stop("skilleffect")
+                }
+                this.nodeN.skillEffect.active = true
+            }
         },this)
         let is_play = false
         Notification.on("warningDistanceUpdate",function(arg){
@@ -123,15 +143,26 @@ export default class hallFrame extends cc.Component {
             }
         },this)
         Notification.on("skillstopAllActions",function(arg){
-            this.nodeN.skillEffect.active = false
+            let skillconf = cc.moduleMgr.playerModule.GetSkill(arg.id);
+            if (skillconf.type == 0){
+                this.nodeN.resurgence.active = false
+            }else{
+                this.nodeN.skillEffect.active = false
+            }
         },this)
+    }
+    skillStop(){//屏幕效果全部停止
+        this.nodeN.skillEffect.active = false
+        this.nodeN.resurgence.active = false
+        this.nodeN.articuloMortis.active = false
     }
     RefHallLayout(arg){
         this.node.getChildByName("mask").active = arg.length > 0 ? true : false
         this.nodeN.startBtn.node.active = arg.length > 0 ? false : true
         this.nodeN.light.active = arg.length > 0 ? false : true
         this.node.parent.getChildByName("hero_box").active = arg.length > 0 ? false : true
-        this.node.parent.getChildByName("title").active = arg.length > 0 ? false : true
-        this.node.parent.getChildByName("shadow").active = arg.length > 0 ? false : true
+        this.node.parent.getChildByName("bg").active = arg.length > 0 ? false : true
+        //this.node.parent.getChildByName("title").active = arg.length > 0 ? false : true
+        //this.node.parent.getChildByName("shadow").active = arg.length > 0 ? false : true
     }
 }

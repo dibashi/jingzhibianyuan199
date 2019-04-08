@@ -184,6 +184,16 @@
             }
           ]
         }
+      },
+      "startMask": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
+          ]
+        }
       }
     }
   },

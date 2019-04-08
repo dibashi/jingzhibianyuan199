@@ -279,7 +279,7 @@ cc.Class({
                 break;
 
             default:
-                debugger;
+                //debugger;
                 break;
         }
     },

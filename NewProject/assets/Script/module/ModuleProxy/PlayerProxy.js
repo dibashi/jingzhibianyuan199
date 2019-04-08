@@ -31,7 +31,7 @@ export default class PlayerProxy{
         if (roleConf[id] ){
             let skilConf = this.GetSkill(roleConf[id].skills)
             if(skilConf){
-                return {id:skilConf.id,cd:skilConf.cd,icon:skilConf.icon,duration:skilConf.duration}
+                return {id:skilConf.id,cd:skilConf.cd,icon:skilConf.icon,duration:skilConf.duration,conf:skilConf}
             }
         }
         return {}

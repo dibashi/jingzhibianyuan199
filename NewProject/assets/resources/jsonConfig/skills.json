@@ -2,7 +2,10 @@
   "0": {
     "id": 0,
     "name": "无",
+    "type": 0,
+    "Animation": 0,
     "icon": "unknown",
+    "Effect": "",
     "desc": "无",
     "cd": 0,
     "duration": 0
@@ -10,7 +13,10 @@
   "1001": {
     "id": 1001,
     "name": "健步如飞",
+    "type": 1,
+    "Animation": 1,
     "icon": "acceleration",
+    "Effect": "suduxian",
     "desc": "穿上耐克跑鞋，体验飞一般的感觉",
     "cd": 30,
     "duration": 5
@@ -18,7 +24,10 @@
   "1002": {
     "id": 1002,
     "name": "时间扭曲",
+    "type": 1,
+    "Animation": 0,
     "icon": "still",
+    "Effect": "bingdong",
     "desc": "操控时间使其静止",
     "cd": 30,
     "duration": 5
@@ -26,7 +35,10 @@
   "1003": {
     "id": 1003,
     "name": "？？？",
+    "type": 0,
+    "Animation": 0,
     "icon": "unknown",
+    "Effect": "",
     "desc": "？？？",
     "cd": 0,
     "duration": 0
@@ -34,7 +46,10 @@
   "1004": {
     "id": 1004,
     "name": "？？？",
+    "type": 0,
+    "Animation": 0,
     "icon": "unknown",
+    "Effect": "",
     "desc": "？？？",
     "cd": 0,
     "duration": 0
@@ -42,7 +57,10 @@
   "1005": {
     "id": 1005,
     "name": "？？？",
+    "type": 0,
+    "Animation": 0,
     "icon": "unknown",
+    "Effect": "",
     "desc": "？？？",
     "cd": 0,
     "duration": 0
@@ -50,7 +68,10 @@
   "2001": {
     "id": 2001,
     "name": "保护时间",
+    "type": 0,
+    "Animation": 0,
     "icon": "still",
+    "Effect": "",
     "desc": "复活保护时间",
     "cd": 0,
     "duration": 2

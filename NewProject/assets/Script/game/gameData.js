@@ -68,6 +68,11 @@ window.CoinType = Object.freeze({
     bigCoin: 10,
 });
 
+window.CheckpointType = Object.freeze({
+    noneTrap: 1,//没有机关
+    stoneTrap: 2,//落石头
+   
+});
 
 
 window.RoleType = Object.freeze({

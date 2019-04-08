@@ -62,6 +62,8 @@ cc.Class({
         this.isReliveState = false;
 
         this.skillMaskSprite = this.skillBtnNode.getChildByName("mask").getComponent(cc.Sprite);
+
+        this.curCheckPointID = CheckpointType.noneTrap;
     },
 
     start: function () {
@@ -139,8 +141,10 @@ cc.Class({
 
 
     //用于游戏开始的调用
-    startGame: function () {
+    startGame: function (cpdata) {
 
+        console.log(cpdata);
+        window.cpdata = cpdata;
         cc.moduleMgr.tempModule.module.score = 0;
 
         this.isReliveState = false;

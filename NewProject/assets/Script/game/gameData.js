@@ -69,8 +69,8 @@ window.CoinType = Object.freeze({
 });
 
 window.CheckpointType = Object.freeze({
-    noneTrap: 1,//没有机关
-    stoneTrap: 2,//落石头
+  
+    stoneTrap: 2002,//落石头
    
 });
 
@@ -106,4 +106,6 @@ window.Role_SlowDown_Data = Object.freeze(
         Role_Image: "role_right3",
         Streak_Image: "role_streak3",
     }
-)
+);
+
+window.StoneLocs = [4,6,8,10,12];

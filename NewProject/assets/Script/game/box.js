@@ -43,7 +43,7 @@ cc.Class({
 
     },
 
-    initBox: function (countBox, aimPos, dir, boxType, colorIndex,hasCoin) {
+    initBox: function (countBox, aimPos, dir, boxType, colorIndex, hasCoin) {
         this.coinType = CoinType.noneCoin;
         //this.alive = true;
         this.node.zIndex = MaxZIndexOfBox - countBox;
@@ -122,7 +122,7 @@ cc.Class({
         moveBy.easing(cc.easeIn(1.2));
         let fadeOut = cc.fadeOut(1.2);
         let spawn = cc.spawn(moveBy, fadeOut);
-        let seq = cc.sequence(spawn, cc.callFunc(callback,null,this.node));
+        let seq = cc.sequence(spawn, cc.callFunc(callback, null, this.node));
         this.node.runAction(seq);
 
         return roleDroped;

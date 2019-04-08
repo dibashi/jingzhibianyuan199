@@ -24,7 +24,7 @@ cc.Class({
             type: cc.Node
         },
 
-       
+
 
         node_streak: {
             default: null,
@@ -37,6 +37,15 @@ cc.Class({
         skillBtnNode: {
             default: null,
             type: cc.Node
+        },
+
+        stonePre:{
+            default:null,
+            type:cc.Prefab
+        },
+        stones:{
+            default:null,
+            type:cc.Node
         }
     },
 
@@ -86,20 +95,25 @@ cc.Class({
 
             case gameStates.preparing:
 
-           
-            
+
+
                 this.currentGameState = gameStates.starting;
                 this.node_hint.active = false;
                 this.roleJS.changeDir(touchPosition);
-                this.roleJS.jump();
 
                 this.boxesMgrJS.beginDrop();
+                
+
+               
+                this.resumeAllScheduler();
                 if (this.isReliveState) {
                     let skillconf = cc.moduleMgr.playerModule.GetSkill(2001)
-                  
+
                     this.boxesMgrJS.slowDownDrop(skillconf.duration, skillconf.duration);
                     Notification.emit("skillShowTime", { id: skillconf.id });
-                } 
+                }
+
+                this.roleJS.jump();
                 if (this.roleJS.roleType !== RoleType.normalType) {
                     this.skillBtnNode.active = true;
                     this._skillActive = true;
@@ -142,9 +156,9 @@ cc.Class({
 
     //用于游戏开始的调用
     startGame: function (cpdata) {
-        
+
         console.log(cpdata);
-        
+
         cc.moduleMgr.tempModule.module.CurcheckPoint = cpdata;
 
         // let conf = cc.tools.Getcheckpoint(cpdata.id + 1);
@@ -155,6 +169,7 @@ cc.Class({
 
         this.boxesMgrJS.prepareStart();
         this.roleJS.prepareStart();
+        this.closeAllTrap();
 
         this.gameCamera.position = cc.v2(0, 0);
 
@@ -190,6 +205,7 @@ cc.Class({
     gameOver: function () {
         this.closeTouch();
         this.boxesMgrJS.pauseDrop();
+        this.pauseAllScheduler();
 
         this.skillBtnNode.active = false;
         this.node_streak.active = false;
@@ -292,6 +308,50 @@ cc.Class({
         }
     },
 
+    //开启当前关卡的陷阱
+    startupTrap: function () {
+        this.closeAllTrap();
+        var traps = cc.moduleMgr.tempModule.module.CurcheckPoint.skill;
+
+        for (var i = 0; i < traps.length; i++) {
+            //落石
+            if (traps[i] === CheckpointType.stoneTrap) {
+                //先根据落石机关ID 获取所有内部数据
+                var trapData = cc.moduleMgr.playerModule.GetSkill(traps[i]);
+
+                this.schedule(this.dropStone, trapData.cd);
+            }
+        }
+
+    },
+
+    dropStone: function () {
+        console.log("?????");
+        var dropCount = Math.floor(2 + Math.random() * (StoneLocs.length - 1));//2~length;
+        var roleOnBoxIndex = this.boxesMgrJS.getRoleInBoxIndex();
+        console.log(roleOnBoxIndex);
+        for(var i = 0; i<dropCount;i++) {
+            var stone = cc.instantiate(this.stonePre);
+            this.stones.addChild(stone);
+            //获得角色的当前块
+            var tempBoxIndex = roleOnBoxIndex - StoneLocs[i];
+            console.log(tempBoxIndex);
+            stone.position = this.boxesMgrJS.boxQueue[tempBoxIndex][0].position;
+        }
+    },
+
+    closeAllTrap: function () {
+        this.unschedule(this.dropStone);
+    },
+
+    pauseAllScheduler:function() {
+        cc.director.getScheduler().pauseTarget(this);
+    },
+
+    resumeAllScheduler:function() {
+        cc.director.getScheduler().resumeTarget(this);
+    },
+
     //释放技能的时候，需要的公共技能代码
     releaseSkill_common: function (skillID, skillCD) {
         this.skillCD = skillCD;
@@ -309,7 +369,7 @@ cc.Class({
         if (this.skillBtnNode.active && this._skillActive === false) {
 
             this.skillMaskSprite.fillRange = 1 - (parseInt(Date.now() / 1000) - this.skillBeginTime) / this.skillCD;
-        
+
             if (this.skillMaskSprite.fillRange <= 0) {
                 this.skillMaskSprite.fillRange = 0;
                 this._skillActive = true;

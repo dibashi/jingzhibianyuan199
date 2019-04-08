@@ -80,10 +80,21 @@ cc.Class({
     },
 
     pauseDrop: function () {
+        console.log("暂停！！！box");
         this.unschedule(this.drop, this);
         this.unschedule(this.slowDrop, this);
 
         this.isInGenCoinTime = false;
+    },
+
+    getRoleInBoxIndex: function () {
+        for (var i = this.boxQueue.length - 1; i >= 0; i--) {
+
+            if (this.boxQueue[i][0].getComponent("box").checkRoleOnThisBox() === true) {
+                return i;
+            }
+        }
+        debugger;
     },
 
     drop: function () {
@@ -95,7 +106,7 @@ cc.Class({
         //身后格子数
         var count = 0;
         for (var i = this.boxQueue.length - 1; i >= 0; i--) {
-            
+
             if (this.boxQueue[i][0].getComponent("box").checkRoleOnThisBox() === true) {
                 cc.moduleMgr.tempModule.module.warningDistance = count
                 //console.log("角色身后的格子数量为--->  ", count);
@@ -152,19 +163,19 @@ cc.Class({
         } else {
             dir = (Math.random() > 0.5 ? BoxDir.left : BoxDir.right);
 
-            if(this.isInGenCoinTime === false) {
-                if(Math.random() < CoinProb) {
+            if (this.isInGenCoinTime === false) {
+                if (Math.random() < CoinProb) {
                     this.isInGenCoinTime = true;
-                   
-                    let coinTime = Math.random()*(CoinGenMaxTime - CoinGenMinTime) + CoinGenMinTime;
-                    this.scheduleOnce(function() {
+
+                    let coinTime = Math.random() * (CoinGenMaxTime - CoinGenMinTime) + CoinGenMinTime;
+                    this.scheduleOnce(function () {
                         this.isInGenCoinTime = false;
-                    }.bind(this),coinTime);
+                    }.bind(this), coinTime);
                 }
             }
         }
         var pos = this.getNextBoxPos(dir);
-        box.getComponent('box').initBox(this.generatedBox, pos, dir, BoxType.normalBox, curColorIndex,this.isInGenCoinTime);
+        box.getComponent('box').initBox(this.generatedBox, pos, dir, BoxType.normalBox, curColorIndex, this.isInGenCoinTime);
 
         this.boxQueue[0].push(box);
 
@@ -173,7 +184,7 @@ cc.Class({
             var blockPos = this.getNextBoxPos(blockDir);
             var blockBox = this.getBox();
             this.node.addChild(blockBox);
-            blockBox.getComponent('box').initBox(this.generatedBox, blockPos, blockDir, BoxType.blockBox, curColorIndex,this.isInGenCoinTime);
+            blockBox.getComponent('box').initBox(this.generatedBox, blockPos, blockDir, BoxType.blockBox, curColorIndex, this.isInGenCoinTime);
 
             this.boxQueue[0].push(blockBox);
         }

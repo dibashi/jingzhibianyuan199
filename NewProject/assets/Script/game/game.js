@@ -361,8 +361,8 @@ cc.Class({
             //获得角色的当前块
             var tempBoxIndex = roleOnBoxIndex - StoneLocs[i];
 
-            stone.position = this.boxesMgrJS.boxQueue[tempBoxIndex][0].position;
-
+            stone.x = this.boxesMgrJS.boxQueue[tempBoxIndex][0].x;
+            stone.y = this.boxesMgrJS.boxQueue[tempBoxIndex][0].y + 3;
             stone.getComponent("stone").box = this.boxesMgrJS.boxQueue[tempBoxIndex][0];
         }
     },

@@ -51,6 +51,8 @@ cc.Class({
 
         //在特定关卡下跳跃的次数
         this.cpStep = 0;
+        //是否无敌
+        this.isInvincible = false;
 
         this.unscheduleAllCallbacks();
     },
@@ -138,7 +140,7 @@ cc.Class({
         } else if (resultBoxJS.boxType === BoxType.blockBox) {
             var jumpY = aimY;
             var jumpX = aimX + (this.curDir === BoxDir.right ? -10 : 10);
-            this.dizzyAnimation(function () {
+            this.jumpDizzyAnimation(function () {
 
                 this.gameJS.openTouch();
                 this.vertigo.getComponent(cc.Animation).stop();
@@ -158,7 +160,7 @@ cc.Class({
         this.node.runAction(resultAction);
     },
 
-    dizzyAnimation: function (callback, jumpX, jumpY) {
+    jumpDizzyAnimation: function (callback, jumpX, jumpY) {
         //3.2秒
         this.gameJS.closeTouch();
         var jump1 = cc.jumpTo(JumpTime, cc.v2(jumpX, jumpY), this.jumpHeight, 1);
@@ -169,14 +171,19 @@ cc.Class({
         // var dizzAction = cc.sequence(jump1, jump2, repeat, cc.callFunc(callback));
         var dizzAction = cc.sequence(jump1, jump2, repeat, cc.callFunc(function () {
 
-            this.vertigo.active = true;
-            this.vertigo.getComponent(cc.Animation).play();
-            this.scheduleOnce(callback, 1.0);
+           this.dizzyAnimation(callback);
 
         }.bind(this)));
         this.node.runAction(dizzAction);
 
         cc.audioMgr.playEffect("vertigo");
+    },
+
+    dizzyAnimation:function(callback) {
+        this.gameJS.closeTouch();
+        this.vertigo.active = true;
+        this.vertigo.getComponent(cc.Animation).play();
+        this.scheduleOnce(callback, 1.0);
     },
 
     cliffJumping: function (callback, jumpX, jumpY) {
@@ -218,6 +225,7 @@ cc.Class({
     },
 
     accelerateAndPathfinding: function (interval, count) {
+        this.isInvincible = false;
         this.unschedule(this._accelerateAndPathfinding, this);
         this.accelerateCount = 0;
         this.totalAccelerateCount = count;
@@ -228,10 +236,12 @@ cc.Class({
 
     _accelerateAndPathfinding: function () {
         if (this.gameJS.currentGameState === gameStates.unStart) {
+            this.isInvincible = false;
             this.unschedule(this._accelerateAndPathfinding, this);
             return;
         }
 
+        this.isInvincible = true;
 
         let aimY = this.aimY + BoxY;
         let aimX = this.aimX + BoxX;
@@ -253,6 +263,7 @@ cc.Class({
 
         this.accelerateCount++;
         if (this.accelerateCount === this.totalAccelerateCount) {
+            this.isInvincible = false;
             this.unschedule(this._accelerateAndPathfinding, this);
             this.gameJS.openTouch();
         }

@@ -194,9 +194,7 @@ cc.Class({
     },
     //内部的游戏开始调用，复活开始也需要用到
     _startGame: function () {
-        var manager = cc.director.getCollisionManager();
-        manager.enabled = true;
-        manager.enabledDebugDraw = true;
+       
         this.openTouch();
         this.node_hint.active = true;
         this.role.active = true;
@@ -215,8 +213,6 @@ cc.Class({
     },
 
     gameOver: function () {
-        var manager = cc.director.getCollisionManager();
-        manager.enabled = false;
         this.closeTouch();
         this.boxesMgrJS.pauseDrop();
         this.pauseAllScheduler();
@@ -356,11 +352,14 @@ cc.Class({
             this.stones.addChild(stone);
             stone.getChildByName("stone").y = 640;
             stone.getChildByName("shadow").scale = 0;
+            
             stone.getComponent(cc.Animation).play();
             //获得角色的当前块
             var tempBoxIndex = roleOnBoxIndex - StoneLocs[i];
-            //console.log(tempBoxIndex);
+           
             stone.position = this.boxesMgrJS.boxQueue[tempBoxIndex][0].position;
+           
+            stone.getComponent("stone").box = this.boxesMgrJS.boxQueue[tempBoxIndex][0];
         }
     },
 

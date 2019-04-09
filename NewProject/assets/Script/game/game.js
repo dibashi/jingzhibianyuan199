@@ -75,7 +75,7 @@ cc.Class({
         this.curCheckPointID = CheckpointType.noneTrap;
 
 
-        
+
     },
 
     start: function () {
@@ -106,7 +106,7 @@ cc.Class({
             case gameStates.preparing:
 
 
-
+                
                 this.currentGameState = gameStates.starting;
                 this.node_hint.active = false;
                 this.roleJS.changeDir(touchPosition);
@@ -117,10 +117,13 @@ cc.Class({
 
                 this.resumeAllScheduler();
                 if (this.isReliveState) {
+                    cc.audioMgr.resumeBg("bg1");
                     let skillconf = cc.moduleMgr.playerModule.GetSkill(2001)
 
                     this.boxesMgrJS.slowDownDrop(skillconf.duration, skillconf.duration);
                     Notification.emit("skillShowTime", { id: skillconf.id });
+                } else {
+                    cc.audioMgr.playBg("bg1");
                 }
 
                 this.roleJS.jump();
@@ -167,8 +170,7 @@ cc.Class({
     //用于游戏开始的调用
     startGame: function (cpdata) {
 
-        console.log(cpdata);
-
+        cc.audioMgr.pauseBg();
         cc.moduleMgr.tempModule.module.CurcheckPoint = cpdata;
 
         // let conf = cc.tools.Getcheckpoint(cpdata.id + 1);
@@ -194,7 +196,8 @@ cc.Class({
     },
     //内部的游戏开始调用，复活开始也需要用到
     _startGame: function () {
-       
+
+        cc.audioMgr.pauseBg();
         this.openTouch();
         this.node_hint.active = true;
         this.role.active = true;
@@ -338,6 +341,7 @@ cc.Class({
     },
 
     dropStone: function () {
+        Notification.emit("skillShowTime", { id: 2002 });
         //console.log("?????");
         var dropCount = Math.floor(2 + Math.random() * (StoneLocs.length - 1));//2~length;
         var roleOnBoxIndex = this.boxesMgrJS.getRoleInBoxIndex();
@@ -352,13 +356,13 @@ cc.Class({
             this.stones.addChild(stone);
             stone.getChildByName("stone").y = 640;
             stone.getChildByName("shadow").scale = 0;
-            
+
             stone.getComponent(cc.Animation).play();
             //获得角色的当前块
             var tempBoxIndex = roleOnBoxIndex - StoneLocs[i];
-           
+
             stone.position = this.boxesMgrJS.boxQueue[tempBoxIndex][0].position;
-           
+
             stone.getComponent("stone").box = this.boxesMgrJS.boxQueue[tempBoxIndex][0];
         }
     },

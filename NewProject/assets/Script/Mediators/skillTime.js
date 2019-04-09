@@ -17,7 +17,7 @@ export default class skillTime extends cc.Component {
         this.skillStartTime = cc.tools.NowTime()
         let time = this.skillconf.duration
         if (time > 0){
-            let seq = cc.sequence(cc.delayTime(time-2),cc.blink(2, 10),cc.callFunc(function(){
+            let seq = cc.sequence(cc.delayTime(time - 1),cc.blink(1, 5),cc.callFunc(function(){
                 self.stopAllActions()
             }))
             this.node.runAction(seq)

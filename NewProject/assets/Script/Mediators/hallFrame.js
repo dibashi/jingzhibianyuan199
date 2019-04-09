@@ -7,7 +7,7 @@ const {
 export default class hallFrame extends cc.Component {
     onLoad(){
         //console.log("onLoad")
-        cc.audioMgr.playEffect("bg");
+        cc.audioMgr.playBg("bg");
     }
     localInit(data){
         this.data = data
@@ -63,6 +63,7 @@ export default class hallFrame extends cc.Component {
             cc.moduleMgr.itemModule.itemAddCount(1000,1)
         }
         Notification.on("hallcallBack",function(arg){
+ 
             this.node.getComponent(cc.Animation).play("reset_hall")
             this.node.parent.getComponent(cc.Animation).play("reset_root")
             this.nodeN.score.string = cc.moduleMgr.playerModule.module.OldScore

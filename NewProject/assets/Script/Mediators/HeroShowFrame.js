@@ -20,6 +20,7 @@ export default class HeroShowFrame extends cc.Component {
         this.nodeN.skillIcon = this.node.getChildByName("skillBg").getChildByName("icon")
         this.nodeN.skillName = this.node.getChildByName("skillBg").getChildByName("skillName").getComponent(cc.Label)
         this.nodeN.skillDesc = this.node.getChildByName("skillBg").getChildByName("skillDesc").getComponent(cc.Label)
+        this.nodeN.lv = this.nodeN.skillIcon.getChildByName("lv").getComponent(cc.Label)
         this.nodeN.leftBtn = this.node.getChildByName("leftBtn").getComponent("ClickEventListener")
         this.nodeN.rightBtn = this.node.getChildByName("rightBtn").getComponent("ClickEventListener")
         this.nodeN.roleChangeBtn = this.node.getChildByName("roleChangeBtn").getComponent("ClickEventListener")
@@ -91,6 +92,7 @@ export default class HeroShowFrame extends cc.Component {
             
             this.nodeN.skillName.string = skilConf[roleConf[id].skills].name
             this.nodeN.skillDesc.string = skilConf[roleConf[id].skills].desc
+            this.nodeN.lv.string = cc.moduleMgr.skillModule.SkillLv(roleConf[id].skills) +"级"
             //this.nodeN.desc.string = roleConf[id].name+"\n"+roleConf[id].desc+"\n技能："+skilConf[roleConf[id].skills].name+"\n"+skilConf[roleConf[id].skills].desc
         }
         this.nodeN.leftBtn.node.active = roleConf[id-1] ? true : false

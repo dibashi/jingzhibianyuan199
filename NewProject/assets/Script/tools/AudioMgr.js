@@ -6,7 +6,7 @@ export default class AudioMgr extends cc.Component {
     _audioSource_o = null;
 
     onLoad() {
-        if(!cc.audioMgr){
+        if (!cc.audioMgr) {
             cc.audioMgr = this
         }
         this.init();
@@ -41,20 +41,28 @@ export default class AudioMgr extends cc.Component {
         }
     }
 
-    playBg() {
+    playBg(type_s) {
         if (cc.moduleMgr.tempModule.module.is_sound) {
-            let source = this._audioSource_o["bg"];
+            let source = this._audioSource_o[type_s];
+
             if (source) {
+                this.curBg = source;
                 source.play();
             }
         }
     }
 
-    stopBg() {
-        let source = this._audioSource_o.bg;
-        if (source) {
-            source.pause();
+    pauseBg() {
+
+        if (this.curBg) {
+            this.curBg.pause();
         }
+    }
+
+    resumeBg(bgName) {
+        let source = this._audioSource_o[bgName];
+        source.resume();
+        this.curBg = source;
     }
 
     pauseAll() {

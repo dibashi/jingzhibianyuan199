@@ -85,13 +85,13 @@
   },
   "2002": {
     "id": 2002,
-    "name": "掉钱",
+    "name": "落石",
     "type": 0,
     "Animation": 0,
-    "icon": "unknown",
+    "icon": "stone",
     "isEffect": 0,
     "EffectBg": "",
-    "desc": "天降横财:掉落一大袋金币",
+    "desc": "掉落石块",
     "cd": 4,
     "duration": 2
   }

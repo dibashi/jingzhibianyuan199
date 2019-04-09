@@ -34,7 +34,7 @@ export default class SkillProxy{
         if (this.DataModule && this.DataModule[id]){
             return this.DataModule[id].lv
         }else{
-            return 0
+            return 1
         }
     }
 }

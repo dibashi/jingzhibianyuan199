@@ -44,7 +44,6 @@ export default class hallFrame extends cc.Component {
         this.nodeN.gold.string = cc.moduleMgr.itemModule.ItemCount(1000)
         //this.nodeN.startBtn.onClick = function(){
         this.nodeN.startMask.onClick = function(){
-            //cc.moduleMgr.tempModule.randomBgColor()
             self.node.getComponent(cc.Animation).play("start_hall")
             self.node.parent.getComponent(cc.Animation).play("start_root")
 

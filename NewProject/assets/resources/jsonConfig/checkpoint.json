@@ -4,7 +4,9 @@
     "step": 50,
     "color": 1,
     "target": 0,
-    "skill": 0.0,
+    "skill": [
+      0
+    ],
     "desc": "紫色关卡",
     "firstReward_id": 1018,
     "firstReward": 5,

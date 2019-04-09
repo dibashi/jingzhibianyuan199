@@ -6,8 +6,9 @@ const {
 @ccclass
 export default class UIbg extends cc.Component {
     start(){
-        Notification.on("randomBgColorChange",function(arg){
-            cc.tools.changeSprite(this.node.getChildByName("bg"),"bg/cj0"+ cc.moduleMgr.tempModule.module._bg_Color)
+        Notification.on("CurCheckPointChange",function(arg){
+            let color = cc.moduleMgr.tempModule.module.CurcheckPoint.color
+            cc.tools.changeSprite(this.node.getChildByName("bg"),"bg/cj0"+ color)
         },this)
     }
 }

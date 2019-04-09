@@ -7,6 +7,7 @@ export default class TempModule{
         this._bg_Color = 1;
         this._warningDistance = 0;
         this._CurcheckPoint = null;
+        this._reliveCount = 0//当前关卡已复活次数
     }
     get nowNoviceData(){//当前的新手引导关卡数据id、idx
         return this._nowNoviceData
@@ -31,6 +32,13 @@ export default class TempModule{
     }
     set CurcheckPoint(value){
         this._CurcheckPoint = value
+        Notification.emit("CurCheckPointChange")
+    }
+    get ReliveCount(){
+        return this._reliveCount
+    }
+    set ReliveCount(value){
+        this._reliveCount = value
     }
     get bg_Color(){
         return this._bg_Color

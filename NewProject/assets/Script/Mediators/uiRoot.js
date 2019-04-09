@@ -10,12 +10,13 @@ export default class uiRoot extends cc.Component {
     start(){
         this.nodeN = {}
         this.nodeN.node_box = this.node.getChildByName("node_box")
-        Notification.on("randomBgColorChange",function(arg){
-            this.node.getChildByName("hero_box").getChildByName("spr_box").getComponent(cc.Sprite).spriteFrame = this.pictures[cc.moduleMgr.tempModule.module._bg_Color-1]
+        Notification.on("CurCheckPointChange",function(arg){
+            let color = cc.moduleMgr.tempModule.module.CurcheckPoint.color
+            this.node.getChildByName("hero_box").getChildByName("spr_box").getComponent(cc.Sprite).spriteFrame = this.pictures[color-1]
 
             for (let i = 0;i<this.nodeN.node_box.childrenCount;i++){
                 if(this.nodeN.node_box.children[i]){
-                    this.nodeN.node_box.children[i].getComponent(cc.Sprite).spriteFrame = this.pictures[cc.moduleMgr.tempModule.module._bg_Color-1]
+                    this.nodeN.node_box.children[i].getComponent(cc.Sprite).spriteFrame = this.pictures[color-1]
                 }
             }
         },this)

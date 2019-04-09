@@ -39,13 +39,13 @@ cc.Class({
             type: cc.Node
         },
 
-        stonePre:{
-            default:null,
-            type:cc.Prefab
+        stonePre: {
+            default: null,
+            type: cc.Prefab
         },
-        stones:{
-            default:null,
-            type:cc.Node
+        stones: {
+            default: null,
+            type: cc.Node
         }
     },
 
@@ -73,6 +73,9 @@ cc.Class({
         this.skillMaskSprite = this.skillBtnNode.getChildByName("mask").getComponent(cc.Sprite);
 
         this.curCheckPointID = CheckpointType.noneTrap;
+
+
+        
     },
 
     start: function () {
@@ -82,6 +85,13 @@ cc.Class({
             this.boxesMgrJS.prepareStart();
 
         }.bind(this), this);
+
+        this.stonePool = new cc.NodePool();
+
+        for (var i = 0; i < StonePoolSize; i++) {
+            let stone = cc.instantiate(this.stonePre);
+            this.stonePool.put(stone);
+        }
     },
 
     openTouch: function () {
@@ -102,9 +112,9 @@ cc.Class({
                 this.roleJS.changeDir(touchPosition);
 
                 this.boxesMgrJS.beginDrop();
-                
 
-               
+
+
                 this.resumeAllScheduler();
                 if (this.isReliveState) {
                     let skillconf = cc.moduleMgr.playerModule.GetSkill(2001)
@@ -184,7 +194,9 @@ cc.Class({
     },
     //内部的游戏开始调用，复活开始也需要用到
     _startGame: function () {
-
+        var manager = cc.director.getCollisionManager();
+        manager.enabled = true;
+        manager.enabledDebugDraw = true;
         this.openTouch();
         this.node_hint.active = true;
         this.role.active = true;
@@ -203,6 +215,8 @@ cc.Class({
     },
 
     gameOver: function () {
+        var manager = cc.director.getCollisionManager();
+        manager.enabled = false;
         this.closeTouch();
         this.boxesMgrJS.pauseDrop();
         this.pauseAllScheduler();
@@ -271,6 +285,8 @@ cc.Class({
             }
 
         }
+        // this.gameCamera.x = this.roleJS.node.x;
+        // this.gameCamera.y = this.roleJS.node.y;
     },
 
 
@@ -326,16 +342,24 @@ cc.Class({
     },
 
     dropStone: function () {
-        console.log("?????");
+        //console.log("?????");
         var dropCount = Math.floor(2 + Math.random() * (StoneLocs.length - 1));//2~length;
         var roleOnBoxIndex = this.boxesMgrJS.getRoleInBoxIndex();
-        console.log(roleOnBoxIndex);
-        for(var i = 0; i<dropCount;i++) {
-            var stone = cc.instantiate(this.stonePre);
+        //console.log(roleOnBoxIndex);
+        for (var i = 0; i < dropCount; i++) {
+            let stone = null;
+            if (this.stonePool.size() > 0) {
+                stone = this.stonePool.get();
+            } else {
+                stone = cc.instantiate(this.stonePre);
+            }
             this.stones.addChild(stone);
+            stone.getChildByName("stone").y = 640;
+            stone.getChildByName("shadow").scale = 0;
+            stone.getComponent(cc.Animation).play();
             //获得角色的当前块
             var tempBoxIndex = roleOnBoxIndex - StoneLocs[i];
-            console.log(tempBoxIndex);
+            //console.log(tempBoxIndex);
             stone.position = this.boxesMgrJS.boxQueue[tempBoxIndex][0].position;
         }
     },
@@ -344,11 +368,11 @@ cc.Class({
         this.unschedule(this.dropStone);
     },
 
-    pauseAllScheduler:function() {
+    pauseAllScheduler: function () {
         cc.director.getScheduler().pauseTarget(this);
     },
 
-    resumeAllScheduler:function() {
+    resumeAllScheduler: function () {
         cc.director.getScheduler().resumeTarget(this);
     },
 

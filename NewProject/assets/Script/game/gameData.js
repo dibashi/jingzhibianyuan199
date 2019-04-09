@@ -37,6 +37,8 @@ window.BlockImageCount = 5;
 
 //对象池中 box的数量，用来优化程序性能
 window.BoxPoolSize = 80;
+//石头池
+window.StonePoolSize = 5;
 //脚印的偏移量
 window.FootY = -4;
 //障碍物、道具 的偏移量

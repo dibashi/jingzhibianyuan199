@@ -121,7 +121,8 @@ cc.Class({
                     box.getChildByName("spr_block").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0" + conf.color);
                 }
 
-                //this.gameJS.startupTrap();
+                //当前关卡结束，启动新的关卡
+                this.gameJS.startupTrap();
 
             }
 

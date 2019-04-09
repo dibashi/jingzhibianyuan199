@@ -12,6 +12,20 @@
       false,
       false,
       false
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      true
+    ],
+    [
+      false,
+      false,
+      false,
+      true,
+      false
     ]
   ],
   "design-resolution-height": 640,
@@ -32,7 +46,9 @@
   "group-list": [
     "default",
     "game",
-    "ui"
+    "ui",
+    "role",
+    "stone"
   ],
   "last-module-event-record-time": 1554368959598,
   "simulator-orientation": false,

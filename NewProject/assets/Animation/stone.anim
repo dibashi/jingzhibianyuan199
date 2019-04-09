@@ -3,7 +3,7 @@
   "_name": "stone",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 2.4166666666666665,
+  "_duration": 2.5,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -36,15 +36,29 @@
           "y": [
             {
               "frame": 0,
-              "value": 1000
-            },
-            {
-              "frame": 2.0166666666666666,
               "value": 640
             },
             {
-              "frame": 2.35,
+              "frame": 2,
+              "value": 640
+            },
+            {
+              "frame": 2.3333333333333335,
+              "value": -22.8
+            },
+            {
+              "frame": 2.5,
+              "value": -22.8
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
               "value": 0
+            },
+            {
+              "frame": 2,
+              "value": 255
             }
           ]
         }
@@ -53,7 +67,7 @@
   },
   "events": [
     {
-      "frame": 2.4166666666666665,
+      "frame": 2.5,
       "func": "stoneDroped",
       "params": []
     }

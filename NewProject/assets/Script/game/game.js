@@ -75,7 +75,7 @@ cc.Class({
         this.curCheckPointID = CheckpointType.noneTrap;
 
 
-
+        this.stones.zIndex = 2;
     },
 
     start: function () {
@@ -130,7 +130,7 @@ cc.Class({
                 if (this.roleJS.roleType !== RoleType.normalType) {
                     this.skillBtnNode.active = true;
                     this._skillActive = true;
-
+                    this.skillBtnNode.getChildByName("border").active = true;
                     this.skillMaskSprite.fillRange = 0;
                 }
 
@@ -354,7 +354,7 @@ cc.Class({
                 stone = cc.instantiate(this.stonePre);
             }
             this.stones.addChild(stone);
-            stone.getChildByName("stone").y = 1000;
+            stone.getChildByName("stone").y = 640;
             stone.getChildByName("shadow").scale = 0;
 
             stone.getComponent(cc.Animation).play();
@@ -381,6 +381,7 @@ cc.Class({
 
     //释放技能的时候，需要的公共技能代码
     releaseSkill_common: function (skillID, skillCD) {
+        this.skillBtnNode.getChildByName("border").active = false;
         this.skillCD = skillCD;
         Notification.emit("skillShowTime", { id: skillID });
         this._skillActive = false;
@@ -400,6 +401,7 @@ cc.Class({
             if (this.skillMaskSprite.fillRange <= 0) {
                 this.skillMaskSprite.fillRange = 0;
                 this._skillActive = true;
+                this.skillBtnNode.getChildByName("border").active = true;
             }
         }
     },

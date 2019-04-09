@@ -116,7 +116,7 @@ cc.Class({
                 let conf = cc.tools.Getcheckpoint(cc.moduleMgr.tempModule.module.CurcheckPoint.id + 1);
                 cc.moduleMgr.tempModule.module.CurcheckPoint = conf;
 
-                console.log(cc.moduleMgr.tempModule.module.CurcheckPoint);
+                // console.log(cc.moduleMgr.tempModule.module.CurcheckPoint);
                 for (let i = 0, len = this.boxesMgrJS.node.children.length; i < len; i++) {
                     let box = this.boxesMgrJS.node.children[i];
                     box.getChildByName("spr_box").getComponent(cc.Sprite).spriteFrame = this.gameJS.getGameFrame_sf("zz0" + conf.color);

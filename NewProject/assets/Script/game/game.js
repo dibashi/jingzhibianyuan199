@@ -354,7 +354,7 @@ cc.Class({
                 stone = cc.instantiate(this.stonePre);
             }
             this.stones.addChild(stone);
-            stone.getChildByName("stone").y = 640;
+            stone.getChildByName("stone").y = 1000;
             stone.getChildByName("shadow").scale = 0;
 
             stone.getComponent(cc.Animation).play();

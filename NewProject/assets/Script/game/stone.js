@@ -26,6 +26,7 @@ cc.Class({
             debugger;
         } else {
             if(this.box.getComponent("box").checkRoleOnThisBox() === true) {
+                cc.audioMgr.playEffect("vertigo");
                 if(this.gameJS.roleJS.isInvincible === false) {
                     this.gameJS.roleJS.dizzyAnimation(function () {
 
@@ -37,6 +38,7 @@ cc.Class({
             }
         }
 
+        cc.audioMgr.playEffect("stoneDroped");
 
         this.gameJS.stonePool.put(this.node);
     }

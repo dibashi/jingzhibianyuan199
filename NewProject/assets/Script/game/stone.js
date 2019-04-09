@@ -20,7 +20,7 @@ cc.Class({
     },
 
     stoneDroped:function() {
-        console.log("石头落下来了");
+        // console.log("石头落下来了");
 
         if(!this.box) {
             debugger;

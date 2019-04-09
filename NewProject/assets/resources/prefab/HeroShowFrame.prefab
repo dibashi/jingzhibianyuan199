@@ -1087,7 +1087,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Sprite",
+    "_name": "bg",
     "_objFlags": 0,
     "_parent": {
       "__id__": 28

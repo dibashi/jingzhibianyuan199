@@ -20,6 +20,7 @@ export default class HeroShowFrame extends cc.Component {
         this.nodeN.skillIcon = this.node.getChildByName("skillBg").getChildByName("icon")
         this.nodeN.skillName = this.node.getChildByName("skillBg").getChildByName("skillName").getComponent(cc.Label)
         this.nodeN.skillDesc = this.node.getChildByName("skillBg").getChildByName("skillDesc").getComponent(cc.Label)
+        this.nodeN.iconbg = this.nodeN.skillIcon.getChildByName("bg")
         this.nodeN.lv = this.nodeN.skillIcon.getChildByName("lv").getComponent(cc.Label)
         this.nodeN.leftBtn = this.node.getChildByName("leftBtn").getComponent("ClickEventListener")
         this.nodeN.rightBtn = this.node.getChildByName("rightBtn").getComponent("ClickEventListener")
@@ -82,8 +83,10 @@ export default class HeroShowFrame extends cc.Component {
         let skilConf = cc.config("skills")
         if (roleConf[id]){
             cc.tools.changeSprite(this.nodeN.role,"role/"+ roleConf[id].Role)
-            console.log(skilConf[roleConf[id].skills].icon)
+            //console.log(skilConf[roleConf[id].skills].icon)
             this.nodeN.skillIcon.getChildByName("up").active = skilConf[roleConf[id].skills].icon != "unknown" ? true : false
+            this.nodeN.iconbg.active = skilConf[roleConf[id].skills].icon != "unknown" ? true : false
+            this.nodeN.lv.node.active = skilConf[roleConf[id].skills].icon != "unknown" ? true : false
             if (skilConf[roleConf[id].skills].icon != 0){
                 cc.tools.changeSprite(this.nodeN.skillIcon,"skill/"+skilConf[roleConf[id].skills].icon)
             }else{

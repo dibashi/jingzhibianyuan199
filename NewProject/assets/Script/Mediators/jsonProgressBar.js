@@ -25,6 +25,9 @@ export default class jsonProgressBar extends cc.Component {
                             "chooseFrame",
                             "tipsFrame",
                             "hallFrame"]
+        this.barDesc = ["正在打开灯光",
+                        "正在初始化人物",
+                        "正在载入数据"]
     }
     start() {
         let self = this
@@ -33,7 +36,7 @@ export default class jsonProgressBar extends cc.Component {
         this.Max_progress = this.jsonName.length + this.PrefabName.length
         
         window.Notification.on("loadjsonTips",function(data){
-            self.node.getChildByName("desc").getComponent(cc.Label).string = "正在加载配置表:"+data.name+"Config"
+            self.node.getChildByName("desc").getComponent(cc.Label).string = this.barDesc[0]//"正在加载配置表:"+data.name+"Config"
         },this)
         window.Notification.on("loadjsonSuccess",function(data){
             self.now_progress = self.now_progress + 1
@@ -42,7 +45,7 @@ export default class jsonProgressBar extends cc.Component {
             //console.log(data.name+" "+data.progress)
             if (self.now_progress == data.progress){
                 self.scheduleOnce(function(){
-                    self.node.getChildByName("desc").getComponent(cc.Label).string = "配置表:Success"
+                    self.node.getChildByName("desc").getComponent(cc.Label).string = this.barDesc[1]//"配置表:Success"
                     self.is_json = true
                     self.loadData()
                 },0.5)
@@ -53,7 +56,7 @@ export default class jsonProgressBar extends cc.Component {
             self.loadData()
         },this)
         window.Notification.on("loadPrefabTips",function(data){
-            self.node.getChildByName("desc").getComponent(cc.Label).string = "正在加载Prefab:"+data.name
+            self.node.getChildByName("desc").getComponent(cc.Label).string = this.barDesc[1]//"正在加载Prefab:"+data.name
         },this)
         window.Notification.on("loadPrefabSuccess",function(data){
             self.now_progress = self.now_progress + 1
@@ -61,7 +64,7 @@ export default class jsonProgressBar extends cc.Component {
             //console.log(data.name+" "+data.progress)
             if (this.now_progress == this.Max_progress){
                 self.scheduleOnce(function(){
-                    self.node.getChildByName("desc").getComponent(cc.Label).string = "Prefab:Success"
+                    self.node.getChildByName("desc").getComponent(cc.Label).string = this.barDesc[2]//"Prefab:Success"
                     self.is_prefab = true
                     self.loadData()
                 },0.5)

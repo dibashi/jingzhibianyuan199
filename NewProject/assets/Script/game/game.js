@@ -46,6 +46,15 @@ cc.Class({
         stones: {
             default: null,
             type: cc.Node
+        },
+
+        laserPre: {
+            default: null,
+            type: cc.Prefab
+        },
+        lasers: {
+            default: null,
+            type: cc.Node
         }
     },
 
@@ -91,6 +100,13 @@ cc.Class({
         for (var i = 0; i < StonePoolSize; i++) {
             let stone = cc.instantiate(this.stonePre);
             this.stonePool.put(stone);
+        }
+
+        this.laserPool = new cc.NodePool();
+
+        for (var i = 0; i < StonePoolSize; i++) {
+            let laser = cc.instantiate(this.laserPre);
+            this.laserPool.put(laser);
         }
     },
 
@@ -335,6 +351,14 @@ cc.Class({
                 var trapData = cc.moduleMgr.playerModule.GetSkill(traps[i]);
 
                 this.schedule(this.dropStone, trapData.cd);
+            } else if(traps[i] === CheckpointType.blindingTrap) {
+                var trapData = cc.moduleMgr.playerModule.GetSkill(traps[i]);
+
+                this.schedule(this.blinding,trapData.cd);
+            } else if(traps[i] === CheckpointType.laserTrap) {
+                var trapData = cc.moduleMgr.playerModule.GetSkill(traps[i]);
+
+                this.schedule(this.laser,trapData.cd);
             }
         }
 
@@ -367,8 +391,42 @@ cc.Class({
         }
     },
 
+    blinding:function() {
+        Notification.emit("skillShowTime",{id:2003});
+
+    },
+
+    laser:function() {
+        Notification.emit("skillShowTime", { id: 2004 });
+        //console.log("?????");
+        var laserCount = Math.floor(2 + Math.random() * (LaserLocs.length - 1));//2~length;
+        var roleOnBoxIndex = this.boxesMgrJS.getRoleInBoxIndex();
+        //console.log(roleOnBoxIndex);
+        for (var i = 0; i < laserCount; i++) {
+            let laser = null;
+            if (this.laserPool.size() > 0) {
+                laser = this.laserPool.get();
+            } else {
+                laser = cc.instantiate(this.laserPool);
+            }
+            this.lasers.addChild(laser);
+            // stone.getChildByName("stone").y = 640;
+            // stone.getChildByName("shadow").scale = 0;
+
+            laser.getComponent(cc.Animation).play();
+            //获得角色的当前块
+            var tempBoxIndex = roleOnBoxIndex - LaserLocs[i];
+
+            laser.x = this.boxesMgrJS.boxQueue[tempBoxIndex][0].x;
+            laser.y = this.boxesMgrJS.boxQueue[tempBoxIndex][0].y + 13;
+            laser.getComponent("laser").box = this.boxesMgrJS.boxQueue[tempBoxIndex][0];
+        }
+    },
+
     closeAllTrap: function () {
         this.unschedule(this.dropStone);
+        this.unschedule(this.blinding);
+        this.unschedule(this.laser);
     },
 
     pauseAllScheduler: function () {

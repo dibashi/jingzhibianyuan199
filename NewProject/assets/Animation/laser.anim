@@ -1,0 +1,180 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "laser",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 1.4333333333333333,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": "1",
+  "curveData": {
+    "paths": {
+      "left": {
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": [
+              {
+                "frame": 1,
+                "value": {
+                  "__uuid__": "9a886f90-2950-466d-84f9-6a928543ddf7"
+                }
+              },
+              {
+                "frame": 1.0833333333333333,
+                "value": {
+                  "__uuid__": "743fb68c-1088-48cb-8f3d-1064f6c991a7"
+                }
+              },
+              {
+                "frame": 1.1666666666666667,
+                "value": {
+                  "__uuid__": "81bf3e79-2213-4012-93b9-62f3733fa2c8"
+                }
+              },
+              {
+                "frame": 1.25,
+                "value": {
+                  "__uuid__": "b2e99e84-bb04-4693-b400-e22a1e321fb4"
+                }
+              },
+              {
+                "frame": 1.3333333333333333,
+                "value": {
+                  "__uuid__": "db263a52-5097-428e-b74b-746bdf64e21a"
+                }
+              },
+              {
+                "frame": 1.4166666666666667,
+                "value": {
+                  "__uuid__": "b86ce7c7-1796-4b9b-b8b2-55a6e3cadc0c"
+                }
+              }
+            ]
+          }
+        },
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.9833333333333333,
+              "value": 0
+            },
+            {
+              "frame": 1,
+              "value": 255
+            },
+            {
+              "frame": 1.4166666666666667,
+              "value": 255
+            },
+            {
+              "frame": 1.4333333333333333,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "right": {
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": [
+              {
+                "frame": 1,
+                "value": {
+                  "__uuid__": "9a886f90-2950-466d-84f9-6a928543ddf7"
+                }
+              },
+              {
+                "frame": 1.0833333333333333,
+                "value": {
+                  "__uuid__": "743fb68c-1088-48cb-8f3d-1064f6c991a7"
+                }
+              },
+              {
+                "frame": 1.1666666666666667,
+                "value": {
+                  "__uuid__": "81bf3e79-2213-4012-93b9-62f3733fa2c8"
+                }
+              },
+              {
+                "frame": 1.25,
+                "value": {
+                  "__uuid__": "b2e99e84-bb04-4693-b400-e22a1e321fb4"
+                }
+              },
+              {
+                "frame": 1.3333333333333333,
+                "value": {
+                  "__uuid__": "db263a52-5097-428e-b74b-746bdf64e21a"
+                }
+              },
+              {
+                "frame": 1.4166666666666667,
+                "value": {
+                  "__uuid__": "b86ce7c7-1796-4b9b-b8b2-55a6e3cadc0c"
+                }
+              }
+            ]
+          }
+        },
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.9833333333333333,
+              "value": 0
+            },
+            {
+              "frame": 1,
+              "value": 255
+            },
+            {
+              "frame": 1.4166666666666667,
+              "value": 255
+            },
+            {
+              "frame": 1.4333333333333333,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "warning": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 1,
+              "value": 255
+            },
+            {
+              "frame": 1.4166666666666667,
+              "value": 0
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": [
+    {
+      "frame": 1.0833333333333333,
+      "func": "lasering",
+      "params": []
+    },
+    {
+      "frame": 1.4333333333333333,
+      "func": "laserEnd",
+      "params": []
+    }
+  ]
+}

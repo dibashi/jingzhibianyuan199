@@ -67,8 +67,13 @@
   },
   "events": [
     {
-      "frame": 2.5,
+      "frame": 2.3,
       "func": "stoneDroped",
+      "params": []
+    },
+    {
+      "frame": 2.5,
+      "func": "stoneEnd",
       "params": []
     }
   ]

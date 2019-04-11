@@ -37,6 +37,7 @@ export default class hallFrame extends cc.Component {
         this.nodeN.skillEffect = this.node.getChildByName("skillEffect")
         this.nodeN.articuloMortis = this.node.getChildByName("articuloMortis")
         this.nodeN.resurgence = this.node.getChildByName("resurgence")
+        this.nodeN.pitfall = this.node.getChildByName("pitfall")
         this.nodeN.warning = this.node.getChildByName("warning")
         this.nodeN.skillLayout = this.node.getChildByName("skillLayout")
         this.nodeN.Skill_0 = this.nodeN.skillLayout.children[0]
@@ -107,7 +108,13 @@ export default class hallFrame extends cc.Component {
             let skillconf = cc.moduleMgr.playerModule.GetSkill(arg.id);
             if (skillconf.isEffect == 1){//是否有屏幕特效
                 if (skillconf.type == 0){
-                    this.nodeN.resurgence.active = true
+                    if (skillconf.Animation == 1){
+                        this.nodeN.pitfall.active = true
+                        this.nodeN.pitfall.getComponent(cc.Animation).play("pitfall")
+                    }else{
+                        this.nodeN.pitfall.getComponent(cc.Animation).stop("pitfall")
+                        this.nodeN.resurgence.active = true
+                    }
                 }else{
                     if (skillconf.Animation == 1){
                         this.nodeN.skillEffect.getComponent(cc.Animation).play("skilleffect")
@@ -156,9 +163,10 @@ export default class hallFrame extends cc.Component {
         },this)
     }
     skillStop(){//屏幕效果全部停止
-        this.nodeN.skillEffect.active = false
-        this.nodeN.resurgence.active = false
-        this.nodeN.articuloMortis.active = false
+        this.nodeN.skillEffect.active = false//技能效果
+        this.nodeN.resurgence.active = false//复活效果
+        this.nodeN.articuloMortis.active = false//危险效果
+        this.nodeN.pitfall.active = false//致盲效果
     }
     RefHallLayout(arg){
         this.node.getChildByName("mask").active = arg.length > 0 ? true : false

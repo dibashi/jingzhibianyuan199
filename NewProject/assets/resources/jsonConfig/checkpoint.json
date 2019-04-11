@@ -1,7 +1,7 @@
 {
   "1": {
     "id": 1,
-    "step": 40,
+    "step": 10,
     "color": 1,
     "target": 0,
     "skill": [
@@ -15,7 +15,7 @@
   },
   "2": {
     "id": 2,
-    "step": 40,
+    "step": 10,
     "color": 2,
     "target": 1,
     "skill": [
@@ -26,5 +26,34 @@
     "firstReward": 7,
     "dailyReward_id": 1018,
     "dailyReward": 2
+  },
+  "3": {
+    "id": 3,
+    "step": 10,
+    "color": 3,
+    "target": 2,
+    "skill": [
+      2003
+    ],
+    "desc": "",
+    "firstReward_id": 0.0,
+    "firstReward": 0.0,
+    "dailyReward_id": 0.0,
+    "dailyReward": 0.0
+  },
+  "4": {
+    "id": 4,
+    "step": 1000,
+    "color": 4,
+    "target": 3,
+    "skill": [
+      2002,
+      2004
+    ],
+    "desc": "",
+    "firstReward_id": 0.0,
+    "firstReward": 0.0,
+    "dailyReward_id": 0.0,
+    "dailyReward": 0.0
   }
 }

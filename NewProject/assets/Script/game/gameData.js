@@ -39,6 +39,8 @@ window.BlockImageCount = 5;
 window.BoxPoolSize = 80;
 //石头池
 window.StonePoolSize = 5;
+//激光池
+window.LaserPoolSize = 5;
 //脚印的偏移量
 window.FootY = -4;
 //障碍物、道具 的偏移量
@@ -59,9 +61,12 @@ window.BoxAccelerateCount = 20;
 window.DeltaOfBoxAcc = 0.02;
 
 //砖块初始掉落速度
-window.BoxInitSpeed = 0.4;
-//砖块掉落的极限时间
-window.BoxLimitDropTime = 0.22;
+// window.BoxInitSpeed = 0.4;
+// //砖块掉落的极限时间
+// window.BoxLimitDropTime = 0.22;
+window.BoxInitSpeed = 5;
+// //砖块掉落的极限时间
+window.BoxLimitDropTime = 4;
 
 //金币类型的标示, 注！！！！！ 顺带定义了数量  类型===数量
 window.CoinType = Object.freeze({
@@ -73,7 +78,8 @@ window.CoinType = Object.freeze({
 window.CheckpointType = Object.freeze({
   
     stoneTrap: 2002,//落石头
-   
+    blindingTrap:2003,//致盲玩家 //目前是测试状态
+    laserTrap:2004,// 激光陷阱
 });
 
 
@@ -81,6 +87,7 @@ window.RoleType = Object.freeze({
     normalType: 0,//什么技能也没有的角色
     accelerateType: 1001,//加速角色 根据次数进行加速 自动寻路
     slowDownType: 1002,//减速角色  减速掉落
+    ninjaType:1003,//忍者，跳悬崖可以复活
 });
 
 
@@ -111,3 +118,4 @@ window.Role_SlowDown_Data = Object.freeze(
 );
 
 window.StoneLocs = [4,6,8,10,12];
+window.LaserLocs = [3,5,7,9,11];

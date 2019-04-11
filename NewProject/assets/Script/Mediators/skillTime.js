@@ -49,7 +49,7 @@ export default class skillTime extends cc.Component {
     stopAllActions(){
         this.skillStartTime = 0
         this.node.active = false
-        this.node.stopAllActions();
+        this.node.stopAllActions();//停止当前对象动画
         Notification.emit("skillstopAllActions",{id:this.data.id})
     }
 }

@@ -6,7 +6,6 @@ const {
 @ccclass
 export default class GameOverFrame extends cc.Component {
     onLoad() {
-        console.log("onLoad")
         cc.moduleMgr.playerModule.module.score = cc.moduleMgr.tempModule.module.score
         cc.moduleMgr.tempModule.module.ReliveCount += 1;
         cc.audioMgr.pauseBg();

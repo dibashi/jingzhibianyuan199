@@ -15,8 +15,8 @@ export default class SkillProxy{
             for(let i = 0;i<data.length;i++){
                 this.AddOrUpdateSimpleData(data[i])
             }
-            cc.sys.localStorage.setSkill('SkillModule', JSON.stringify(this.DataIndex));
-            window.Notification.emit("SkillModuleUpdate")
+            cc.sys.localStorage.setItem('SkillModule', JSON.stringify(this.DataIndex));
+            Notification.emit("SkillModuleUpdate")
         }
     }
     AddOrUpdateSimpleData(data){

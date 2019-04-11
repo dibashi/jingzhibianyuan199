@@ -24,6 +24,10 @@ export default class jsonProgressBar extends cc.Component {
                             "HeroShowFrame",
                             "chooseFrame",
                             "tipsFrame",
+                            "skill1001",
+                            "skill1002",
+                            "skill2003",
+                            "skill2005",
                             "hallFrame"]
         this.barDesc = ["正在打开灯光",
                         "正在初始化人物",

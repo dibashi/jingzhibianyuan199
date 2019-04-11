@@ -44,7 +44,7 @@ export default class HeroShowFrame extends cc.Component {
         }
         this.nodeN.skillIcon.getComponent("ClickEventListener").onClick = function(){
             if (self.nodeN.skillIcon.getChildByName("up").active){
-
+                cc.uiMgr.Push("skillUpgradeFrame",{id:id},{add:false,parentName:"Canvas/UI2dUp"})
             }
         }
         this.nodeN.unlockBtn.onClick = function(){
@@ -76,6 +76,9 @@ export default class HeroShowFrame extends cc.Component {
         Notification.on("ItemModuleUpdate",function(){
             this.RoleChange(id)
         },this)
+        Notification.on("SkillModuleUpdate",function(){
+            this.RoleChange(id)
+        },this)
         cc.tools.changeSprite(this.nodeN.floor,"floor/zz0"+cc.moduleMgr.tempModule.module._bg_Color)
     }
     RoleChange(id){
@@ -85,7 +88,7 @@ export default class HeroShowFrame extends cc.Component {
             cc.tools.changeSprite(this.nodeN.role,"role/"+ roleConf[id].Role)
             //console.log(skilConf[roleConf[id].skills].icon)
             this.nodeN.skillIcon.getChildByName("up").active = skilConf[roleConf[id].skills].icon != "unknown" ? true : false
-            this.nodeN.iconbg.active = skilConf[roleConf[id].skills].icon != "unknown" ? true : false
+            //this.nodeN.iconbg.active = skilConf[roleConf[id].skills].icon != "unknown" ? true : false
             this.nodeN.lv.node.active = skilConf[roleConf[id].skills].icon != "unknown" ? true : false
             if (skilConf[roleConf[id].skills].icon != 0){
                 cc.tools.changeSprite(this.nodeN.skillIcon,"skill/"+skilConf[roleConf[id].skills].icon)

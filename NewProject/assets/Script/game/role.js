@@ -97,9 +97,14 @@ cc.Class({
         var resultBoxJS = this.boxesMgrJS.getJumpedInfo(aimX, aimY, this.aimX, this.aimY, this.curDir);
         if (resultBoxJS === null) {
             //悬崖，阵亡了
-            var jumpY = aimY;
-            var jumpX = aimX;
-            this.cliffJumping(this.deadCallback, aimX, aimY);
+            if(this.roleType !== RoleType.ninjaType || this.gameJS._skillActive === false) {
+                var jumpY = aimY;
+                var jumpX = aimX;
+                this.cliffJumping(this.deadCallback, aimX, aimY);
+            } else {
+                //this.
+            }
+           
 
         } else if (resultBoxJS.boxType === BoxType.normalBox) {
             this.aimX = aimX;

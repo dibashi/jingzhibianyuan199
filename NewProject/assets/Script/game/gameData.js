@@ -60,13 +60,13 @@ window.BoxAccelerateCount = 20;
 //一次加速多少 砖块的掉落速度
 window.DeltaOfBoxAcc = 0.02;
 
-//砖块初始掉落速度
-// window.BoxInitSpeed = 0.4;
-// //砖块掉落的极限时间
-// window.BoxLimitDropTime = 0.22;
-window.BoxInitSpeed = 5;
-// //砖块掉落的极限时间
-window.BoxLimitDropTime = 4;
+// 砖块初始掉落速度
+window.BoxInitSpeed = 0.4;
+//砖块掉落的极限时间
+window.BoxLimitDropTime = 0.22;
+// window.BoxInitSpeed = 5;
+// // //砖块掉落的极限时间
+// window.BoxLimitDropTime = 4;
 
 //金币类型的标示, 注！！！！！ 顺带定义了数量  类型===数量
 window.CoinType = Object.freeze({

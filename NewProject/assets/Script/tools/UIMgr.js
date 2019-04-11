@@ -60,9 +60,9 @@ export default class UIMgr extends cc.Component {
         let _Prefab = cc.tools.getPrefab(name)
         let Prefab = cc.Prefabs(name)
         if (_Prefab){
-            this.loadPrefab(name,data,{add:add,parentObj:_parentObj,isCover:isCover},_Prefab)
+            return this.loadPrefab(name,data,{add:add,parentObj:_parentObj,isCover:isCover},_Prefab)
         }else if (Prefab){
-            this.loadPrefab(name,data,{add:add,parentObj:_parentObj,isCover:isCover},Prefab)
+            return this.loadPrefab(name,data,{add:add,parentObj:_parentObj,isCover:isCover},Prefab)
         }else{
             let self = this
             cc.loader.loadRes('prefab/'+name, function (err, prefab) {
@@ -75,8 +75,8 @@ export default class UIMgr extends cc.Component {
                 //cc.log('Result should be a prefab: ' + (prefab instanceof cc.Prefab));
                 self.loadPrefab(name,data,{add:add,parentObj:_parentObj,isCover:isCover},prefab)
             })
+            return null
         }
-        
     }
     loadPrefab(name,data,parameter,prefab){
         if (!parameter || !prefab){
@@ -119,6 +119,7 @@ export default class UIMgr extends cc.Component {
         }catch(err){
             console.log(name,err)
         }
+        return nodeCN
         //nodeCN.addComponent("test").localInit({name :"张三",id:9527})
     }
     

@@ -30,8 +30,10 @@ export default class PlayerProxy{
         let roleConf = cc.config("role")
         if (roleConf[id] ){
             let skilConf = this.GetSkill(roleConf[id].skills)
+            let skillLv = cc.moduleMgr.skillModule.SkillLv(roleConf[id].skills)
             if(skilConf){
-                return {id:skilConf.id,cd:skilConf.cd,icon:skilConf.icon,duration:skilConf.duration,conf:skilConf}
+                let duration = (skillLv-1) * (skilConf.duration*skilConf.increase) + skilConf.duration
+                return {id:skilConf.id,cd:skilConf.cd,icon:skilConf.icon,duration:duration,conf:skilConf}
             }
         }
         return {}

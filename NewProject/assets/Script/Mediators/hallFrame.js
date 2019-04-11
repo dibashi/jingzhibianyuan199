@@ -26,6 +26,7 @@ export default class hallFrame extends cc.Component {
     start() {
         let self = this
         this.skillNode = []
+        this.skillEffect = []
         this.nodeN = {}
         this.nodeN.startBtn = this.node.getChildByName("startBtn").getComponent("ClickEventListener")
         this.nodeN.roleBtn = this.node.getChildByName("roleBtn").getComponent("ClickEventListener")
@@ -34,11 +35,8 @@ export default class hallFrame extends cc.Component {
         this.nodeN.gold = this.node.getChildByName("gold").getChildByName("num").getComponent(cc.Label)
         this.nodeN.score = this.node.getChildByName("score").getChildByName("num").getComponent(cc.Label)
         this.nodeN.light = this.node.getChildByName("light")
-        this.nodeN.skillEffect = this.node.getChildByName("skillEffect")
-        this.nodeN.articuloMortis = this.node.getChildByName("articuloMortis")
-        this.nodeN.resurgence = this.node.getChildByName("resurgence")
-        this.nodeN.pitfall = this.node.getChildByName("pitfall")
         this.nodeN.warning = this.node.getChildByName("warning")
+        this.nodeN.skillRoot = this.node.getChildByName("skillRoot")
         this.nodeN.skillLayout = this.node.getChildByName("skillLayout")
         this.nodeN.Skill_0 = this.nodeN.skillLayout.children[0]
         this.nodeN.score.string = cc.moduleMgr.playerModule.module.OldScore
@@ -47,11 +45,6 @@ export default class hallFrame extends cc.Component {
         this.nodeN.startMask.onClick = function(){
             self.node.getComponent(cc.Animation).play("start_hall")
             self.node.parent.getComponent(cc.Animation).play("start_root")
-
-            let id = cc.moduleMgr.playerModule.module.Role
-            let skillconf = cc.moduleMgr.playerModule.GetRoleSkill(id);
-            cc.tools.changeSprite(self.nodeN.skillEffect,"bg/"+skillconf.conf.EffectBg)
-
         }
         this.nodeN.roleBtn.onClick = function(){
             let id = cc.moduleMgr.playerModule.module.Role
@@ -72,7 +65,7 @@ export default class hallFrame extends cc.Component {
             for (let i = 0;i<this.skillNode.length;i++){
                 this.skillNode[i].getComponent("skillTime").stopAllActions()
             }
-            this.skillStop()
+            this.skillStopAll()
         },this)
         Notification.on("reliveGame",function(arg){
             for (let i = 0;i<this.skillNode.length;i++){
@@ -106,23 +99,8 @@ export default class hallFrame extends cc.Component {
             this.skillNode.push(is_node)
 
             let skillconf = cc.moduleMgr.playerModule.GetSkill(arg.id);
-            if (skillconf.isEffect == 1){//是否有屏幕特效
-                if (skillconf.type == 0){
-                    if (skillconf.Animation == 1){
-                        this.nodeN.pitfall.active = true
-                        this.nodeN.pitfall.getComponent(cc.Animation).play("pitfall")
-                    }else{
-                        this.nodeN.pitfall.getComponent(cc.Animation).stop("pitfall")
-                        this.nodeN.resurgence.active = true
-                    }
-                }else{
-                    if (skillconf.Animation == 1){
-                        this.nodeN.skillEffect.getComponent(cc.Animation).play("skilleffect")
-                    }else{
-                        this.nodeN.skillEffect.getComponent(cc.Animation).stop("skilleffect")
-                    }
-                    this.nodeN.skillEffect.active = true
-                }
+            if (skillconf.EffectPrefab != null && skillconf.EffectPrefab != ""){
+                this.skillPlay(skillconf.id)
             }
         },this)
         let is_play = false
@@ -131,7 +109,7 @@ export default class hallFrame extends cc.Component {
             //this.nodeN.warning.getChildByName("num").getComponent(cc.Label).string = cc.moduleMgr.tempModule.module.warningDistance
             if(cc.moduleMgr.tempModule.module.warningDistance <= 10){
                 this.nodeN.warning.runAction(cc.fadeIn(1))
-                this.nodeN.articuloMortis.active = true
+                this.skillPlay(2005)
                 //this.nodeN.warning.scale = (10 - cc.moduleMgr.tempModule.module.warningDistance)*0.1 + 1
                 if (cc.moduleMgr.tempModule.module.warningDistance <= 8){
                     if (!is_play){
@@ -148,25 +126,49 @@ export default class hallFrame extends cc.Component {
             }else{
                 //this.nodeN.warning.scale = 1
                 this.nodeN.warning.runAction(cc.fadeOut(1))
-                this.nodeN.articuloMortis.active = false
+                this.skillStop(2005)
             }
         },this)
         Notification.on("skillstopAllActions",function(arg){
-            let skillconf = cc.moduleMgr.playerModule.GetSkill(arg.id);
-            if (skillconf.isEffect == 1){//是否有屏幕特效
-                if (skillconf.type == 0){
-                    this.nodeN.resurgence.active = false
-                }else{
-                    this.nodeN.skillEffect.active = false
-                }
-            }
+            this.skillStop(arg.id)
         },this)
     }
-    skillStop(){//屏幕效果全部停止
-        this.nodeN.skillEffect.active = false//技能效果
-        this.nodeN.resurgence.active = false//复活效果
-        this.nodeN.articuloMortis.active = false//危险效果
-        this.nodeN.pitfall.active = false//致盲效果
+    skillPlay(id){
+        let skillconf = cc.moduleMgr.playerModule.GetSkill(id);
+        if (skillconf && skillconf.EffectPrefab != null && skillconf.EffectPrefab != ""){
+            if (this.skillEffect[id]){
+                if (this.skillEffect[id].getComponent(cc.Animation).enabled){
+                    return
+                }
+            }else{
+                this.skillEffect[id] = cc.uiMgr.Push(skillconf.EffectPrefab,null,{add:false,parentObj:this.nodeN.skillRoot})
+            }
+            this.skillEffect[id].active = true
+            this.skillEffect[id].getComponent(cc.Animation).enabled = true
+            let clips = this.skillEffect[id].getComponent(cc.Animation).getClips()
+            this.skillEffect[id].getComponent(cc.Animation).play(clips[0].name)
+        }
+    }
+    skillStop(id){
+        let skillconf = cc.moduleMgr.playerModule.GetSkill(id);
+        if (skillconf && skillconf.EffectPrefab != null && skillconf.EffectPrefab != ""){
+            if (this.skillEffect[id]){
+                if (!this.skillEffect[id].getComponent(cc.Animation).enabled){
+                    return
+                }
+                let clips = this.skillEffect[id].getComponent(cc.Animation).getClips()
+                this.skillEffect[id].getComponent(cc.Animation).stop(clips[0].name)
+                this.skillEffect[id].getComponent(cc.Animation).enabled = false
+                this.skillEffect[id].active = false
+            }
+        }
+    }
+    skillStopAll(){//屏幕效果全部停止
+        //console.log(this.skillEffect)
+        for (let id in this.skillEffect){
+            //console.log(id)
+            this.skillStop(id)
+        }
     }
     RefHallLayout(arg){
         this.node.getChildByName("mask").active = arg.length > 0 ? true : false

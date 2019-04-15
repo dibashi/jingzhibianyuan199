@@ -11,6 +11,21 @@ cc.Class({
         vertigo: {
             default: null,
             type: cc.Node
+        },
+
+        substitute: {//稻草人的烟
+            default: null,
+            type: cc.Node
+        },
+
+        substitute2: {//稻草人
+            default: null,
+            type: cc.Node
+        },
+
+        smoke: {//人的烟
+            default: null,
+            type: cc.Node
         }
 
     },
@@ -54,6 +69,8 @@ cc.Class({
         //是否无敌
         this.isInvincible = false;
 
+        this.crazyClickDuration = 0;//疯狂点击的剩余时间；
+
         this.unscheduleAllCallbacks();
     },
 
@@ -65,22 +82,65 @@ cc.Class({
         //------------------------------------------------↓↓↓↓↓↓↓角色衣服和拖尾修改↓↓↓↓↓↓↓↓↓-----------------------------------------------
         let roleConf = cc.config("role")
         if (roleConf[cc.moduleMgr.playerModule.module.Role]) {
-            this.roleType = roleConf[cc.moduleMgr.playerModule.module.Role].skills
+            this.roleType = cc.moduleMgr.playerModule.module.Role;
+            //    this.skillType = roleConf[cc.moduleMgr.playerModule.module.Role].skills
             cc.tools.changeSprite(this.node.getChildByName("spr_role"), "role/" + roleConf[cc.moduleMgr.playerModule.module.Role].Role)
             cc.tools.changeMotionStreak(this.gameJS.node_streak, "streak/" + roleConf[cc.moduleMgr.playerModule.module.Role].Streak)
         }
 
     },
 
-    // called every frame
-    update: function (dt) {
-
-    },
 
     changeDir: function (touchPosition) {
-        this.curDir = (touchPosition.x < 360 ? BoxDir.left : BoxDir.right);
+        if (this.crazyClickDuration <= 0) {
+            this.curDir = (touchPosition.x < 360 ? BoxDir.left : BoxDir.right);
+        } else {
+            var dir = this.findPath();
+            if (dir < 0) {
+                console.log("玩家向左");
+                this.curDir = BoxDir.left;
+            } else {
+                console.log("玩家向右");
+                this.curDir = BoxDir.right;
+            }
+        }
+
+
+
     },
 
+    roleBack: function () {
+
+        var i = 6;
+
+        while (i !== 0) {
+            i--;
+            var result = this._findPath(this.aimX + BoxX, this.aimY + BoxY);
+            this.aimY += BoxY;
+
+            if (result < 0) {
+                this.aimX -= BoxX;
+
+            } else {
+                this.aimX += BoxX;
+            }
+
+            this.boxesMgrJS.createBox();
+        }
+
+
+        this.node.x = this.aimX;
+        this.node.y = this.aimY;
+
+        this.node.opacity = 255;
+        this.gameJS.openTouch();
+
+        this.smoke.x = this.aimX;
+        this.smoke.y = this.aimY;
+        this.smoke.getComponent(cc.Animation).play();
+        this.gameJS.node_streak.active = true;
+
+    },
 
 
     jump: function () {
@@ -96,15 +156,26 @@ cc.Class({
 
         var resultBoxJS = this.boxesMgrJS.getJumpedInfo(aimX, aimY, this.aimX, this.aimY, this.curDir);
         if (resultBoxJS === null) {
-            //悬崖，阵亡了
-            if(this.roleType !== RoleType.ninjaType || this.gameJS._skillActive === false) {
-                var jumpY = aimY;
-                var jumpX = aimX;
-                this.cliffJumping(this.deadCallback, aimX, aimY);
+
+
+            if (this.roleType === RoleType.ninjaType && this.gameJS._skillActive === true) {
+
+                var jump1 = cc.jumpTo(JumpTime, cc.v2(aimX, aimY), this.jumpHeight, 1);
+                var fadeout = cc.fadeOut(JumpTime);
+
+                this.substitute.x = aimX;
+                this.substitute.y = aimY;
+                this.substitute.getComponent(cc.Animation).play();
+                this.substitute2.x = aimX;
+                this.substitute2.y = aimY + 80;
+                this.substitute2.getComponent(cc.Animation).play();
+                this.node.runAction(cc.spawn(fadeout, jump1));
+                this.gameJS.release_substituteSkill();
+                this.gameJS.node_streak.active = false;
             } else {
-                //this.
+                this.cliffJumping(this.deadCallback, aimX, aimY);
             }
-           
+
 
         } else if (resultBoxJS.boxType === BoxType.normalBox) {
             this.aimX = aimX;
@@ -176,7 +247,7 @@ cc.Class({
         // var dizzAction = cc.sequence(jump1, jump2, repeat, cc.callFunc(callback));
         var dizzAction = cc.sequence(jump1, jump2, repeat, cc.callFunc(function () {
 
-           this.dizzyAnimation(callback);
+            this.dizzyAnimation(callback);
 
         }.bind(this)));
         this.node.runAction(dizzAction);
@@ -184,7 +255,7 @@ cc.Class({
         cc.audioMgr.playEffect("vertigo");
     },
 
-    dizzyAnimation:function(callback) {
+    dizzyAnimation: function (callback) {
         this.gameJS.closeTouch();
         this.vertigo.active = true;
         this.vertigo.getComponent(cc.Animation).play();
@@ -248,20 +319,12 @@ cc.Class({
 
         this.isInvincible = true;
 
-        let aimY = this.aimY + BoxY;
-        let aimX = this.aimX + BoxX;
+        var dir = this.findPath();
 
-
-        var resultBoxJS = this.boxesMgrJS.getJumpedInfo(aimX, aimY);
-
-        if (resultBoxJS === null) {
+        if (dir < 0) {//左
             this.changeDir(cc.v2(0, 0));
-        }
-        else if (resultBoxJS.boxType === BoxType.normalBox) {
+        } else {
             this.changeDir(cc.v2(500, 0));
-        } else if (resultBoxJS.boxType === BoxType.blockBox) {
-            this.changeDir(cc.v2(0, 0));
-
         }
 
         this.jump();
@@ -273,6 +336,40 @@ cc.Class({
             this.gameJS.openTouch();
         }
 
+    },
+
+    findPath: function () {
+        let aimY = this.aimY + BoxY;
+        let aimX = this.aimX + BoxX;
+
+
+        return this._findPath(aimX, aimY);
+    },
+
+    _findPath: function (aimX, aimY) {
+        var resultBoxJS = this.boxesMgrJS.getJumpedInfo(aimX, aimY);
+
+        if (resultBoxJS === null) {
+            return -1;
+        }
+        else if (resultBoxJS.boxType === BoxType.normalBox) {
+            return 1;
+        } else if (resultBoxJS.boxType === BoxType.blockBox) {
+            return -1;
+
+        }
+    },
+
+    crazyClickGoGoGo: function (duration) {
+        this.crazyClickDuration = duration;
+    },
+
+    update(dt) {
+        if (this.crazyClickDuration <= 0) {
+
+        } else {
+            this.crazyClickDuration -= dt;
+        }
     }
 
 

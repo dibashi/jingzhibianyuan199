@@ -68,7 +68,7 @@ export default class skillUpgradeFrame extends cc.Component {
         this.nodeN.skillDesc.string = skilConf.desc
         this.nodeN.skillcd.string = skilConf.cd+"秒"
         let duration = (skillLv-1) * (skilConf.duration*skilConf.increase) + skilConf.duration
-        this.nodeN.skillduration.string = duration+"秒 +" + (skilConf.duration*0.1)
+        this.nodeN.skillduration.string = duration+"秒 +" + Math.floor((skilConf.duration*skilConf.increase) * 100) / 100
         this.nodeN.skilllv.string = "Lv."+ skillLv
         let expend = Math.pow(2, skillLv)
         this.nodeN.gold.string = expend

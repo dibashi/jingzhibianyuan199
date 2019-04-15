@@ -122,7 +122,7 @@ cc.Class({
             case gameStates.preparing:
 
 
-                
+
                 this.currentGameState = gameStates.starting;
                 this.node_hint.active = false;
                 this.roleJS.changeDir(touchPosition);
@@ -142,13 +142,16 @@ cc.Class({
                     cc.audioMgr.playBg("bg1");
                 }
 
-                this.roleJS.jump();
+
                 if (this.roleJS.roleType !== RoleType.normalType) {
                     this.skillBtnNode.active = true;
                     this._skillActive = true;
+
                     this.skillBtnNode.getChildByName("border").active = true;
                     this.skillMaskSprite.fillRange = 0;
                 }
+
+                this.roleJS.jump();
 
                 break;
 
@@ -209,6 +212,11 @@ cc.Class({
         let id = cc.moduleMgr.playerModule.module.Role
         let skillconf = cc.moduleMgr.playerModule.GetRoleSkill(id);
         cc.tools.changeSprite(this.skillBtnNode, "skill/" + skillconf.icon)
+        // if(skillconf.type == 1) {
+        //     this.skillBtnNode.getComponent(cc.Button).interactable = true;
+        // } else {
+        //     this.skillBtnNode.getComponent(cc.Button).interactable = false;
+        // }
     },
     //内部的游戏开始调用，复活开始也需要用到
     _startGame: function () {
@@ -217,6 +225,8 @@ cc.Class({
         this.openTouch();
         this.node_hint.active = true;
         this.role.active = true;
+        this.skillBtnNode.active = false;
+        this._skillActive = false;
         this.currentGameState = gameStates.preparing;
 
 
@@ -236,8 +246,11 @@ cc.Class({
         this.boxesMgrJS.pauseDrop();
         this.pauseAllScheduler();
 
+        console.log("转动边框关闭了");
         this.skillBtnNode.active = false;
         this.node_streak.active = false;
+
+
 
         this.currentGameState = gameStates.unStart;
     },
@@ -333,6 +346,12 @@ cc.Class({
                 cc.audioMgr.playEffect("slowTime");
                 break;
 
+            case RoleType.crazyClickType:
+                this.roleJS.crazyClickGoGoGo(skillconf.duration);
+                this.releaseSkill_common(skillconf.id, skillconf.cd);
+                cc.audioMgr.playEffect("speed");
+                break;
+
             default:
                 //debugger;
                 break;
@@ -351,14 +370,14 @@ cc.Class({
                 var trapData = cc.moduleMgr.playerModule.GetSkill(traps[i]);
 
                 this.schedule(this.dropStone, trapData.cd);
-            } else if(traps[i] === CheckpointType.blindingTrap) {
+            } else if (traps[i] === CheckpointType.blindingTrap) {
                 var trapData = cc.moduleMgr.playerModule.GetSkill(traps[i]);
 
-                this.schedule(this.blinding,trapData.cd);
-            } else if(traps[i] === CheckpointType.laserTrap) {
+                this.schedule(this.blinding, trapData.cd);
+            } else if (traps[i] === CheckpointType.laserTrap) {
                 var trapData = cc.moduleMgr.playerModule.GetSkill(traps[i]);
 
-                this.schedule(this.laser,trapData.cd);
+                this.schedule(this.laser, trapData.cd);
             }
         }
 
@@ -366,10 +385,10 @@ cc.Class({
 
     dropStone: function () {
         Notification.emit("skillShowTime", { id: 2002 });
-        //console.log("?????");
+
         var dropCount = Math.floor(2 + Math.random() * (StoneLocs.length - 1));//2~length;
         var roleOnBoxIndex = this.boxesMgrJS.getRoleInBoxIndex();
-        //console.log(roleOnBoxIndex);
+
         for (var i = 0; i < dropCount; i++) {
             let stone = null;
             if (this.stonePool.size() > 0) {
@@ -391,17 +410,16 @@ cc.Class({
         }
     },
 
-    blinding:function() {
-        Notification.emit("skillShowTime",{id:2003});
-
+    blinding: function () {
+        Notification.emit("skillShowTime", { id: 2003 });
     },
 
-    laser:function() {
+    laser: function () {
         Notification.emit("skillShowTime", { id: 2004 });
-        //console.log("?????");
+
         var laserCount = Math.floor(2 + Math.random() * (LaserLocs.length - 1));//2~length;
         var roleOnBoxIndex = this.boxesMgrJS.getRoleInBoxIndex();
-        //console.log(roleOnBoxIndex);
+
         for (var i = 0; i < laserCount; i++) {
             let laser = null;
             if (this.laserPool.size() > 0) {
@@ -410,8 +428,6 @@ cc.Class({
                 laser = cc.instantiate(this.laserPool);
             }
             this.lasers.addChild(laser);
-            // stone.getChildByName("stone").y = 640;
-            // stone.getChildByName("shadow").scale = 0;
 
             laser.getComponent(cc.Animation).play();
             //获得角色的当前块
@@ -448,6 +464,13 @@ cc.Class({
         this.skillBeginTime = parseInt(Date.now() / 1000);
     },
 
+    release_substituteSkill: function () {
+        this.closeTouch();
+        let id = cc.moduleMgr.playerModule.module.Role
+        let skillconf = cc.moduleMgr.playerModule.GetRoleSkill(id);
+        this.releaseSkill_common(skillconf.id, skillconf.cd);
+    },
+
 
 
     // called every frame
@@ -459,6 +482,7 @@ cc.Class({
             if (this.skillMaskSprite.fillRange <= 0) {
                 this.skillMaskSprite.fillRange = 0;
                 this._skillActive = true;
+
                 this.skillBtnNode.getChildByName("border").active = true;
             }
         }

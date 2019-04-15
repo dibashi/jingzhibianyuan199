@@ -61,12 +61,12 @@ window.BoxAccelerateCount = 20;
 window.DeltaOfBoxAcc = 0.02;
 
 // 砖块初始掉落速度
-window.BoxInitSpeed = 0.4;
+window.BoxInitSpeed = 0.6;
 //砖块掉落的极限时间
-window.BoxLimitDropTime = 0.22;
-// window.BoxInitSpeed = 5;
+window.BoxLimitDropTime = 0.3;
+// window.BoxInitSpeed = 50;
 // // //砖块掉落的极限时间
-// window.BoxLimitDropTime = 4;
+// window.BoxLimitDropTime = 40;
 
 //金币类型的标示, 注！！！！！ 顺带定义了数量  类型===数量
 window.CoinType = Object.freeze({
@@ -84,10 +84,12 @@ window.CheckpointType = Object.freeze({
 
 
 window.RoleType = Object.freeze({
-    normalType: 0,//什么技能也没有的角色
-    accelerateType: 1001,//加速角色 根据次数进行加速 自动寻路
-    slowDownType: 1002,//减速角色  减速掉落
-    ninjaType:1003,//忍者，跳悬崖可以复活
+    normalType: 1001,//什么技能也没有的角色
+    accelerateType: 1002,//加速角色 根据次数进行加速 自动寻路
+    slowDownType: 1003,//减速角色  减速掉落
+    crazyClickType:1004,//疯狂点击屏幕的角色
+    ninjaType:1005,//忍者，跳悬崖可以复活
+    
 });
 
 
